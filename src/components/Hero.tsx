@@ -8,7 +8,7 @@ const Hero = () => {
         <p className="text-base lg:text-lg font-semibold tracking-widest pb-6">
           I Build Things For The Web
         </p>
-        <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold uppercase tracking-wide">
+        <h1 className="text-5xl md:text-7xl lg:text-7xl xl:text-[7.4rem] font-bold uppercase tracking-wide ">
           Front-End Developer
         </h1>
       </div>
