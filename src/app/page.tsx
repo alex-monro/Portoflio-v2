@@ -13,7 +13,6 @@ export default function Home() {
       <Hero />
       <Works />
       <About />
-      <Footer />
     </main>
   );
 }

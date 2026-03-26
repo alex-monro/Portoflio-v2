@@ -26,6 +26,34 @@ const About = () => {
           Not So Frequently Asked Questions
         </h2>
         <Accoridan />
+        <div className="mt-48">
+          <p className="text-2xl font-bold text-zinc-50 mb-8">Email</p>
+          <div className="flex items-center gap-4 mb-8">
+            <p className="text-2xl lg:text-4xl font-bold text-zinc-50">
+              Alexmonro546@gmail.com
+            </p>
+          </div>
+
+          <div className="flex items-center gap-6">
+            <a
+              href="https://www.linkedin.com/in/alex-monro-8b67813b6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-2lg font-semibold tracking-wide text-zinc-50"
+            >
+              LinkedIn
+            </a>
+
+            <a
+              href="https://github.com/alex-monro"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-lg font-semibold tracking-wide text-zinc-50"
+            >
+              GitHub
+            </a>
+          </div>
+        </div>
       </section>
     </>
   );

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 
 const satoshi = localFont({
   src: "../assets/fonts/Satoshi-Variable.woff2",
@@ -28,8 +29,8 @@ export default function RootLayout({
     >
       <body className="lg:px-24">
         <Nav />
-
         {children}
+        <Footer />
       </body>
     </html>
   );
