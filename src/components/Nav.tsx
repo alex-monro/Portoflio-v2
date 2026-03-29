@@ -6,7 +6,7 @@ const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed top-6 right-30 z-50 flex flex-col items-end">
+    <div className="fixed top-6 right-6 z-50 flex flex-col items-end">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="h-10 w-10 flex items-center justify-center"

@@ -27,7 +27,7 @@ export default function RootLayout({
       className={`${satoshi.variable} h-full`}
       suppressHydrationWarning
     >
-      <body className="lg:px-24">
+      <body className="">
         <Nav />
         {children}
         <Footer />
