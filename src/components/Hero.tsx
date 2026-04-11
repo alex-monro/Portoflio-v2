@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, SplitText } from "@/lib/gsapConfig";
-import HeroSubtitle from "./HeroSubtitle";
 
 const Hero = () => {
   const containerRef = useRef<HTMLElement>(null);
