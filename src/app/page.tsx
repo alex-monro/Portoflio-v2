@@ -1,12 +1,15 @@
-import Hero from "../components/Hero";
-import About from "../components/About";
-import Works from "../components/Works";
+import Hero from "@/components/Hero";
+import Works from "@/components/Works";
+import About from "@/components/About";
+import { getProjects } from "@/lib/projects";
 
-export default function Home() {
+export default async function Home() {
+  const projects = await getProjects();
+
   return (
-    <main>
+    <main id="top">
       <Hero />
-      <Works />
+      <Works projects={projects} />
       <About />
     </main>
   );

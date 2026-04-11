@@ -1,6 +1,103 @@
 @import "tailwindcss";
 
-body {
-  font-family: var(--font-satoshi);
-  @apply bg-zinc-950 text-zinc-50;
+@layer base {
+  body {
+    @apply bg-zinc-950 text-zinc-50 antialiased;
+    font-family: var(--font-satoshi);
+  }
+}
+
+@layer components {
+  .site-shell {
+    @apply mx-auto w-full max-w-[1920px] px-[5vw];
+  }
+
+  .section-shell {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+
+  .section-heading {
+    @apply text-6xl font-bold uppercase tracking-tight lg:text-8xl;
+  }
+
+  .hero-subheading {
+    font-size: clamp(1rem, 5vw, 1.5rem);
+  }
+
+  .project-subheading {
+    @apply text-2xl font-semibold;
+  }
+
+  .media-frame {
+    @apply aspect-[16/9] overflow-hidden rounded-sm bg-zinc-900;
+  }
+
+  .hero-heading {
+    font-size: var(--hero-font-size);
+    perspective: 600px;
+    @apply font-bold uppercase leading-none tracking-wide;
+  }
+
+  .default-text {
+    font-size: clamp(1.5rem, 5vw, 1.75rem);
+  }
+
+  .hamburger-line {
+    @apply absolute block h-0.5 w-7 bg-current transition-transform duration-500;
+  }
+}
+
+:root {
+  --hero-font-size: clamp(3.2rem, 10vw, 13rem);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+@keyframes heroScrollIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-scroll {
+  animation: heroScrollIn 0.7s ease-out 1.8s both;
+}
+
+.z-cursor {
+  z-index: 9999;
+}
+
+html.cursor-custom,
+html.cursor-custom * {
+  cursor: none !important;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-zinc-950);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-zinc-700);
 }

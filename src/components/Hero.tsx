@@ -1,20 +1,70 @@
+"use client";
+
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import { gsap, SplitText } from "@/lib/gsapConfig";
+import HeroSubtitle from "./HeroSubtitle";
+
 const Hero = () => {
+  const containerRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const tl = gsap.timeline({
+        defaults: { ease: "power4.out" },
+        delay: 0.3,
+      });
+
+      const split = SplitText.create(".hero-heading", {
+        type: "chars, words",
+        mask: "words",
+      });
+
+      tl.from(split.chars, {
+        yPercent: 110,
+        rotateX: -90,
+        stagger: { each: 0.025, from: "start" },
+        duration: 1.2,
+        ease: "power4.out",
+      });
+
+      tl.from(
+        ".hero-subheading",
+        { y: 20, autoAlpha: 0, duration: 1.5 },
+        "-=0.4",
+      );
+    },
+    { scope: containerRef },
+  );
+
+  const scrollToWorks = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const target = document.querySelector("#works");
+    if (window.__appLenis && target instanceof HTMLElement) {
+      window.__appLenis.scrollTo(target, { duration: 1.2 });
+    }
+  };
+
   return (
-    <section className="h-svh flex flex-col justify-center px-6 lg:px-8 pb-12 relative">
-      <p className="absolute top-6 left-6 lg:top-8 lg:left-8 text-2xl lg:text-xl font-semibold italic uppercase tracking-widest">
-        AM
-      </p>
-      <div className="pt-[20vh]">
-        <p className="text-base lg:text-lg font-semibold tracking-widest pb-6">
-          I Build Things For The Web
-        </p>
-        <h1 className="text-5xl md:text-7xl lg:text-7xl xl:text-[7.4rem] font-bold uppercase tracking-wide ">
-          Front-End Developer
+    <section
+      ref={containerRef}
+      className="relative h-svh flex flex-col justify-center section-shell "
+    >
+      <div>
+        <h1 className="hero-heading mt-6">
+          Front-End
+          <br />
+          Developer
         </h1>
+        <p className="hero-subheading mt-6  font-medium tracking-tight ">
+          UI/UX · Design · Functionality
+        </p>
       </div>
+
       <a
         href="#works"
-        className="absolute bottom-10 left-6 lg:left-8 text-sm lg:text-base font-medium uppercase tracking-widest text-zinc-50 hover:text-zinc-400 transition-colors"
+        onClick={scrollToWorks}
+        className="hero-scroll absolute bottom-10 flex items-center gap-2 font-medium text-lg uppercase tracking-widest link-fade  lg:text-xl"
       >
         Scroll ↓
       </a>

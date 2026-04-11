@@ -1,6 +1,7 @@
 "use client";
 
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
@@ -24,12 +25,16 @@ export default function ProjectImageSlider({
   if (validImages.length === 1) {
     return (
       <div className="rounded-lg overflow-hidden">
-        <img
-          src={validImages[0]}
-          alt={`${title} screenshot 1`}
-          className="w-full aspect-[16/9] object-cover"
-          loading="lazy"
-        />
+        <div className="relative w-full aspect-[16/9]">
+          <Image
+            src={validImages[0]}
+            alt={`${title} screenshot 1`}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
+            loading="lazy"
+          />
+        </div>
       </div>
     );
   }
@@ -48,12 +53,16 @@ export default function ProjectImageSlider({
     >
       {validImages.map((image, index) => (
         <SwiperSlide key={`${title}-${index}`}>
-          <img
-            src={image}
-            alt={`${title} screenshot ${index + 1}`}
-            className="w-full aspect-[16/9] object-cover"
-            loading="lazy"
-          />
+          <div className="relative w-full aspect-[16/9]">
+            <Image
+              src={image}
+              alt={`${title} screenshot ${index + 1}`}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+              loading="lazy"
+            />
+          </div>
         </SwiperSlide>
       ))}
     </Swiper>
