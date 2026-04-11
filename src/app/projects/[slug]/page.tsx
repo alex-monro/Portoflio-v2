@@ -22,7 +22,7 @@ export default async function WorkPage({
   return (
     <main className="section-shell">
       <section className="border-b border-zinc-800 pb-8">
-        <h1 className="text-7xl font-bold uppercase tracking-tight lg:text-8xl">
+        <h1 className="text-5xl font-bold uppercase tracking-tight lg:text-8xl">
           {project.title}
         </h1>
       </section>
@@ -34,7 +34,9 @@ export default async function WorkPage({
               {project.video ? (
                 <video src={project.video} autoPlay muted playsInline />
               ) : (
-                <div className="">No preview</div>
+                <div className="bg-zinc-800 text-zinc-500 py-16 text-center">
+                  No preview available
+                </div>
               )}
             </div>
           </div>
@@ -46,7 +48,7 @@ export default async function WorkPage({
                 <p className="default-text">{project.overview}</p>
               </div>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-widest mb-3">Tech Used</p>
+                <p className="text-xl font-semibold  mb-3">Tech Stack</p>
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
                     <span
@@ -64,8 +66,6 @@ export default async function WorkPage({
               {project.link && (
                 <a
                   href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="link-fade"
                   aria-label="Live site"
                 >
@@ -88,8 +88,6 @@ export default async function WorkPage({
               )}
               <a
                 href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="link-fade"
                 aria-label="GitHub"
               >
@@ -110,7 +108,7 @@ export default async function WorkPage({
         </div>
       </section>
 
-      <div className="border-t border-zinc-800 pt-8">
+      <div>
         <Link
           href="/#works"
           className="text-2xl transition-opacity hover:opacity-50"

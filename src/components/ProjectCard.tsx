@@ -63,8 +63,8 @@ const ProjectCard = ({
         </div>
 
         <div className="mt-4 flex items-center justify-between gap-6 lg:hidden">
-          <h3 className="text-2xl  tracking-tight">{project.title}</h3>
-          <span className="text-2xl tracking-tight">View →</span>
+          <h3 className="text-base  tracking-tight">{project.title}</h3>
+          <span className="text-base tracking-tight">View →</span>
         </div>
       </Link>
     </article>

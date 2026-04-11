@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/lib/gsapConfig";
 
 const links = [
   { label: "Home", href: "/" },
@@ -13,6 +15,17 @@ const links = [
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const logoRef = useRef<HTMLAnchorElement>(null);
+
+  useGSAP(() => {
+    gsap.to(logoRef.current, {
+      autoAlpha: 0,
+      scrollTrigger: {
+        start: "top top",
+        end: "120px top",
+      },
+    });
+  });
 
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -25,13 +38,9 @@ const Nav = () => {
       const hash = href.includes("#") ? href.split("#")[1] : null;
       const target = hash ? document.getElementById(hash) : null;
 
-      if (window.__appLenis) {
-        window.__appLenis.scrollTo(target ?? 0, { duration: 1.2 });
-      } else {
-        target
-          ? target.scrollIntoView({ behavior: "smooth" })
-          : window.scrollTo({ top: 0, behavior: "smooth" });
-      }
+      target
+        ? target.scrollIntoView({ behavior: "smooth" })
+        : window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       setIsOpen(false);
     }
@@ -41,6 +50,7 @@ const Nav = () => {
     <header className="fixed top-0 left-0 right-0 z-50 pt-4 md:pt-8">
       <div className="site-shell flex items-start justify-between pointer-events-auto">
         <Link
+          ref={logoRef}
           href="/"
           onClick={(e) => handleLinkClick(e, "/")}
           className="flex h-16 items-center text-xl font-bold uppercase transition-opacity hover:opacity-30 md:text-2xl"

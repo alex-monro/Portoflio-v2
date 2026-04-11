@@ -6,7 +6,6 @@ import Cursor from "@/components/Cursor";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import { ViewTransitions } from "next-view-transitions";
-import { LOADER_STORAGE_KEY } from "@/lib/constants";
 
 const satoshi = localFont({
   src: "../assets/fonts/Satoshi-Variable.woff2",
@@ -27,30 +26,13 @@ export default function RootLayout({
 }) {
   return (
     <ViewTransitions>
-      <html
-        lang="en"
-        className={`${satoshi.variable} h-full`}
-        suppressHydrationWarning
-      >
-        <body suppressHydrationWarning>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                try {
-                  if (sessionStorage.getItem("soft-nav") === "true" && sessionStorage.getItem("${LOADER_STORAGE_KEY}") === "true") {
-                    document.documentElement.dataset.hasLoaded = "true";
-                  }
-                } catch (error) {}
-              `,
-            }}
-          />
+      <html lang="en" className={`${satoshi.variable} h-full`}>
+        <body>
+          <SmoothScroll />
           <Cursor />
           <Nav />
-
-          <SmoothScroll>
-            <main className="site-shell">{children}</main>
-            <Footer />
-          </SmoothScroll>
+          <main className="site-shell">{children}</main>
+          <Footer />
         </body>
       </html>
     </ViewTransitions>

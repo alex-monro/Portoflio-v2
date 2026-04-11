@@ -17,7 +17,7 @@
   }
 
   .section-heading {
-    @apply text-6xl font-bold uppercase tracking-tight lg:text-8xl;
+    @apply text-4xl font-bold uppercase tracking-tight lg:text-7xl;
   }
 
   .hero-subheading {
@@ -51,22 +51,6 @@
   --hero-font-size: clamp(3.2rem, 10vw, 13rem);
 }
 
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-.lenis.lenis-smooth iframe {
-  pointer-events: none;
-}
 
 @keyframes heroScrollIn {
   from {
@@ -90,14 +74,4 @@ html.lenis body {
 html.cursor-custom,
 html.cursor-custom * {
   cursor: none !important;
-}
-
-::-webkit-scrollbar {
-  width: 3px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-zinc-950);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-zinc-700);
 }
