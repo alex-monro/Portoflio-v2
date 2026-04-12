@@ -40,7 +40,7 @@ export const projects: Project[] = [
     title: "Flixi",
     tags: ["React", "Node.js"],
     featuredImage: Flixi.src,
-    video: "/videos/flixi-video.mp4",
+    video: "/videos/Flixi-Video.mp4",
     overview:
       "A dynamic movie discovery platform where users can browse popular films, search by genre, and view detailed information including ratings, cast, and synopses. Built with React and powered by the TMDB API. Showcases REST API integration, reusable component architecture, and responsive design across all screen sizes.",
     reflection:
@@ -53,7 +53,7 @@ export const projects: Project[] = [
     title: "BlackJack",
     tags: ["HTML", "CSS", "JS"],
     featuredImage: Blackjack.src,
-    video: "/videos/blackjack-video.mp4",
+    video: "/videos/Blackjack-Video.mp4",
     overview:
       "Built entirely with vanilla HTML, CSS, and JavaScript — no frameworks or libraries. Features interactive gameplay with realistic game logic, including hit/stand mechanics and dealer AI. The game manages complex state transitions across rounds, tracks player scores, and handles edge cases like busts and blackjacks.",
     reflection:
