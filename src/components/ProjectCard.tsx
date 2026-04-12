@@ -31,9 +31,9 @@ const ProjectCard = ({
         }}
       >
         <div className="media-frame relative">
-          {project.thumbnail && (
+          {project.featuredImage && (
             <Image
-              src={project.thumbnail}
+              src={project.featuredImage}
               alt={project.title}
               fill
               priority={priority}
