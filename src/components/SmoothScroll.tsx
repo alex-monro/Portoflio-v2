@@ -1,25 +1,47 @@
+// I had an issue where if I was scrolling and then clicked a link to a different page, the scroll
+// on the new page would sometimes not reset to the top. I Found this Solution in the lenis docs:
+//https://github.com/darkroomengineering/lenis/discussions/244 not sure if its the best solution but it works
+
 "use client";
 
-import { useEffect } from "react";
-import Lenis from "lenis";
-import "lenis/dist/lenis.css";
-import { gsap, ScrollTrigger } from "@/lib/gsapConfig";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
+import { ReactLenis } from "lenis/react";
+import type { LenisRef } from "lenis/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export default function SmoothScroll() {
+gsap.registerPlugin(ScrollTrigger);
+
+const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
+  const lenisRef = useRef<LenisRef>(null);
+  const pathname = usePathname();
+
+  // Sync Lenis with GSAP
   useEffect(() => {
-    const lenis = new Lenis({ autoRaf: false });
+    function update(time: number) {
+      lenisRef.current?.lenis?.raf(time * 1000);
+    }
 
-    lenis.on("scroll", ScrollTrigger.update);
-
-    const tick = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(tick);
+    gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
 
-    return () => {
-      gsap.ticker.remove(tick);
-      lenis.destroy();
-    };
+    return () => gsap.ticker.remove(update);
   }, []);
 
-  return null;
-}
+  // Scroll to top on route change
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) {
+      lenisRef.current?.lenis?.scrollTo(0, { immediate: true });
+    }
+  }, [pathname]);
+
+  return (
+    <ReactLenis root options={{ lerp: 0.1, autoRaf: false }} ref={lenisRef}>
+      {children}
+    </ReactLenis>
+  );
+};
+
+export default SmoothScroll;

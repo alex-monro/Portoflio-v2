@@ -1,11 +1,9 @@
 import Hero from "@/components/Hero";
 import Works from "@/components/Works";
 import About from "@/components/About";
-import { getProjects } from "@/lib/projects";
+import { projects } from "@/lib/projects";
 
-export default async function Home() {
-  const projects = await getProjects();
-
+export default function Home() {
   return (
     <main id="top">
       <Hero />

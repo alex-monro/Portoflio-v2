@@ -52,6 +52,12 @@ const Hero = () => {
         duration: 2,
       });
 
+      tl.from(".hero-scroll", {
+        xPercent: 100,
+        autoAlpha: 0,
+        duration: 1,
+      });
+
       const rotate = () => {
         //create a roatating animation for words in subheadind
         gsap.to(wordRef.current, {

@@ -11,23 +11,23 @@ const Works = ({ projects }: { projects: Project[] }) => {
 
   useGSAP(
     () => {
-      const trigger = { trigger: containerRef.current };
+      const trigger = containerRef.current;
 
       gsap.from(".works-label", {
-        y: 60,
+        y: 30,
         autoAlpha: 0,
-        duration: 1.1,
-        ease: "power4.out",
-        scrollTrigger: { ...trigger, start: "top 80%" },
+        duration: 0.6,
+        ease: "power2.out",
+        scrollTrigger: { trigger, start: "top 90%" },
       });
 
       gsap.from(".project-card-anim", {
-        y: 60,
+        y: 20,
         autoAlpha: 0,
-        duration: 2,
-        stagger: 0.18,
-        ease: "power4.out",
-        scrollTrigger: { ...trigger, start: "top 70%" },
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: { trigger, start: "top 75%" },
       });
     },
     { scope: containerRef },

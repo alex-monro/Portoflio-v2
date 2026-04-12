@@ -4,12 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsapConfig";
-
-const bios = [
-  "After studying Computer Science at the University of Victoria, I moved into music production where I earned credits on platinum and gold records, including a Grammy-nominated project.",
-  "That experience shaped how I approach detail, iteration, and collaboration under pressure.",
-  "I recently completed the British Columbia Institute of Technology's Front-End Web Developer program and have been building projects across both the front end and back end.",
-];
+import { personalInfo } from "@/lib/projects";
 
 const About = () => {
   const containerRef = useRef(null);
@@ -21,7 +16,7 @@ const About = () => {
         autoAlpha: 0,
         duration: 1,
         ease: "power4.out",
-        scrollTrigger: { trigger: containerRef.current, start: "top 82%" },
+        scrollTrigger: { start: "top 80%" },
       });
     },
     { scope: containerRef },
@@ -50,7 +45,7 @@ const About = () => {
         </div>
 
         <div className="flex flex-col gap-10 lg:w-3/5">
-          {bios.map((paragraph, i) => (
+          {personalInfo.bio.map((paragraph, i) => (
             <p key={i} className="default-text">
               {paragraph}
             </p>

@@ -50,28 +50,3 @@
 :root {
   --hero-font-size: clamp(3.2rem, 10vw, 13rem);
 }
-
-
-@keyframes heroScrollIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hero-scroll {
-  animation: heroScrollIn 0.7s ease-out 1.8s both;
-}
-
-.z-cursor {
-  z-index: 9999;
-}
-
-html.cursor-custom,
-html.cursor-custom * {
-  cursor: none !important;
-}

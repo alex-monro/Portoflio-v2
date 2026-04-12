@@ -1,12 +1,26 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProjects, getProject } from "@/lib/projects";
-import ProjectImageSlider from "@/components/ProjectImageSlider";
+import { projects } from "@/lib/projects";
 import { GitHubIcon } from "@/components/Icons";
 
-export async function generateStaticParams() {
-  const projects = await getProjects();
+// https://nextjs.org/docs/app/api-reference/functions/generate-metadata DYnamic metadata for each project
+
+export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string } | Promise<{ slug: string }>;
+}) {
+  const { slug } = await Promise.resolve(params);
+  const project = projects.find((p) => p.slug === slug);
+  if (!project) return {};
+  return {
+    title: `${project.title} — Alex Monro`,
+    description: project.overview,
+  };
 }
 
 export default async function WorkPage({
@@ -15,8 +29,9 @@ export default async function WorkPage({
   params: { slug: string } | Promise<{ slug: string }>;
 }) {
   const { slug } = await Promise.resolve(params);
-  const project = await getProject(slug);
 
+  const project = projects.find((p) => p.slug === slug) ?? null;
+  // Placehodler if project not Found
   if (!project) notFound();
 
   return (
@@ -34,9 +49,7 @@ export default async function WorkPage({
               {project.video ? (
                 <video src={project.video} autoPlay muted playsInline />
               ) : (
-                <div className="bg-zinc-800 text-zinc-500 py-16 text-center">
-                  No preview available
-                </div>
+                <div className="py-16 text-center">No preview available</div>
               )}
             </div>
           </div>
@@ -48,7 +61,7 @@ export default async function WorkPage({
                 <p className="default-text">{project.overview}</p>
               </div>
               <div>
-                <p className="text-xl font-semibold  mb-3">Tech Stack</p>
+                <p className="text-xl font-semibold mb-3">Tech Stack</p>
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
                     <span
@@ -66,9 +79,10 @@ export default async function WorkPage({
               {project.link && (
                 <a
                   href={project.link}
-                  className="link-fade"
                   aria-label="Live site"
+                  className="transition-opacity hover:opacity-50"
                 >
+                  {/* internet icon */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="32"
@@ -86,27 +100,26 @@ export default async function WorkPage({
                   </svg>
                 </a>
               )}
-              <a
-                href={project.github}
-                className="link-fade"
-                aria-label="GitHub"
-              >
-                <GitHubIcon className="h-8 w-8" />
-              </a>
+              {project.github && (
+                <a
+                  href={project.github}
+                  aria-label="GitHub"
+                  className="transition-opacity hover:opacity-50"
+                >
+                  <GitHubIcon className="h-8 w-8" />
+                </a>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="border-t border-zinc-800 py-16 lg:py-28">
-        <div className="grid gap-16 lg:grid-cols-2 lg:gap-28">
-          <div>
-            <h2 className="project-subheading mb-6">Reflection</h2>
-            <p className="default-text max-w-lg">{project.reflection}</p>
-          </div>
-          <ProjectImageSlider images={project.images} title={project.title} />
-        </div>
-      </section>
+      {project.reflection && (
+        <section className="border-t border-zinc-800 py-16 lg:py-28">
+          <h2 className="project-subheading mb-6">Reflection</h2>
+          <p className="default-text max-w-lg">{project.reflection}</p>
+        </section>
+      )}
 
       <div>
         <Link

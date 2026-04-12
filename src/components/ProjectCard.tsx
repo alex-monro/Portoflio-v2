@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import type { Project } from "@/lib/projects";
 
 const ProjectCard = ({
@@ -21,7 +21,7 @@ const ProjectCard = ({
       <Link
         href={`/projects/${project.slug}`}
         className="block"
-        onMouseEnter={() => videoRef.current?.play()}
+        onMouseEnter={() => videoRef.current?.play().catch(() => {})}
         onMouseLeave={() => {
           const v = videoRef.current;
           if (v) {
@@ -53,10 +53,10 @@ const ProjectCard = ({
           />
 
           <div className="absolute bottom-0 left-0 right-0 z-30 text-2xl hidden p-6 lg:flex lg:items-end lg:justify-between">
-            <h3 className="translate-y-1 opacity-0 transition-all delay-200 duration-1000 group-hover:translate-y-0 group-hover:opacity-100">
+            <h3 className="translate-y-1 opacity-0 transition-all delay-200 duration-200 group-hover:translate-y-0 group-hover:opacity-100">
               {project.title}
             </h3>
-            <p className="translate-y-1 opacity-0 transition-all delay-700 duration-1000 group-hover:translate-y-0 group-hover:opacity-100">
+            <p className="translate-y-1 opacity-0 transition-all delay-200 duration-200 group-hover:translate-y-0 group-hover:opacity-100">
               View →
             </p>
           </div>

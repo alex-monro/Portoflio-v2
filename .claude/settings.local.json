@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm \"c:/Users/prodb/OneDrive/Desktop/portfoliov2/alexmonro/portfolio/src/components/SmoothScroll.tsx\")",
+      "Bash(rm \"c:/Users/prodb/OneDrive/Desktop/portfoliov2/alexmonro/portfolio/src/types/window.d.ts\")",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:medium.com)",
+      "Bash(python3 -c ':*)"
+    ]
+  }
+}
