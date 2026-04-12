@@ -16,7 +16,7 @@ const Hero = () => {
   const containerRef = useRef<HTMLElement>(null);
   const wordIndex = useRef(0);
   const wordRef = useRef<HTMLSpanElement>(null);
-  const intervalId = useRef<number>();
+  const intervalId = useRef<number>(0);
 
   useGSAP(
     () => {
