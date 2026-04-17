@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useLenis } from "lenis/react";
 
 const links = [
   { label: "Home", href: "/" },
@@ -14,12 +13,8 @@ const links = [
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const lenis = useLenis();
   const logoRef = useRef<HTMLAnchorElement>(null);
 
-  // Close menu and reset logo opacity on every route change.
-  // Logo opacity resets to 1 here because lenis.on("scroll") only fires during
-  // active scrolling — immediate jumps don't emit scroll events.
   useEffect(() => {
     setIsOpen(false);
     if (logoRef.current) {
@@ -27,8 +22,8 @@ const Nav = () => {
     }
   }, [pathname]);
 
-  // Track logo opacity via Lenis scroll position (stays in sync with smooth scroll)
   useEffect(() => {
+    const lenis = window.__appLenis;
     if (!lenis) return;
     const onScroll = ({ scroll }: { scroll: number }) => {
       if (logoRef.current) {
@@ -37,7 +32,7 @@ const Nav = () => {
     };
     lenis.on("scroll", onScroll);
     return () => lenis.off("scroll", onScroll);
-  }, [lenis]);
+  }, [pathname]);
 
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -45,13 +40,12 @@ const Nav = () => {
   ) => {
     setIsOpen(false);
 
-    // On the home page: intercept and use Lenis for smooth in-page scroll.
-    // On other pages: let Next.js navigate normally; SmoothScroll handles the rest.
     if (pathname !== "/") return;
 
     e.preventDefault();
     const hash = href.includes("#") ? href.split("#")[1] : null;
     const target = hash ? document.getElementById(hash) : null;
+    const lenis = window.__appLenis;
 
     if (target) {
       lenis?.scrollTo(target, { duration: 1.2 });

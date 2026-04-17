@@ -40,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${satoshi.variable} h-full`}>
+    <html lang="en" className={satoshi.variable}>
       <body>
         <SmoothScroll>
           <Nav />

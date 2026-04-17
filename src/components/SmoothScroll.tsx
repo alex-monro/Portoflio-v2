@@ -1,81 +1,89 @@
 "use client";
 
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
-import { ReactLenis } from "lenis/react";
-import type { LenisRef } from "lenis/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import Lenis from "lenis";
+import { gsap, ScrollTrigger } from "@/lib/gsapConfig";
 
 const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
-  const lenisRef = useRef<LenisRef>(null);
   const pathname = usePathname();
-  // Incremented on every route change so stale rAF callbacks self-abort.
-  // Fixes scroll getting stuck when navigating rapidly: cleanup can't cancel
-  // the inner rAF (innerId isn't set until the outer rAF fires, after cleanup
-  // may have already run), so without this check stale scrollTo calls pile up
-  // and leave Lenis with mismatched internal/native scroll positions.
-  const generation = useRef(0);
-
-  // Sync Lenis with GSAP ticker
-  useEffect(() => {
-    function update(time: number) {
-      lenisRef.current?.lenis?.raf(time * 1000);
-    }
-    gsap.ticker.add(update);
-    return () => gsap.ticker.remove(update);
-  }, []);
+  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    const lenis = lenisRef.current?.lenis;
-    if (!lenis) return;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
-    const gen = ++generation.current;
+    if (prefersReducedMotion) return;
 
-    // Stop synchronously so the GSAP ticker can't push Lenis toward its old
-    // targetScroll (e.g. Y=800 from the previous page) while the double-rAF
-    // is pending. Without this the ticker fires every 16ms and snaps the new
-    // page to the bottom before our scrollTo(0) gets a chance to run.
-    lenis.stop();
-
-    const outerId = requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        // Stale callback — a newer navigation has already taken over.
-        // Don't call start() here; the newer effect's callback will do it.
-        if (gen !== generation.current) return;
-
-        const hash = window.location.hash;
-        const target = hash ? document.querySelector(hash) : null;
-
-        if (target) {
-          // scrollTo with immediate resets Lenis's internal targetScroll +
-          // animatedScroll to the target while stopped, so start() resumes
-          // from the right place instead of the previous page's position.
-          lenis.scrollTo(target as HTMLElement, { immediate: true });
-          // Clean the hash from the URL so navigating away and back doesn't
-          // accumulate it into /#works#works.
-          history.replaceState(null, "", window.location.pathname);
-        } else {
-          lenis.scrollTo(0, { immediate: true });
-        }
-
-        // Re-enable AFTER position is set — calling start() before scrollTo()
-        // was the previous bug: Lenis would resume toward Y=800 for one frame.
-        lenis.start();
-        ScrollTrigger.refresh();
-      });
+    const lenis = new Lenis({
+      duration: 1.3,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      syncTouch: false,
+      autoRaf: false,
     });
 
-    return () => cancelAnimationFrame(outerId);
+    lenisRef.current = lenis;
+    window.__appLenis = lenis;
+
+    lenis.on("scroll", ScrollTrigger.update);
+
+    const rafCallback = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(rafCallback);
+
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      gsap.ticker.remove(rafCallback);
+      delete window.__appLenis;
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
+
+  // useLayoutEffect fires synchronously before the browser paints — this stops
+  // Lenis and resets native scroll before the GSAP ticker can fire a single
+  // frame toward the previous page's scroll position.
+  useLayoutEffect(() => {
+    const lenis = lenisRef.current;
+    if (!lenis) return;
+    lenis.stop();
+    window.scrollTo(0, 0);
   }, [pathname]);
 
-  return (
-    <ReactLenis root options={{ duration: 1.2, autoRaf: false, syncTouch: true }} ref={lenisRef}>
-      {children}
-    </ReactLenis>
-  );
+  // useEffect fires after paint — by then Lenis is already stopped and native
+  // scroll is at 0, so the rAF just needs to resize and re-enable.
+  useEffect(() => {
+    const lenis = lenisRef.current;
+    if (!lenis) return;
+
+    try {
+      sessionStorage.setItem("soft-nav", "true");
+    } catch {}
+
+    requestAnimationFrame(() => {
+      lenis.resize();
+
+      const hash = window.location.hash;
+
+      if (hash && hash !== "#top") {
+        const target = document.querySelector(hash);
+        if (target instanceof HTMLElement) {
+          lenis.scrollTo(target, { immediate: true, force: true });
+          lenis.start();
+          return;
+        }
+      }
+
+      lenis.scrollTo(0, { immediate: true, force: true });
+      lenis.start();
+    });
+  }, [pathname]);
+
+  return <>{children}</>;
 };
 
 export default SmoothScroll;

@@ -42,15 +42,17 @@ const ProjectCard = ({
             />
           )}
 
-          <video
-            ref={videoRef}
-            src={project.video}
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="absolute left-1/2 top-1/2 z-20 hidden w-2/3 -translate-x-1/2 -translate-y-1/2 rounded-sm opacity-0 transition-opacity duration-500 lg:block group-hover:opacity-100 pointer-events-none"
-          />
+          {project.video && (
+            <video
+              ref={videoRef}
+              src={project.video}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="absolute left-1/2 top-1/2 z-20 hidden w-2/3 -translate-x-1/2 -translate-y-1/2 rounded-sm opacity-0 transition-opacity duration-500 lg:block group-hover:opacity-100 pointer-events-none"
+            />
+          )}
 
           <div className="absolute bottom-0 left-0 right-0 z-30 text-2xl hidden p-6 lg:flex lg:items-end lg:justify-between">
             <h3 className="translate-y-1 opacity-0 transition-[transform,opacity] delay-200 duration-200 group-hover:translate-y-0 group-hover:opacity-100">

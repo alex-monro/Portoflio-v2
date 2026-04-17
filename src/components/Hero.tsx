@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { useLenis } from "lenis/react";
 import { gsap, SplitText } from "@/lib/gsapConfig";
 
 const words = [
@@ -15,7 +14,6 @@ const words = [
 
 const Hero = () => {
   const containerRef = useRef<HTMLElement>(null);
-  const lenis = useLenis();
   const wordIndex = useRef(0);
   const wordRef = useRef<HTMLSpanElement>(null);
   const intervalId = useRef<number>(0);
@@ -68,10 +66,9 @@ const Hero = () => {
           duration: 0.5,
           ease: "power1.in",
           onComplete: () => {
+            if (!wordRef.current) return;
             wordIndex.current = (wordIndex.current + 1) % words.length;
-            if (wordRef.current) {
-              wordRef.current.textContent = words[wordIndex.current];
-            }
+            wordRef.current.textContent = words[wordIndex.current];
             gsap.set(wordRef.current, { yPercent: 50 });
             gsap.to(wordRef.current, {
               yPercent: 0,
@@ -93,7 +90,7 @@ const Hero = () => {
   const scrollToWorks = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const target = document.getElementById("works");
-    if (target) lenis?.scrollTo(target, { duration: 1.2 });
+    if (target) window.__appLenis?.scrollTo(target, { duration: 1.2 });
   };
 
   return (
