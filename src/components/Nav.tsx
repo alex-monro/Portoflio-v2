@@ -17,12 +17,17 @@ const Nav = () => {
   const lenis = useLenis();
   const logoRef = useRef<HTMLAnchorElement>(null);
 
-  // Close menu on route change (e.g. browser back button)
+  // Close menu and reset logo opacity on every route change.
+  // Logo opacity resets to 1 here because lenis.on("scroll") only fires during
+  // active scrolling — immediate jumps don't emit scroll events.
   useEffect(() => {
     setIsOpen(false);
+    if (logoRef.current) {
+      logoRef.current.style.opacity = "1";
+    }
   }, [pathname]);
 
-  // Use Lenis scroll event so position stays in sync with smooth scroll
+  // Track logo opacity via Lenis scroll position (stays in sync with smooth scroll)
   useEffect(() => {
     if (!lenis) return;
     const onScroll = ({ scroll }: { scroll: number }) => {
@@ -38,20 +43,20 @@ const Nav = () => {
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string,
   ) => {
-    if (pathname === "/") {
-      e.preventDefault();
-      setIsOpen(false);
+    setIsOpen(false);
 
-      const hash = href.includes("#") ? href.split("#")[1] : null;
-      const target = hash ? document.getElementById(hash) : null;
+    // On the home page: intercept and use Lenis for smooth in-page scroll.
+    // On other pages: let Next.js navigate normally; SmoothScroll handles the rest.
+    if (pathname !== "/") return;
 
-      if (target) {
-        lenis?.scrollTo(target, { duration: 1.2 });
-      } else {
-        lenis?.scrollTo(0, { immediate: true });
-      }
+    e.preventDefault();
+    const hash = href.includes("#") ? href.split("#")[1] : null;
+    const target = hash ? document.getElementById(hash) : null;
+
+    if (target) {
+      lenis?.scrollTo(target, { duration: 1.2 });
     } else {
-      setIsOpen(false);
+      lenis?.scrollTo(0, { duration: 1.2 });
     }
   };
 
@@ -75,17 +80,15 @@ const Nav = () => {
             aria-controls="nav-menu"
             className="-mr-4 flex h-16 w-16 items-center justify-center"
           >
-            <span
-              className={`hamburger-line ${isOpen ? "rotate-45" : "-translate-y-2.5"}`}
-            />
-            <span
-              className={`hamburger-line ${isOpen ? "-rotate-45" : "translate-y-2.5"}`}
-            />
+            <span className={`hamburger-line ${isOpen ? "rotate-45" : "-translate-y-2.5"}`} />
+            <span className={`hamburger-line ${isOpen ? "-rotate-45" : "translate-y-2.5"}`} />
           </button>
 
           <ul
             id="nav-menu"
-            className={`mt-6 flex flex-col items-end gap-3 text-2xl md:text-3xl font-bold uppercase tracking-wide ${isOpen ? "pointer-events-auto" : "pointer-events-none"}`}
+            className={`mt-6 flex flex-col items-end gap-3 text-2xl md:text-3xl font-bold uppercase tracking-wide ${
+              isOpen ? "pointer-events-auto" : "pointer-events-none"
+            }`}
           >
             {links.map(({ label, href }, i) => (
               <li key={href}>
@@ -93,7 +96,7 @@ const Nav = () => {
                   href={href}
                   tabIndex={isOpen ? 0 : -1}
                   onClick={(e) => handleLinkClick(e, href)}
-                  className={`inline-block transition-all ease-out hover:opacity-50 ${
+                  className={`inline-block transition-[transform,opacity] ease-out hover:opacity-50 ${
                     isOpen
                       ? `opacity-100 translate-x-0 duration-500 ${i === 0 ? "delay-0" : "delay-75"}`
                       : "opacity-0 translate-x-6 duration-300"

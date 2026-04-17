@@ -1,7 +1,3 @@
-// I had an issue where if I was scrolling and then clicked a link to a different page, the scroll
-// on the new page would sometimes not reset to the top. I Found this Solution in the lenis docs:
-//https://github.com/darkroomengineering/lenis/discussions/244 not sure if its the best solution but it works
-
 "use client";
 
 import { usePathname } from "next/navigation";
@@ -17,35 +13,50 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   const lenisRef = useRef<LenisRef>(null);
   const pathname = usePathname();
 
-  // Sync Lenis with GSAP
+  // Sync Lenis with GSAP ticker
   useEffect(() => {
     function update(time: number) {
       lenisRef.current?.lenis?.raf(time * 1000);
     }
-
     gsap.ticker.add(update);
-
     return () => gsap.ticker.remove(update);
   }, []);
 
-  // Scroll to top (or hash target) on route change
-  // rAF defers until after React has committed the new page to the DOM
   useEffect(() => {
-    const hash = window.location.hash;
+    const lenis = lenisRef.current?.lenis;
+    if (!lenis) return;
 
-    const id = requestAnimationFrame(() => {
-      if (hash) {
-        const target = document.querySelector(hash);
+    // Kill any in-progress scroll so momentum doesn't bleed into the new page
+    lenis.stop();
+
+    let outerId: number;
+    let innerId: number | undefined;
+
+    // Double rAF:
+    //   First  — waits for React to finish committing the new page to the DOM
+    //   Second — waits for the browser to finish layout so Lenis can read element positions
+    outerId = requestAnimationFrame(() => {
+      innerId = requestAnimationFrame(() => {
+        const hash = window.location.hash;
+        const target = hash ? document.querySelector(hash) : null;
+
+        lenis.start();
+
         if (target) {
-          lenisRef.current?.lenis?.scrollTo(target as HTMLElement, { immediate: true });
+          lenis.scrollTo(target as HTMLElement, { immediate: true });
+        } else {
+          lenis.scrollTo(0, { immediate: true });
         }
-      } else {
-        lenisRef.current?.lenis?.scrollTo(0, { immediate: true });
-      }
-      ScrollTrigger.refresh();
+
+        // Refresh after position is set so ScrollTrigger recalculates from correct offsets
+        ScrollTrigger.refresh();
+      });
     });
 
-    return () => cancelAnimationFrame(id);
+    return () => {
+      cancelAnimationFrame(outerId);
+      if (innerId !== undefined) cancelAnimationFrame(innerId);
+    };
   }, [pathname]);
 
   return (

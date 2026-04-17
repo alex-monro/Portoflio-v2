@@ -35,7 +35,7 @@ export default async function WorkPage({
   if (!project) notFound();
 
   return (
-    <main className="section-shell">
+    <div className="section-shell">
       <section className="border-b border-zinc-800 pb-8">
         <h1 className="text-5xl font-bold uppercase tracking-tight lg:text-8xl">
           {project.title}
@@ -130,6 +130,6 @@ export default async function WorkPage({
           ← Back to Works
         </Link>
       </div>
-    </main>
+    </div>
   );
 }

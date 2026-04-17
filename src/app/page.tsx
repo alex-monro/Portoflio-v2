@@ -5,10 +5,10 @@ import { projects } from "@/lib/projects";
 
 export default function Home() {
   return (
-    <main id="top">
+    <div id="top">
       <Hero />
       <Works projects={projects} />
       <About />
-    </main>
+    </div>
   );
 }
