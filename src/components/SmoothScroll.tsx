@@ -26,21 +26,19 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
     const lenis = lenisRef.current?.lenis;
     if (!lenis) return;
 
-    // Kill any in-progress scroll so momentum doesn't bleed into the new page
-    lenis.stop();
-
     let outerId: number;
     let innerId: number | undefined;
 
     // Double rAF:
     //   First  — waits for React to finish committing the new page to the DOM
     //   Second — waits for the browser to finish layout so Lenis can read element positions
+    // Note: no lenis.stop()/start() — stop() leaves targetScroll at the old position,
+    // so start() resumes toward it before scrollTo(0) can override it. immediate: true
+    // is sufficient to snap and cancel any pending scroll on its own.
     outerId = requestAnimationFrame(() => {
       innerId = requestAnimationFrame(() => {
         const hash = window.location.hash;
         const target = hash ? document.querySelector(hash) : null;
-
-        lenis.start();
 
         if (target) {
           lenis.scrollTo(target as HTMLElement, { immediate: true });
