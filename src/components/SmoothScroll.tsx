@@ -32,7 +32,12 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   // Scroll to top on route change
   useEffect(() => {
     const hash = window.location.hash;
-    if (!hash) {
+    if (hash) {
+      const target = document.querySelector(hash);
+      if (target) {
+        lenisRef.current?.lenis?.scrollTo(target as HTMLElement, { immediate: true });
+      }
+    } else {
       lenisRef.current?.lenis?.scrollTo(0, { immediate: true });
     }
   }, [pathname]);

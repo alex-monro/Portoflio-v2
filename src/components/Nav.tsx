@@ -18,11 +18,18 @@ const Nav = () => {
   const logoRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      if (!logoRef.current) return;
-      logoRef.current.style.opacity = window.scrollY > 120 ? "0" : "1";
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        if (logoRef.current) {
+          logoRef.current.style.opacity = window.scrollY > 120 ? "0" : "1";
+        }
+        ticking = false;
+      });
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -62,6 +69,9 @@ const Nav = () => {
         <nav className="flex flex-col items-end">
           <button
             onClick={() => setIsOpen((prev) => !prev)}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            aria-controls="nav-menu"
             className="-mr-4 flex h-16 w-16 items-center justify-center"
           >
             <span
@@ -73,6 +83,7 @@ const Nav = () => {
           </button>
 
           <ul
+            id="nav-menu"
             className={`mt-6 flex flex-col items-end gap-3 text-2xl md:text-3xl font-bold uppercase tracking-wide ${isOpen ? "pointer-events-auto" : "pointer-events-none"}`}
           >
             {links.map(({ label, href }, i) => (

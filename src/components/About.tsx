@@ -40,6 +40,7 @@ const About = () => {
             src="/photos/alex.png"
             alt="Alex Monro"
             fill
+            sizes="(max-width: 1024px) 100vw, 25vw"
             className="object-cover rounded-sm transition-all duration-1000 ease-out"
           />
         </div>

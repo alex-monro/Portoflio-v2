@@ -15,6 +15,23 @@ export const metadata: Metadata = {
   title: "Alex Monro",
   description:
     "Personal portfolio of Alex Monro, a front-end developer showcasing projects, skills, and experience in web development.",
+  openGraph: {
+    title: "Alex Monro",
+    description:
+      "Personal portfolio of Alex Monro, a front-end developer showcasing projects, skills, and experience in web development.",
+    type: "website",
+    url: "https://alexmonro.dev",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Alex Monro",
+    description:
+      "Personal portfolio of Alex Monro, a front-end developer showcasing projects, skills, and experience in web development.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
