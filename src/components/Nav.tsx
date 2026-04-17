@@ -23,16 +23,20 @@ const Nav = () => {
   }, [pathname]);
 
   useEffect(() => {
-    const lenis = window.__appLenis;
-    if (!lenis) return;
-    const onScroll = ({ scroll }: { scroll: number }) => {
-      if (logoRef.current) {
-        logoRef.current.style.opacity = scroll > 120 ? "0" : "1";
-      }
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        if (logoRef.current) {
+          logoRef.current.style.opacity = window.scrollY > 120 ? "0" : "1";
+        }
+        ticking = false;
+      });
     };
-    lenis.on("scroll", onScroll);
-    return () => lenis.off("scroll", onScroll);
-  }, [pathname]);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
