@@ -61,13 +61,12 @@ const Hero = () => {
       });
 
       const rotate = () => {
-        //create a roatating animation for words in subheadind
+        gsap.killTweensOf(wordRef.current);
         gsap.to(wordRef.current, {
           yPercent: -50,
           opacity: 0,
           duration: 0.5,
           ease: "power1.in",
-          // After the animation completes, update the word and animate it back in
           onComplete: () => {
             wordIndex.current = (wordIndex.current + 1) % words.length;
             if (wordRef.current) {
