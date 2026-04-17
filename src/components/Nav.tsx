@@ -17,21 +17,22 @@ const Nav = () => {
   const lenis = useLenis();
   const logoRef = useRef<HTMLAnchorElement>(null);
 
+  // Close menu on route change (e.g. browser back button)
   useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        if (logoRef.current) {
-          logoRef.current.style.opacity = window.scrollY > 120 ? "0" : "1";
-        }
-        ticking = false;
-      });
+    setIsOpen(false);
+  }, [pathname]);
+
+  // Use Lenis scroll event so position stays in sync with smooth scroll
+  useEffect(() => {
+    if (!lenis) return;
+    const onScroll = ({ scroll }: { scroll: number }) => {
+      if (logoRef.current) {
+        logoRef.current.style.opacity = scroll > 120 ? "0" : "1";
+      }
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    lenis.on("scroll", onScroll);
+    return () => lenis.off("scroll", onScroll);
+  }, [lenis]);
 
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,

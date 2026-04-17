@@ -124,6 +124,7 @@ export default async function WorkPage({
       <div>
         <Link
           href="/#works"
+          scroll={false}
           className="text-2xl transition-opacity hover:opacity-50"
         >
           ← Back to Works

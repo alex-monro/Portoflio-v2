@@ -28,17 +28,24 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
     return () => gsap.ticker.remove(update);
   }, []);
 
-  // Scroll to top on route change
+  // Scroll to top (or hash target) on route change
+  // rAF defers until after React has committed the new page to the DOM
   useEffect(() => {
     const hash = window.location.hash;
-    if (hash) {
-      const target = document.querySelector(hash);
-      if (target) {
-        lenisRef.current?.lenis?.scrollTo(target as HTMLElement, { immediate: true });
+
+    const id = requestAnimationFrame(() => {
+      if (hash) {
+        const target = document.querySelector(hash);
+        if (target) {
+          lenisRef.current?.lenis?.scrollTo(target as HTMLElement, { immediate: true });
+        }
+      } else {
+        lenisRef.current?.lenis?.scrollTo(0, { immediate: true });
       }
-    } else {
-      lenisRef.current?.lenis?.scrollTo(0, { immediate: true });
-    }
+      ScrollTrigger.refresh();
+    });
+
+    return () => cancelAnimationFrame(id);
   }, [pathname]);
 
   return (
