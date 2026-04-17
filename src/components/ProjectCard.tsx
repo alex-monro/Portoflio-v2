@@ -38,7 +38,7 @@ const ProjectCard = ({
               fill
               priority={priority}
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover transition-all duration-500 lg:group-hover:blur-sm lg:group-hover:scale-105 lg:group-hover:brightness-[0.4]"
+              className="object-cover transition-[transform,filter] duration-500 lg:group-hover:blur-sm lg:group-hover:scale-105 lg:group-hover:brightness-[0.4]"
             />
           )}
 
@@ -53,10 +53,10 @@ const ProjectCard = ({
           />
 
           <div className="absolute bottom-0 left-0 right-0 z-30 text-2xl hidden p-6 lg:flex lg:items-end lg:justify-between">
-            <h3 className="translate-y-1 opacity-0 transition-all delay-200 duration-200 group-hover:translate-y-0 group-hover:opacity-100">
+            <h3 className="translate-y-1 opacity-0 transition-[transform,opacity] delay-200 duration-200 group-hover:translate-y-0 group-hover:opacity-100">
               {project.title}
             </h3>
-            <p className="translate-y-1 opacity-0 transition-all delay-200 duration-200 group-hover:translate-y-0 group-hover:opacity-100">
+            <p className="translate-y-1 opacity-0 transition-[transform,opacity] delay-200 duration-200 group-hover:translate-y-0 group-hover:opacity-100">
               View →
             </p>
           </div>

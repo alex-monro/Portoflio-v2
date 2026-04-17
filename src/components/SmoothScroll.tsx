@@ -24,7 +24,6 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
     }
 
     gsap.ticker.add(update);
-    gsap.ticker.lagSmoothing(0);
 
     return () => gsap.ticker.remove(update);
   }, []);
@@ -43,7 +42,7 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   }, [pathname]);
 
   return (
-    <ReactLenis root options={{ lerp: 0.1, autoRaf: false }} ref={lenisRef}>
+    <ReactLenis root options={{ duration: 1.2, autoRaf: false, syncTouch: true }} ref={lenisRef}>
       {children}
     </ReactLenis>
   );

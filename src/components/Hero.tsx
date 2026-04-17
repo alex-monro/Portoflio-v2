@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
+import { useLenis } from "lenis/react";
 import { gsap, SplitText } from "@/lib/gsapConfig";
 
 const words = [
@@ -14,6 +15,7 @@ const words = [
 
 const Hero = () => {
   const containerRef = useRef<HTMLElement>(null);
+  const lenis = useLenis();
   const wordIndex = useRef(0);
   const wordRef = useRef<HTMLSpanElement>(null);
   const intervalId = useRef<number>(0);
@@ -91,7 +93,8 @@ const Hero = () => {
 
   const scrollToWorks = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    document.getElementById("works")?.scrollIntoView({ behavior: "smooth" });
+    const target = document.getElementById("works");
+    if (target) lenis?.scrollTo(target, { duration: 1.2 });
   };
 
   return (
