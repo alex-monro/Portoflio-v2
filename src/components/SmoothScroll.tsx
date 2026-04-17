@@ -12,6 +12,12 @@ gsap.registerPlugin(ScrollTrigger);
 const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   const lenisRef = useRef<LenisRef>(null);
   const pathname = usePathname();
+  // Incremented on every route change so stale rAF callbacks self-abort.
+  // Fixes scroll getting stuck when navigating rapidly: cleanup can't cancel
+  // the inner rAF (innerId isn't set until the outer rAF fires, after cleanup
+  // may have already run), so without this check stale scrollTo calls pile up
+  // and leave Lenis with mismatched internal/native scroll positions.
+  const generation = useRef(0);
 
   // Sync Lenis with GSAP ticker
   useEffect(() => {
@@ -26,35 +32,34 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
     const lenis = lenisRef.current?.lenis;
     if (!lenis) return;
 
-    let outerId: number;
-    let innerId: number | undefined;
+    const gen = ++generation.current;
 
     // Double rAF:
-    //   First  — waits for React to finish committing the new page to the DOM
-    //   Second — waits for the browser to finish layout so Lenis can read element positions
-    // Note: no lenis.stop()/start() — stop() leaves targetScroll at the old position,
-    // so start() resumes toward it before scrollTo(0) can override it. immediate: true
-    // is sufficient to snap and cancel any pending scroll on its own.
-    outerId = requestAnimationFrame(() => {
-      innerId = requestAnimationFrame(() => {
+    //   First  — React has committed the new page to the DOM
+    //   Second — browser has finished layout, Lenis can read element positions
+    const outerId = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // A newer navigation fired — do nothing, let that effect handle scroll
+        if (gen !== generation.current) return;
+
         const hash = window.location.hash;
         const target = hash ? document.querySelector(hash) : null;
 
         if (target) {
           lenis.scrollTo(target as HTMLElement, { immediate: true });
+          // Remove the hash from the URL after jumping to the section.
+          // Without this, navigating away and back appends #works onto an already
+          // hashed URL, producing /#works#works after enough back-and-forth.
+          history.replaceState(null, "", window.location.pathname);
         } else {
           lenis.scrollTo(0, { immediate: true });
         }
 
-        // Refresh after position is set so ScrollTrigger recalculates from correct offsets
         ScrollTrigger.refresh();
       });
     });
 
-    return () => {
-      cancelAnimationFrame(outerId);
-      if (innerId !== undefined) cancelAnimationFrame(innerId);
-    };
+    return () => cancelAnimationFrame(outerId);
   }, [pathname]);
 
   return (
