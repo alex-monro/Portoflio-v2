@@ -38,7 +38,7 @@ export const projects: Project[] = [
   {
     slug: "flixi",
     title: "Flixi",
-    tags: ["React", "Node.js"],
+    tags: ["React", "CSS", "TMDB API"],
     featuredImage: Flixi.src,
     video: "/videos/flixi-video.mp4",
     overview:

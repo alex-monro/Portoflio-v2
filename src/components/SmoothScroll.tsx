@@ -34,27 +34,36 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
 
     const gen = ++generation.current;
 
-    // Double rAF:
-    //   First  — React has committed the new page to the DOM
-    //   Second — browser has finished layout, Lenis can read element positions
+    // Stop synchronously so the GSAP ticker can't push Lenis toward its old
+    // targetScroll (e.g. Y=800 from the previous page) while the double-rAF
+    // is pending. Without this the ticker fires every 16ms and snaps the new
+    // page to the bottom before our scrollTo(0) gets a chance to run.
+    lenis.stop();
+
     const outerId = requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        // A newer navigation fired — do nothing, let that effect handle scroll
+        // Stale callback — a newer navigation has already taken over.
+        // Don't call start() here; the newer effect's callback will do it.
         if (gen !== generation.current) return;
 
         const hash = window.location.hash;
         const target = hash ? document.querySelector(hash) : null;
 
         if (target) {
+          // scrollTo with immediate resets Lenis's internal targetScroll +
+          // animatedScroll to the target while stopped, so start() resumes
+          // from the right place instead of the previous page's position.
           lenis.scrollTo(target as HTMLElement, { immediate: true });
-          // Remove the hash from the URL after jumping to the section.
-          // Without this, navigating away and back appends #works onto an already
-          // hashed URL, producing /#works#works after enough back-and-forth.
+          // Clean the hash from the URL so navigating away and back doesn't
+          // accumulate it into /#works#works.
           history.replaceState(null, "", window.location.pathname);
         } else {
           lenis.scrollTo(0, { immediate: true });
         }
 
+        // Re-enable AFTER position is set — calling start() before scrollTo()
+        // was the previous bug: Lenis would resume toward Y=800 for one frame.
+        lenis.start();
         ScrollTrigger.refresh();
       });
     });
