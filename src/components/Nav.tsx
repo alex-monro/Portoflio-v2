@@ -72,6 +72,7 @@ const Nav = () => {
 
         <nav className="flex flex-col items-end">
           <button
+            type="button"
             onClick={() => setIsOpen((prev) => !prev)}
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}

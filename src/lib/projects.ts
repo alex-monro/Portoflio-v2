@@ -7,6 +7,7 @@ export type Project = {
   title: string;
   tags: string[];
   featuredImage: string;
+  featuredImageAlt: string;
   video: string;
   overview: string;
   reflection: string;
@@ -30,7 +31,7 @@ export const personalInfo: PersonalInfo = {
   bio: [
     "I studied Computer Science at the University of Victoria before moving into music production, where I earned credits on platinum and gold records, including a Grammy-nominated project.",
     "I recently completed the British Columbia Institute of Technology's Front-End Web Developer program and have been building projects across both the front end and back end.",
-    "I'm currently open to freelance and looking for opportunities where I can bring that same standard of craft to building great web experiences.",
+    "I'm currently looking for opportunities where I can bring that same standard of craft to building great web experiences.",
   ],
 };
 
@@ -40,6 +41,7 @@ export const projects: Project[] = [
     title: "Flixi",
     tags: ["React", "CSS", "TMDB API"],
     featuredImage: Flixi.src,
+    featuredImageAlt: "Screenshot of the Flixi movie discovery app showing a grid of popular films with search and genre filters",
     video: "/videos/flixi-video.mp4",
     overview:
       "A dynamic movie discovery platform where users can browse popular films, search by genre, and view detailed information including ratings, cast, and synopses. Built with React and powered by the TMDB API. Showcases REST API integration, reusable component architecture, and responsive design across all screen sizes.",
@@ -53,6 +55,7 @@ export const projects: Project[] = [
     title: "BlackJack",
     tags: ["HTML", "CSS", "JS"],
     featuredImage: Blackjack.src,
+    featuredImageAlt: "Screenshot of a browser-based Blackjack card game showing the game table with player and dealer hands in play",
     video: "/videos/blackjack-video.mp4",
     overview:
       "Built entirely with vanilla HTML, CSS, and JavaScript — no frameworks or libraries. Features interactive gameplay with realistic game logic, including hit/stand mechanics and dealer AI. The game manages complex state transitions across rounds, tracks player scores, and handles edge cases like busts and blackjacks.",
@@ -66,6 +69,7 @@ export const projects: Project[] = [
     title: "Tofino Time",
     tags: ["WordPress", "WooCommerce"],
     featuredImage: TofinoTime.src,
+    featuredImageAlt: "Screenshot of the Tofino Time e-commerce website homepage displaying surf and outdoor lifestyle products",
     video: "",
     overview: "Coming soon.",
     reflection: "",

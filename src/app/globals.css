@@ -69,3 +69,10 @@
 :root {
   --hero-font-size: clamp(3.2rem, 10vw, 13rem);
 }
+
+/* Show project info bar on touch devices regardless of screen size */
+@media (hover: none) {
+  .project-info-bar {
+    display: flex;
+  }
+}

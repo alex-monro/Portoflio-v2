@@ -35,15 +35,15 @@ const About = () => {
       </div>
 
       <div className="flex flex-col gap-16 lg:flex-row lg:justify-between lg:items-start lg:gap-0">
-        <div className="relative w-full lg:w-1/4 shrink-0 overflow-hidden group aspect-[4/5]">
+        <figure className="relative w-full lg:w-1/4 shrink-0 overflow-hidden aspect-[4/5] m-0">
           <Image
-            src="/photos/alex.png"
-            alt="Alex Monro"
+            src="/photos/alex.jpg"
+            alt="Alex Monro, front-end developer, pictured outdoors"
             fill
             sizes="(max-width: 1024px) 100vw, 25vw"
-            className="object-cover rounded-sm transition-all duration-1000 ease-out"
+            className="object-cover rounded-sm"
           />
-        </div>
+        </figure>
 
         <div className="flex flex-col gap-10 lg:w-3/5">
           {personalInfo.bio.map((paragraph, i) => (

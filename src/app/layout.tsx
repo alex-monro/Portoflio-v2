@@ -15,18 +15,21 @@ export const metadata: Metadata = {
   title: "Alex Monro",
   description:
     "Personal portfolio of Alex Monro, a front-end developer showcasing projects, skills, and experience in web development.",
+  metadataBase: new URL("https://alexmonro.com"),
   openGraph: {
     title: "Alex Monro",
     description:
       "Personal portfolio of Alex Monro, a front-end developer showcasing projects, skills, and experience in web development.",
     type: "website",
-    url: "https://alexmonro.dev",
+    url: "https://alexmonro.com",
+    images: [{ url: "/photos/alex.png", width: 1200, height: 630, alt: "Alex Monro — Front-End Developer" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Alex Monro",
     description:
       "Personal portfolio of Alex Monro, a front-end developer showcasing projects, skills, and experience in web development.",
+    images: ["/photos/alex.png"],
   },
   robots: {
     index: true,
@@ -41,10 +44,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={satoshi.variable}>
+      <head>
+        <meta name="theme-color" content="#09090b" />
+      </head>
       <body>
         <SmoothScroll>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-zinc-50 focus:text-zinc-950 focus:px-4 focus:py-2 focus:rounded-sm focus:text-sm focus:font-bold"
+          >
+            Skip to content
+          </a>
           <Nav />
-          <main className="site-shell">{children}</main>
+          <main id="main-content" className="site-shell">{children}</main>
           <Footer />
         </SmoothScroll>
       </body>

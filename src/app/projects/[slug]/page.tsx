@@ -3,8 +3,6 @@ import { notFound } from "next/navigation";
 import { projects } from "@/lib/projects";
 import { GitHubIcon } from "@/components/Icons";
 
-// https://nextjs.org/docs/app/api-reference/functions/generate-metadata DYnamic metadata for each project
-
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
@@ -20,6 +18,17 @@ export async function generateMetadata({
   return {
     title: `${project.title} — Alex Monro`,
     description: project.overview,
+    openGraph: {
+      title: `${project.title} — Alex Monro`,
+      description: project.overview,
+      images: [{ url: project.featuredImage, alt: project.featuredImageAlt }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} — Alex Monro`,
+      description: project.overview,
+      images: [project.featuredImage],
+    },
   };
 }
 
@@ -31,7 +40,6 @@ export default async function WorkPage({
   const { slug } = await Promise.resolve(params);
 
   const project = projects.find((p) => p.slug === slug) ?? null;
-  // Placehodler if project not Found
   if (!project) notFound();
 
   return (
@@ -45,13 +53,19 @@ export default async function WorkPage({
       <section className="py-16 lg:py-28">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-24">
           <div className="lg:col-span-7">
-            <div className="media-frame">
+            <figure className="media-frame m-0">
               {project.video ? (
-                <video src={project.video} autoPlay muted playsInline />
+                <video
+                  src={project.video}
+                  autoPlay
+                  muted
+                  playsInline
+                  aria-label={`${project.title} demo video`}
+                />
               ) : (
                 <div className="py-16 text-center">No preview available</div>
               )}
-            </div>
+            </figure>
           </div>
 
           <div className="flex flex-col justify-between gap-16 lg:col-span-5">
@@ -79,10 +93,9 @@ export default async function WorkPage({
               {project.link && (
                 <a
                   href={project.link}
-                  aria-label="Live site"
+                  aria-label={`View ${project.title} live site`}
                   className="transition-opacity hover:opacity-50"
                 >
-                  {/* internet icon */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="32"
@@ -93,6 +106,7 @@ export default async function WorkPage({
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    aria-hidden="true"
                   >
                     <circle cx="12" cy="12" r="10" />
                     <path d="M2 12h20" />
@@ -103,7 +117,7 @@ export default async function WorkPage({
               {project.github && (
                 <a
                   href={project.github}
-                  aria-label="GitHub"
+                  aria-label={`View ${project.title} source code on GitHub`}
                   className="transition-opacity hover:opacity-50"
                 >
                   <GitHubIcon className="h-8 w-8" />

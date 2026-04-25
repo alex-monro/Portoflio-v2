@@ -28,7 +28,9 @@ const Footer = () => {
 
         <div className="flex items-center gap-8">
           <button
+            type="button"
             onClick={handleCopy}
+            aria-label={copied ? "Email copied" : "Copy email address"}
             className="rounded-md border border-zinc-800 border-l-2 border-l-zinc-500 px-8 py-3 text-base overflow-hidden"
           >
             <span className="inline-grid">
@@ -63,6 +65,7 @@ const Footer = () => {
           </a>
 
           <button
+            type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             aria-label="Back to top"
             className="transition-opacity hover:opacity-50 focus-visible:outline-none"
