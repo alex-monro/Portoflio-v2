@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-zinc-950 text-zinc-50 antialiased;
+    font-family: var(--font-satoshi);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  img, video {
+    @apply max-w-full;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-zinc-50;
+  }
+
+  ::selection {
+    @apply bg-zinc-50 text-zinc-950;
+  }
+}
+
+@layer components {
+  .site-shell {
+    @apply mx-auto w-full max-w-[1920px] px-[5vw];
+  }
+
+  .section-shell {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+
+  .section-heading {
+    @apply text-4xl font-bold uppercase tracking-tight lg:text-7xl;
+  }
+
+  .hero-subheading {
+    font-size: clamp(1rem, 5vw, 1.5rem);
+  }
+
+  .project-subheading {
+    @apply text-2xl font-semibold;
+  }
+
+  .media-frame {
+    @apply aspect-[16/9] overflow-hidden rounded-sm bg-zinc-900;
+  }
+
+  .hero-heading {
+    font-size: var(--hero-font-size);
+    @apply font-bold uppercase leading-none tracking-wide;
+  }
+
+  .default-text {
+    font-size: clamp(1.125rem, 5vw, 1.75rem);
+  }
+
+  .hamburger-line {
+    @apply absolute block h-0.5 w-7 bg-current transition-transform duration-500;
+  }
+}
+
+:root {
+  --hero-font-size: clamp(3.2rem, 10vw, 13rem);
+}
+
+/* Show project info bar on touch devices regardless of screen size */
+@media (hover: none) {
+  .project-info-bar {
+    display: flex;
+  }
+}
