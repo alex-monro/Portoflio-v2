@@ -90,7 +90,7 @@ export const projects: Project[] = [
     link: "",
     github: "",
     type: "Chrome Extension",
-    status: "V1 releasing March 3rd 2026",
+    status: "V1 releasing May 2026",
   },
   {
     slug: "tofino-time",
