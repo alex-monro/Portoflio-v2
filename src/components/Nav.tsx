@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { gsap } from "@/lib/gsapConfig";
 
 const links = [
   { label: "Home", href: "/" },
@@ -16,6 +17,7 @@ const Nav = () => {
   const router = useRouter();
   const logoRef = useRef<HTMLAnchorElement>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const navMenuRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     setIsOpen(false);
@@ -26,6 +28,34 @@ const Nav = () => {
     }
   }, [pathname]);
 
+  // GSAP animation on open/close
+  useEffect(() => {
+    const items = navMenuRef.current?.querySelectorAll("a");
+    if (!items) return;
+
+    if (isOpen) {
+      gsap.fromTo(
+        items,
+        { x: 32, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.5,
+          stagger: 0.07,
+          ease: "power3.out",
+        },
+      );
+    } else {
+      gsap.to(items, {
+        x: 24,
+        opacity: 0,
+        duration: 0.25,
+        stagger: { each: 0.04, from: "end" },
+        ease: "power2.in",
+      });
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     if (!isOpen) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -34,8 +64,18 @@ const Nav = () => {
         hamburgerRef.current?.focus();
       }
     };
+    const onPointerDown = (e: PointerEvent) => {
+      const header = hamburgerRef.current?.closest("header");
+      if (header && !header.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
   }, [isOpen]);
 
   useEffect(() => {
@@ -86,7 +126,7 @@ const Nav = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 pt-4 md:pt-8">
+    <header className="fixed top-0 left-0 right-0 z-50 pt-4 md:pt-8 mix-blend-difference text-white">
       <div className="site-shell flex items-start justify-between pointer-events-auto">
         <Link
           ref={logoRef}
@@ -105,29 +145,26 @@ const Nav = () => {
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
             aria-controls="nav-menu"
-            className="-mr-4 flex h-16 w-16 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-50"
+            className="-mr-4 relative flex h-16 w-16 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-50"
           >
             <span className={`hamburger-line ${isOpen ? "rotate-45" : "-translate-y-2.5"}`} />
             <span className={`hamburger-line ${isOpen ? "-rotate-45" : "translate-y-2.5"}`} />
           </button>
 
           <ul
+            ref={navMenuRef}
             id="nav-menu"
             className={`mt-6 flex flex-col items-end gap-3 text-2xl md:text-3xl font-bold uppercase tracking-wide ${
               isOpen ? "pointer-events-auto" : "pointer-events-none"
             }`}
           >
-            {links.map(({ label, href }, i) => (
+            {links.map(({ label, href }) => (
               <li key={href}>
                 <Link
                   href={href}
                   tabIndex={isOpen ? 0 : -1}
                   onClick={(e) => handleLinkClick(e, href)}
-                  className={`inline-block transition-[transform,opacity] ease-out hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-50 ${
-                    isOpen
-                      ? `opacity-100 translate-x-0 duration-500 ${i === 0 ? "delay-0" : "delay-75"}`
-                      : "opacity-0 translate-x-6 duration-300"
-                  }`}
+                  className="inline-block opacity-0 hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-50"
                 >
                   {label}
                 </Link>

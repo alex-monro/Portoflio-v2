@@ -35,7 +35,7 @@ const About = () => {
       </div>
 
       <div className="flex flex-col gap-16 lg:flex-row lg:justify-between lg:items-start lg:gap-0">
-        <figure className="relative w-full lg:w-1/4 shrink-0 overflow-hidden aspect-[4/5] m-0">
+        <figure className="relative w-full md:w-1/2 lg:w-1/4 shrink-0 overflow-hidden aspect-[4/5] m-0">
           <Image
             src="/photos/alex.jpg"
             alt="Alex Monro, front-end developer, pictured outdoors"
