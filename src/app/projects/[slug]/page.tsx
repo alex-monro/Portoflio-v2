@@ -187,7 +187,7 @@ export default async function WorkPage({
         </section>
       )}
 
-      {project.reflection && !project.whyBuilt && (
+      {project.reflection && (
         <section className="border-t border-zinc-800 py-16 lg:py-28">
           <h2 className="project-subheading mb-6">Reflection</h2>
           <p className="default-text max-w-lg">{project.reflection}</p>
