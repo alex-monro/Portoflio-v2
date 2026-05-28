@@ -1,4 +1,7 @@
-import Blackjack from "@/assets/images/blackjack/featured-image/blackjack.png";
+import Isolate from "@/assets/images/isolate/featured-image/isolate.png";
+import Isolate1 from "@/assets/images/isolate/gallery/isolate_1.png";
+import Isolate2 from "@/assets/images/isolate/gallery/isolate_2.png";
+import Isolate3 from "@/assets/images/isolate/gallery/isolate_3.png";
 import Flixi from "@/assets/images/flixi/featured-image/flixi.png";
 import AccessLens from "@/assets/images/access-lens/featured-image/access-lens.png";
 import AccessLens1 from "@/assets/images/access-lens/gallery/1-new-scan.png";
@@ -22,7 +25,9 @@ export type Project = {
   overview: string;
   process?: string[];
   processImages?: { src: string; alt: string }[];
-  reflection: string;
+  formerName?: string;
+  reflection?: string;
+  whatILearned?: string[];
   link: string;
   github: string;
   status?: string;
@@ -51,46 +56,93 @@ export const personalInfo: PersonalInfo = {
 
 export const projects: Project[] = [
   {
+    slug: "isolate",
+    title: "isolate.",
+    tagline: "AI audio stem separator.",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Zod", "Replicate API"],
+    featuredImage: Isolate.src,
+    featuredImageAlt: "isolate AI audio stem separator upload screen",
+    video: "/videos/isolate-demo.mp4",
+    overview:
+      "Every stem splitter I found as a producer had a paywall or a sign-up wall before you could do anything. So I built the version that just works. Upload any MP3, WAV, or FLAC and get vocals, drums, bass, and melody back as separate files. Powered by Meta's Demucs model via Replicate. No account, no upsell. Drag, drop, download.",
+    process: [
+      "Designed around one question: what is the simplest version of this that actually works? Every decision came back to that.",
+      "Handled validation at two layers intentionally. Client-side for instant UX feedback, server-side with Zod as the real security boundary.",
+      "Wired the Replicate API to run Demucs in the cloud so users need no GPU, no install, and no setup on their end.",
+      "Built custom toast notifications for errors, an audio preview player before processing, and selective stem extraction so users only download what they need.",
+      "Added memory cleanup for object URLs after noticing they leak in long-running sessions.",
+    ],
+    processImages: [
+      {
+        src: Isolate1.src,
+        alt: "isolate processing screen showing audio splitting at 99% with a progress bar",
+      },
+      {
+        src: Isolate2.src,
+        alt: "isolate how it works page showing the three-step flow: upload, select stems, download",
+      },
+      {
+        src: Isolate3.src,
+        alt: "isolate stem selection screen with waveform preview and Vocals, Drums, Bass, Melody buttons",
+      },
+    ],
+    whatILearned: [
+      "TypeScript is not enough. It checks types at build time but disappears at runtime. Zod fills that gap by validating real data from real users.",
+      "Client and server validation serve different purposes. Client is for UX, server is for security. You need both.",
+      "Middleware is not a security boundary. Auth and validation belong inside route handlers, not in middleware that can be bypassed.",
+      "Environment variables behave differently at build time versus runtime. Moving checks inside request handlers prevents build failures while still catching misconfiguration.",
+      "Memory cleanup matters. Creating object URLs without revoking them leaks memory in long-running sessions.",
+    ],
+    link: "https://tryisolate.xyz/",
+    github: "https://github.com/alex-monro/isolate.",
+  },
+  {
     slug: "accessibility-scanner",
-    title: "Access Lens",
-    tagline: "Chrome extension that scans any page for accessibility issues.",
-    tags: ["React", "Axe-Core", "Chrome Extension"],
+    title: "Orbit",
+    formerName: "formerly Access Lens",
+    tagline: "Developer tool for catching accessibility issues during the build.",
+    tags: ["React", "TypeScript", "Tailwind CSS", "Axe-Core"],
     featuredImage: AccessLens.src,
-    featuredImageAlt: "Access Lens logo",
+    featuredImageAlt: "Orbit accessibility developer tool scan results",
     video: "/videos/access-lens-demo.mp4",
     overview:
-      "Accessibility lawsuits are rising, and existing tools like Lighthouse are complex and overwhelming. We wanted something developers could open, run a scan, and immediately understand what is wrong and why. Access Lens is a free Chrome extension that surfaces every issue with element location, a plain-English explanation, and how to fix it. V2 is a full SaaS product using Vision AI.",
+      "Accessibility lawsuits are rising, and existing tools like Lighthouse are complex and overwhelming. We wanted something developers could open, run a scan, and immediately understand what is wrong and why. Orbit is a free Chrome extension that surfaces every issue with element location, a plain-English explanation, and how to fix it. Part of the Gravity brand, an accessibility company. V2 is currently being built from scratch with a cleaner architecture and sharper scope. Prototype live on the Chrome Web Store.",
     process: [
-      "Built V1 around Axe-Core with a focus on plain-English output. Every issue includes what it is, where it is, why it matters, and how to fix it.",
-      "Added a color contrast checker and a manual checklist to cover what automated scanning misses.",
-      "Scoped V2 as a full SaaS product with Vision AI, targeting the issues automated scanning cannot catch. Launching with a landing page for the Chrome extension.",
+      "V1 shipped as Access Lens, scanning pages with Axe-Core and surfacing issues with plain-English explanations, element location, and fixes.",
+      "Added a color contrast checker and a manual checklist to cover what automated scanning cannot catch.",
+      "V2 is a full rebuild under the Orbit name. Cleaner codebase, React and TypeScript, scoped tightly around what developers actually need during a build.",
+      "The long-term vision is a tool that lets developers test for accessibility continuously during development, not as a final audit.",
     ],
     processImages: [
       {
         src: AccessLens1.src,
-        alt: "Access Lens extension showing the initial scan ready state",
+        alt: "Orbit extension showing the initial scan ready state",
       },
       {
         src: AccessLens2.src,
-        alt: "Access Lens scan results listing accessibility issues with plain-English explanations",
+        alt: "Orbit scan results listing accessibility issues with plain-English explanations",
       },
-      { src: AccessLens3.src, alt: "Access Lens color contrast checker tab" },
-      { src: AccessLens4.src, alt: "Access Lens extra tools panel" },
+      { src: AccessLens3.src, alt: "Orbit color contrast checker tab" },
+      { src: AccessLens4.src, alt: "Orbit extra tools panel" },
       {
         src: AccessLens5.src,
-        alt: "Access Lens element picker highlighting a selected element on the page",
+        alt: "Orbit element picker highlighting a selected element on the page",
       },
       {
         src: AccessLens6.src,
-        alt: "Access Lens manual accessibility checklist",
+        alt: "Orbit manual accessibility checklist",
       },
     ],
-    reflection:
-      "V1 was a lot of fun to build. There is a real gap in the market for this and we are excited to scale it. Built with Mike.",
-    link: "",
+    whatILearned: [
+      "Automated tools like Axe-Core catch rule violations but not everything. A manual checklist and color contrast checker are needed to cover what automation misses.",
+      "Plain-English output is a design problem, not just a dev problem. Writing explanations a non-accessibility expert can act on took as much thought as the scan logic itself.",
+      "Chrome Extension architecture is its own world. Background scripts, content scripts, and the popup all run in separate contexts and communicate through message passing.",
+      "Scoping a V2 early clarified what V1 needed to be. Knowing where the rebuild was heading made the V1 boundaries obvious.",
+    ],
+    link: "https://chromewebstore.google.com/detail/orbit/nflfajnljpdmndndfeeaagljhgjailco",
     github: "",
     type: "Chrome Extension",
-    status: "V1 releasing May 2026",
+    status: "Prototype live, V2 in progress",
   },
   {
     slug: "tofino-time",
@@ -120,8 +172,12 @@ export const projects: Project[] = [
         alt: "Tofino Time team page showing guide profiles with Polaroid-style photos and custom illustrated stickers",
       },
     ],
-    reflection:
-      "Good experience working hybrid and running a full agile workflow start to finish. Dividing work across a team, keeping things in sync, and seeing how that process can help a project hold together.",
+    whatILearned: [
+      "Running a real agile workflow in a group meant the process held the project together as much as the code did. A memo of understanding at the start prevented scope drift later.",
+      "Building a custom WordPress theme from scratch forces you to understand how the template hierarchy actually works, not just how to configure a premade one.",
+      "WooCommerce handles commerce well but the real work is information architecture. Pricing tiers, custom post types, and taxonomies need to be right before any storefront logic makes sense.",
+      "A Leaflet map is as much a design problem as a technical one. Tile styling, pin design, and zoom behavior all affect whether it feels like part of the site or bolted on.",
+    ],
     link: "https://tofinotime.bcitwebdeveloper.ca/",
     github: "",
   },
@@ -136,8 +192,12 @@ export const projects: Project[] = [
     video: "/videos/flixi-video.mp4",
     overview:
       "A movie database where users browse popular films, search by genre, and read ratings. Built with React and the TMDB API. Covers REST API integration, reusable component architecture, and responsive design across screen sizes.",
-    reflection:
-      "This was one of my first React-based projects. It was a good introduction to API integration, working with async data, and building reusable components from scratch.",
+    whatILearned: [
+      "Reusable components only stay reusable if you design them against the data shape early. Card components built for one endpoint broke when a different endpoint returned different fields.",
+      "REST APIs rarely return exactly what you need. Working across multiple TMDB endpoints meant normalizing inconsistent data before it touched the UI.",
+      "React Router changes how you think about state. Deciding what lives in the URL versus component state is a real architectural choice, not just a navigation detail.",
+      "Prototyping in XD before writing code meant the team had shared agreement on interactions before anyone touched a component.",
+    ],
     process: [
       "Started with a high-fidelity wireframe, then prototyped the full interactions in Adobe XD.",
       "Split the work across the team by section and used React Router for navigation between views.",
@@ -146,21 +206,5 @@ export const projects: Project[] = [
     ],
     link: "https://alexmonro.com/flixi",
     github: "https://github.com/alex-monro/flixi",
-  },
-  {
-    slug: "blackjack",
-    title: "BlackJack",
-    tagline: "JavaScript card game.",
-    tags: ["HTML", "CSS", "JS"],
-    featuredImage: Blackjack.src,
-    featuredImageAlt:
-      "Screenshot of a browser-based Blackjack card game showing the game table with player and dealer hands in play",
-    video: "/videos/blackjack-video.mp4",
-    overview:
-      "Built entirely with vanilla HTML, CSS, and JavaScript, no frameworks or libraries. Features interactive gameplay with realistic game logic, including hit/stand mechanics and dealer AI. The game manages complex state transitions across rounds, tracks player scores, and handles edge cases like busts and blackjacks.",
-    reflection:
-      "It was fun figuring out what you could do with just vanilla JavaScript, manipulating the DOM directly and toggling CSS classes to drive transitions.",
-    link: "",
-    github: "https://github.com/alex-monro/blackjack",
   },
 ];

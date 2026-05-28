@@ -5,11 +5,11 @@ import { useGSAP } from "@gsap/react";
 import { gsap, SplitText } from "@/lib/gsapConfig";
 
 const words = [
-  "UI/UX",
-  "Functionality",
-  "Performance",
-  "Accessibility",
-  "Design",
+  "UX-Focused",
+  "Accessibility-First",
+  "AI-Native",
+  "Detail-Oriented",
+  "Performance-Minded",
 ];
 
 const Hero = () => {
@@ -115,7 +115,6 @@ const Hero = () => {
           Developer
         </h1>
         <p className="hero-subheading mt-6 font-medium tracking-tight">
-          Specializing in{" "}
           <span ref={wordRef} className="inline-block">
             {words[0]}
           </span>

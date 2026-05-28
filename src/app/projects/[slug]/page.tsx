@@ -63,6 +63,9 @@ export default async function WorkPage({
         <h1 className="text-5xl font-bold uppercase tracking-tight lg:text-8xl">
           {project.title}
         </h1>
+        {project.formerName && (
+          <p className="mt-3 text-xl text-zinc-300 tracking-wide">{project.formerName}</p>
+        )}
       </section>
 
       <section className="py-16 lg:py-28">
@@ -173,7 +176,18 @@ export default async function WorkPage({
         </section>
       )}
 
-      {project.reflection && (
+      {project.whatILearned && project.whatILearned.length > 0 && (
+        <section className="border-t border-zinc-800 py-16 lg:py-28">
+          <h2 className="project-subheading mb-6">What I Learned</h2>
+          <ul className="default-text grid gap-y-4 gap-x-16 list-disc pl-6 sm:grid-cols-2">
+            {project.whatILearned.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {project.reflection && !project.whyBuilt && (
         <section className="border-t border-zinc-800 py-16 lg:py-28">
           <h2 className="project-subheading mb-6">Reflection</h2>
           <p className="default-text max-w-lg">{project.reflection}</p>
