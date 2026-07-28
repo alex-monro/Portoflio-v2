@@ -17,10 +17,10 @@ const ProjectCard = ({
   const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
-    <article className={`group${className ? ` ${className}` : ""}`}>
+    <article className={`group relative z-10${className ? ` ${className}` : ""}`}>
       <Link
         href={`/projects/${project.slug}`}
-        className="block no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-50"
+        className="block no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-950"
         onMouseEnter={() => videoRef.current?.play().catch(() => {})}
         onMouseLeave={() => {
           const v = videoRef.current;
@@ -34,21 +34,34 @@ const ProjectCard = ({
       >
         <figure className="media-frame relative m-0">
           {project.featuredImage ? (
-            <Image
-              src={project.featuredImage}
-              alt={project.featuredImageAlt}
-              fill
-              priority={priority}
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover transition-[transform,filter] duration-500 lg:group-hover:blur-sm lg:group-hover:scale-105 lg:group-hover:brightness-[0.4]"
-            />
+            project.featuredImageStyle === "logo" ? (
+              <div className="absolute inset-0 bg-zinc-950 transition-[transform,filter] duration-500 lg:group-hover:blur-sm lg:group-hover:scale-105 lg:group-hover:brightness-[0.4]">
+                <Image
+                  src={project.featuredImage}
+                  alt={project.featuredImageAlt}
+                  fill
+                  priority={priority}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-contain p-[14%] invert"
+                />
+              </div>
+            ) : (
+              <Image
+                src={project.featuredImage}
+                alt={project.featuredImageAlt}
+                fill
+                priority={priority}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover transition-[transform,filter] duration-500 lg:group-hover:blur-sm lg:group-hover:scale-105 lg:group-hover:brightness-[0.4]"
+              />
+            )
           ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-zinc-900 text-zinc-300 transition-[filter] duration-500 lg:group-hover:brightness-[0.4]">
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-white text-zinc-950 transition-[filter] duration-500 lg:group-hover:brightness-[0.4]">
               <span className="text-xl font-semibold tracking-tight">
                 {project.title}
               </span>
               {project.status && (
-                <span className="text-sm uppercase tracking-wider text-zinc-500">
+                <span className="text-sm uppercase tracking-wider">
                   {project.status}
                 </span>
               )}
@@ -68,24 +81,27 @@ const ProjectCard = ({
             />
           )}
 
-          {/* Hover overlay — desktop non-touch only */}
-          <div className="absolute bottom-0 left-0 right-0 z-30 hidden p-6 text-white lg:flex lg:items-end lg:justify-between">
-            <div className="translate-y-1 opacity-0 transition-[transform,opacity] delay-200 duration-200 group-hover:translate-y-0 group-hover:opacity-100">
-              <h3 className="text-2xl">{project.title}</h3>
-              {project.tagline && (
-                <p className="mt-1 text-base text-white">{project.tagline}</p>
-              )}
-            </div>
-            <p className="translate-y-1 text-base font-semibold opacity-0 transition-[transform,opacity] delay-200 duration-200 group-hover:translate-y-0 group-hover:opacity-100">
-              View project details →
+          <div className="absolute bottom-0 left-0 right-0 z-30 hidden justify-end p-6 text-white lg:flex">
+            <p className="translate-y-1 text-sm font-semibold uppercase tracking-wide opacity-0 transition-[transform,opacity] delay-200 duration-200 group-hover:translate-y-0 group-hover:opacity-100">
+              Explore project →
             </p>
           </div>
         </figure>
 
-        {/* Static info bar — visible on all screens below lg */}
-        <div className="project-info-bar mt-4 flex items-center justify-between gap-6 lg:hidden">
-          <h3 className="text-base tracking-tight">{project.title}</h3>
-          <span className="shrink-0 text-sm font-semibold">View project →</span>
+        <div className="mt-5 flex items-end justify-between gap-8">
+          <div className="min-w-0">
+            <h3 className="text-xl font-medium tracking-tight md:text-2xl">
+              {project.title}
+            </h3>
+            {project.tagline && (
+              <p className="mt-2 max-w-md text-base leading-tight text-zinc-950">
+                {project.tagline}
+              </p>
+            )}
+          </div>
+          <span className="shrink-0 border-b border-zinc-950 pb-1 text-xs font-semibold uppercase tracking-wide md:text-sm">
+            Explore project →
+          </span>
         </div>
       </Link>
     </article>

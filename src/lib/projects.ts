@@ -2,6 +2,7 @@ import Isolate from "@/assets/images/isolate/featured-image/isolate.png";
 import Isolate1 from "@/assets/images/isolate/gallery/isolate_1.png";
 import Isolate2 from "@/assets/images/isolate/gallery/isolate_2.png";
 import Isolate3 from "@/assets/images/isolate/gallery/isolate_3.png";
+import Radar from "@/assets/images/radar/featured-image/radar.svg";
 import Flixi from "@/assets/images/flixi/featured-image/flixi.png";
 import AccessLens from "@/assets/images/access-lens/featured-image/access-lens.png";
 import AccessLens1 from "@/assets/images/access-lens/gallery/1-new-scan.png";
@@ -21,6 +22,7 @@ export type Project = {
   tags: string[];
   featuredImage: string;
   featuredImageAlt: string;
+  featuredImageStyle?: "cover" | "logo";
   video: string;
   overview: string;
   process?: string[];
@@ -32,6 +34,7 @@ export type Project = {
   github: string;
   status?: string;
   type?: string;
+  featured?: boolean;
 };
 
 export type PersonalInfo = {
@@ -48,13 +51,49 @@ export const personalInfo: PersonalInfo = {
   linkedin: "https://www.linkedin.com/in/alexwmonro/",
   github: "https://github.com/alex-monro",
   bio: [
-    "I studied Computer Science at the University of Victoria before moving into music production, where I earned credits on platinum and gold records, including a Grammy-nominated project.",
-    "I recently completed the British Columbia Institute of Technology's Front-End Web Developer program and have been building projects across both the front and back end.",
-    "I'm currently looking for opportunities where I can bring that same standard of craft to building great web experiences.",
+    "I'm based in Vancouver. I studied computer science at the University of Victoria for two years, then spent seven years working as a music producer.",
+    "In 2025, I returned to school for BCIT's Front-End Web Developer program. Since then, I've been building web projects and learning more about the back end.",
+    "I'm especially interested in UX and accessibility, and I still make music.",
   ],
 };
 
 export const projects: Project[] = [
+  {
+    slug: "radar",
+    title: "Radar",
+    tagline: "Accessibility scanning made easier to understand.",
+    tags: [
+      "Next.js",
+      "TypeScript",
+      "Playwright",
+      "axe-core",
+      "OpenAI API",
+      "Hyperbrowser",
+    ],
+    featuredImage: Radar.src,
+    featuredImageAlt: "Radar satellite logo",
+    featuredImageStyle: "logo",
+    video: "",
+    overview:
+      "Radar is a web accessibility scanner for people who do not know accessibility terminology. Enter any public URL and it returns an accessibility score, a plain-English summary, visual highlights, and copy-ready fix prompts. I researched and designed the experience, then built the full scan pipeline across the interface, API route, remote browser, validation, rate limiting, and scoring.",
+    process: [
+      "Researched existing accessibility tools for one week, then designed the product around one action: paste a public URL and scan.",
+      "Connected Playwright to a Hyperbrowser session, scrolled through lazy-loaded pages, captured a full-page screenshot, and ran axe-core in the same browser session.",
+      "Used the PageSpeed Insights accessibility score when available and wrote a severity-weighted fallback that accounts for issue impact and repeated elements.",
+      "Turned raw axe output into plain-English issue cards, element highlights, and copy-ready fix prompts using the OpenAI API.",
+      "Added Zod URL validation, Upstash Redis rate limiting, clear timeout and busy states, and browser-session cleanup when a user leaves mid-scan.",
+    ],
+    whatILearned: [
+      "Remote browser sessions need explicit cleanup. If a user leaves mid-scan, the session has to stop immediately or it blocks the next scan.",
+      "Full-page screenshots drift when lazy-loaded content changes the page height during capture. Scrolling first and measuring after the page settles keeps highlights aligned.",
+      "A useful fallback score cannot count every passing rule equally. Severity and repeated failures need more weight without letting one repeated issue dominate the result.",
+      "Automated scans have limits. Radar states that a clean scan is not the same as a complete accessibility audit.",
+    ],
+    link: "https://radar.gogogravity.com/",
+    github: "https://github.com/alex-monro/Radar",
+    status: "Live",
+    type: "Web App",
+  },
   {
     slug: "isolate",
     title: "isolate.",
@@ -180,6 +219,7 @@ export const projects: Project[] = [
     ],
     link: "https://tofinotime.bcitwebdeveloper.ca/",
     github: "",
+    featured: false,
   },
   {
     slug: "flixi",
@@ -206,5 +246,10 @@ export const projects: Project[] = [
     ],
     link: "https://alexmonro.com/flixi",
     github: "https://github.com/alex-monro/flixi",
+    featured: false,
   },
 ];
+
+export const featuredProjects = projects.filter(
+  (project) => project.featured !== false,
+);

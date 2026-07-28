@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsapConfig";
 import { personalInfo } from "@/lib/projects";
@@ -26,26 +25,14 @@ const About = () => {
     <section
       id="about"
       ref={containerRef}
-      className="section-shell border-t border-zinc-800 w-full"
+      className="w-full border-t border-zinc-300 py-20 text-zinc-950 md:py-28 lg:py-36"
     >
-      <div className="overflow-hidden mb-12 md:mb-20">
-        <h2 className="about-label font-bold text-5xl md:text-7xl tracking-tight">
-          About Me
-        </h2>
-      </div>
+      <div className="grid gap-y-10 md:gap-y-12 lg:grid-cols-12 lg:gap-x-8">
+        <div className="overflow-hidden lg:col-span-4">
+          <h2 className="about-label section-heading">About Me</h2>
+        </div>
 
-      <div className="flex flex-col gap-16 lg:flex-row lg:justify-between lg:items-start lg:gap-0">
-        <figure className="relative w-full md:w-1/2 lg:w-1/4 shrink-0 overflow-hidden aspect-[4/5] m-0">
-          <Image
-            src="/photos/alex.jpg"
-            alt="Alex Monro, front-end developer, pictured outdoors"
-            fill
-            sizes="(max-width: 1024px) 100vw, 25vw"
-            className="object-cover rounded-sm"
-          />
-        </figure>
-
-        <div className="flex flex-col gap-10 lg:w-3/5">
+        <div className="flex flex-col gap-5 md:gap-6 lg:col-start-6 lg:col-span-7 lg:pt-1">
           {personalInfo.bio.map((paragraph, i) => (
             <p key={i} className="default-text">
               {paragraph}

@@ -4,130 +4,97 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, SplitText } from "@/lib/gsapConfig";
 
-const words = [
-  "UX-Focused",
-  "Accessibility-First",
-  "AI-Native",
-  "Detail-Oriented",
-  "Performance-Minded",
-];
-
 const Hero = () => {
   const containerRef = useRef<HTMLElement>(null);
-  const wordIndex = useRef(0);
-  const wordRef = useRef<HTMLSpanElement>(null);
-  const intervalId = useRef<number>(0);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const roleRef = useRef<HTMLParagraphElement>(null);
+  const supportRef = useRef<HTMLParagraphElement>(null);
 
   useGSAP(
     () => {
-      const reduced =
-        typeof window !== "undefined" &&
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
 
-      const isSoftNav = typeof sessionStorage !== "undefined" && !!sessionStorage.getItem("soft-nav");
-
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-        delay: isSoftNav ? 0.3 : 1.8,
-      });
-
-      if (!reduced) {
-        const split = SplitText.create(".hero-heading", {
-          type: "chars",
-          mask: "chars",
-        });
-
-        tl.from(split.chars, {
-          yPercent: 100,
-          stagger: { each: 0.015, from: "start" },
-          duration: 0.8,
-          ease: "power2.out",
-        });
-      } else {
-        tl.from(".hero-heading", { autoAlpha: 0, duration: 0 });
+      if (
+        reducedMotion ||
+        !headingRef.current ||
+        !roleRef.current ||
+        !supportRef.current
+      ) {
+        return;
       }
 
-      tl.from(
-        ".hero-subheading",
-        {
-          y: 16,
+      const headingSplit = SplitText.create(headingRef.current, {
+        type: "chars",
+        charsClass: "hero-char",
+      });
+
+      gsap.set(headingSplit.chars, {
+        transformOrigin: "50% 100%",
+      });
+
+      const timeline = gsap.timeline({
+        delay: 0.12,
+        defaults: { ease: "power4.out" },
+      });
+
+      timeline
+        .from(headingSplit.chars, {
+          yPercent: 115,
+          rotateX: -45,
           autoAlpha: 0,
-          duration: reduced ? 0 : 1.4,
-        },
-        "-=0.4",
-      );
-
-      tl.from(
-        ".hero-scroll",
-        {
-          autoAlpha: 0,
-          duration: reduced ? 0 : 0.8,
-        },
-        "-=0.6",
-      );
-
-      if (reduced) return;
-
-      const rotate = () => {
-        gsap.killTweensOf(wordRef.current);
-        gsap.to(wordRef.current, {
-          y: -8,
-          opacity: 0,
-          duration: 0.35,
-          ease: "power1.in",
-          onComplete: () => {
-            if (!wordRef.current) return;
-            wordIndex.current = (wordIndex.current + 1) % words.length;
-            wordRef.current.textContent = words[wordIndex.current];
-            gsap.set(wordRef.current, { y: 8 });
-            gsap.to(wordRef.current, {
-              y: 0,
-              opacity: 1,
-              duration: 0.35,
-              ease: "power1.out",
-            });
+          duration: 1.15,
+          stagger: 0.035,
+        })
+        .from(
+          [roleRef.current, supportRef.current],
+          {
+            yPercent: 130,
+            autoAlpha: 0,
+            duration: 0.95,
+            stagger: 0.12,
           },
-        });
-      };
+          "-=0.78",
+        );
 
-      intervalId.current = window.setInterval(rotate, 4500);
-
-      return () => clearInterval(intervalId.current);
+      return () => headingSplit.revert();
     },
     { scope: containerRef },
   );
 
-  const scrollToWorks = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const target = document.getElementById("works");
-    if (target) window.__appLenis?.scrollTo(target, { duration: 1.2 });
-  };
-
   return (
     <section
       ref={containerRef}
-      className="relative h-svh flex flex-col justify-center section-shell"
+      className="relative flex flex-col justify-end pt-28 pb-12 md:pt-32 md:pb-16 lg:pt-36 lg:pb-20"
     >
-      <div>
-        <h1 className="hero-heading mt-6">
-          Front-End
-          <br />
-          Developer
-        </h1>
-        <p className="hero-subheading mt-6 font-medium tracking-tight">
-          <span ref={wordRef} className="inline-block">
-            {words[0]}
-          </span>
-        </p>
-      </div>
+      <div className="text-white">
+        <div className="overflow-hidden [perspective:800px]">
+          <h1 ref={headingRef} className="hero-heading mt-6">
+            Alex Monro
+          </h1>
+        </div>
 
-      <a
-        href="#works"
-        onClick={scrollToWorks}
-        className="hero-scroll absolute bottom-10 flex items-center gap-2 link-fade lg:text-xl"
-      >
-        Scroll ↓
-      </a>
+        <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between md:gap-8">
+          <div className="overflow-hidden">
+            <p
+              ref={roleRef}
+              className="hero-subheading font-medium tracking-tight"
+            >
+              Software Developer
+            </p>
+          </div>
+
+          <div className="overflow-hidden">
+            <p
+              ref={supportRef}
+              className="hero-support font-medium tracking-tight md:text-right"
+            >
+              Front-end trained. Full-stack focused.
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

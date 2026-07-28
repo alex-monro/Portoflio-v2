@@ -79,7 +79,7 @@ const ProcessSlider = ({ images, tall }: { images: SlideImage[]; tall?: boolean 
             type="button"
             onClick={prev}
             aria-label="Previous image"
-            className="flex items-center justify-center w-10 h-10 rounded-full border border-zinc-700 transition-opacity hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-50 shrink-0"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zinc-400 transition-opacity hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M10 3L5 8l5 5" />
@@ -94,10 +94,10 @@ const ProcessSlider = ({ images, tall }: { images: SlideImage[]; tall?: boolean 
                 onClick={() => setCurrent(i)}
                 aria-label={`Go to image ${i + 1}`}
                 aria-current={i === current ? "true" : undefined}
-                className="flex items-center justify-center w-6 h-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-50"
+                className="flex h-6 w-6 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950"
               >
                 <span className={`rounded-full transition-all duration-300 block ${
-                  i === current ? "w-3 h-3 bg-zinc-50" : "w-3 h-3 bg-zinc-600 hover:bg-zinc-400"
+                  i === current ? "w-3 h-3 bg-zinc-950" : "w-3 h-3 bg-zinc-400 hover:bg-zinc-600"
                 }`} />
               </button>
             ))}
@@ -107,7 +107,7 @@ const ProcessSlider = ({ images, tall }: { images: SlideImage[]; tall?: boolean 
             type="button"
             onClick={next}
             aria-label="Next image"
-            className="flex items-center justify-center w-10 h-10 rounded-full border border-zinc-700 transition-opacity hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-50 shrink-0"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zinc-400 transition-opacity hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M6 3l5 5-5 5" />

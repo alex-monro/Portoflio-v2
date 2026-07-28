@@ -14,9 +14,9 @@ const BackToWorks = () => {
     <button
       type="button"
       onClick={handleClick}
-      className="text-2xl transition-opacity hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-50"
+      className="text-2xl transition-opacity hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950"
     >
-      ← Back to Works
+      ← Back to projects
     </button>
   );
 };

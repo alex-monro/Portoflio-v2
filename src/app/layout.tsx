@@ -4,7 +4,6 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
-import Loader from "@/components/Loader";
 
 const satoshi = localFont({
   src: "../assets/fonts/Satoshi-Variable.woff2",
@@ -46,14 +45,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={satoshi.variable}>
       <head>
-        <meta name="theme-color" content="#09090b" />
+        <meta name="theme-color" content="#f2f2f0" />
       </head>
       <body>
-        <Loader />
         <SmoothScroll>
           <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-zinc-50 focus:text-zinc-950 focus:px-4 focus:py-2 focus:rounded-sm focus:text-sm focus:font-bold"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-zinc-950 focus:text-white focus:px-4 focus:py-2 focus:rounded-sm focus:text-sm focus:font-bold"
           >
             Skip to content
           </a>

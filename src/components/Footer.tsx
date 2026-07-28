@@ -9,8 +9,8 @@ const Footer = () => {
 
   useEffect(() => {
     if (!copied) return;
-    const id = setTimeout(() => setCopied(false), 2000);
-    return () => clearTimeout(id);
+    const timeoutId = setTimeout(() => setCopied(false), 2000);
+    return () => clearTimeout(timeoutId);
   }, [copied]);
 
   const handleCopy = async () => {
@@ -20,31 +20,20 @@ const Footer = () => {
   };
 
   return (
-    <footer className="site-shell border-t border-zinc-800 py-12">
+    <footer className="site-shell border-t border-zinc-300 py-10 md:py-12">
       <div className="flex flex-col-reverse gap-8 md:flex-row md:items-center md:justify-between">
         <p className="text-sm font-semibold uppercase">
           © 2026 {personalInfo.name}
         </p>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-6">
           <button
             type="button"
             onClick={handleCopy}
             aria-label={copied ? "Email copied" : "Copy email address"}
-            className="rounded-md border border-zinc-800 border-l-2 border-l-zinc-500 px-8 py-3 text-base overflow-hidden"
+            className="rounded-full border border-zinc-950 px-5 py-2 text-sm font-semibold uppercase tracking-wide transition-colors hover:bg-zinc-950 hover:text-white"
           >
-            <span className="inline-grid">
-              <span
-                className={`text-xl col-start-1 row-start-1 transition-all duration-100 ease-out ${copied ? "opacity-0 " : "opacity-100 "}`}
-              >
-                Copy Email
-              </span>
-              <span
-                className={`text-xl col-start-1 row-start-1 transition-all duration-100 ease-out ${copied ? "opacity-100 " : "opacity-0 "}`}
-              >
-                Copied ✓
-              </span>
-            </span>
+            {copied ? "Copied ✓" : "Copy email"}
           </button>
 
           <a
@@ -70,12 +59,13 @@ const Footer = () => {
           <button
             type="button"
             onClick={() => {
-              if (window.location.hash)
+              if (window.location.hash) {
                 window.history.replaceState(null, "", "/");
+              }
               window.__appLenis?.scrollTo(0, { duration: 1.2 });
             }}
             aria-label="Back to top"
-            className="transition-opacity hover:opacity-50 focus-visible:outline-none"
+            className="transition-opacity hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950"
           >
             <svg
               className="h-6 w-6"
@@ -83,16 +73,13 @@ const Footer = () => {
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
+              aria-hidden="true"
             >
               <path d="M12 19V5M5 12l7-7 7 7" />
             </svg>
           </button>
         </div>
       </div>
-      <p className="text-sm font-semibold pt-2">
-        This site was built with Next.js, TypeScript, Tailwind CSS, GSAP, and
-        Lenis.
-      </p>
     </footer>
   );
 };

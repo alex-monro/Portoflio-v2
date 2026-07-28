@@ -1,6 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import { projects } from "@/lib/projects";
+import { featuredProjects, projects } from "@/lib/projects";
 import { GitHubIcon } from "@/components/Icons";
 import ProcessSlider from "@/components/ProcessSlider";
 import VideoPlayer from "@/components/VideoPlayer";
@@ -26,16 +27,16 @@ export async function generateMetadata({
     : undefined;
 
   return {
-    title: `${project.title} — Alex Monro`,
+    title: `${project.title} | Alex Monro`,
     description: project.overview,
     openGraph: {
-      title: `${project.title} — Alex Monro`,
+      title: `${project.title} | Alex Monro`,
       description: project.overview,
       images: ogImages,
     },
     twitter: {
       card: "summary_large_image",
-      title: `${project.title} — Alex Monro`,
+      title: `${project.title} | Alex Monro`,
       description: project.overview,
       images: twitterImages,
     },
@@ -52,30 +53,50 @@ export default async function WorkPage({
   const project = projects.find((p) => p.slug === slug) ?? null;
   if (!project) notFound();
 
-  const currentIndex = projects.findIndex((p) => p.slug === slug);
+  const navigationProjects = featuredProjects.includes(project)
+    ? featuredProjects
+    : projects;
+  const currentIndex = navigationProjects.findIndex((p) => p.slug === slug);
   const prevProject =
-    projects[(currentIndex - 1 + projects.length) % projects.length];
-  const nextProject = projects[(currentIndex + 1) % projects.length];
+    navigationProjects[
+      (currentIndex - 1 + navigationProjects.length) %
+        navigationProjects.length
+    ];
+  const nextProject =
+    navigationProjects[(currentIndex + 1) % navigationProjects.length];
 
   return (
     <div className="section-shell">
-      <section className="border-b border-zinc-800 pb-8">
-        <h1 className="text-5xl font-bold uppercase tracking-tight lg:text-8xl">
+      <section className="border-b border-zinc-300 pb-8">
+        <h1 className="text-5xl font-bold uppercase tracking-tight lg:text-7xl">
           {project.title}
         </h1>
         {project.formerName && (
-          <p className="mt-3 text-xl text-zinc-300 tracking-wide">{project.formerName}</p>
+          <p className="mt-3 text-xl tracking-wide">{project.formerName}</p>
         )}
       </section>
 
       <section className="py-16 lg:py-28">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-24">
           <div className="lg:col-span-7">
-            <figure className="media-frame m-0">
+            <figure className="media-frame relative m-0">
               {project.video ? (
                 <VideoPlayer
                   src={project.video}
                   label={`${project.title} demo video`}
+                />
+              ) : project.featuredImage ? (
+                <Image
+                  src={project.featuredImage}
+                  alt={project.featuredImageAlt}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  className={
+                    project.featuredImageStyle === "logo"
+                      ? "bg-zinc-950 object-contain p-[14%] invert"
+                      : "object-cover"
+                  }
                 />
               ) : (
                 <div className="py-16 text-center">
@@ -97,7 +118,7 @@ export default async function WorkPage({
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-sm font-semibold border border-zinc-700 rounded-full px-4 py-1"
+                      className="rounded-full border border-zinc-400 px-4 py-1 text-sm font-semibold"
                     >
                       {tag}
                     </span>
@@ -156,10 +177,16 @@ export default async function WorkPage({
       </section>
 
       {project.process && project.process.length > 0 && (
-        <section className="border-t border-zinc-800 py-16 lg:py-28">
+        <section className="border-t border-zinc-300 py-16 lg:py-28">
           <h2 className="project-subheading mb-6">Process</h2>
           <div className="flex flex-col gap-12 lg:flex-row lg:gap-16 lg:items-center">
-            <ul className="default-text flex flex-col gap-4 list-disc pl-6 lg:w-2/5 shrink-0 order-last lg:order-first">
+            <ul
+              className={`default-text flex flex-col gap-4 list-disc pl-6 ${
+                project.processImages?.length
+                  ? "shrink-0 order-last lg:order-first lg:w-2/5"
+                  : "max-w-4xl"
+              }`}
+            >
               {project.process.map((step, i) => (
                 <li key={i}>{step}</li>
               ))}
@@ -177,7 +204,7 @@ export default async function WorkPage({
       )}
 
       {project.whatILearned && project.whatILearned.length > 0 && (
-        <section className="border-t border-zinc-800 py-16 lg:py-28">
+        <section className="border-t border-zinc-300 py-16 lg:py-28">
           <h2 className="project-subheading mb-6">What I Learned</h2>
           <ul className="default-text grid gap-y-4 gap-x-16 list-disc pl-6 sm:grid-cols-2">
             {project.whatILearned.map((item, i) => (
@@ -188,13 +215,13 @@ export default async function WorkPage({
       )}
 
       {project.reflection && (
-        <section className="border-t border-zinc-800 py-16 lg:py-28">
+        <section className="border-t border-zinc-300 py-16 lg:py-28">
           <h2 className="project-subheading mb-6">Reflection</h2>
           <p className="default-text max-w-lg">{project.reflection}</p>
         </section>
       )}
 
-      <div className="border-t border-zinc-800 ">
+      <div className="border-t border-zinc-300">
         <div className="project-subheading flex items-center justify-between gap-4 pt-24">
           <Link
             href={`/projects/${prevProject.slug}`}
