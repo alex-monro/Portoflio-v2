@@ -36,39 +36,8 @@
     @apply pt-32 pb-16 md:pt-36 md:pb-24 lg:pt-40 lg:pb-32;
   }
 
-  .section-heading {
-    font-size: clamp(2.25rem, 4vw, 4rem);
-    @apply font-bold uppercase leading-none tracking-tight;
-  }
-
-  .hero-subheading {
-    font-size: clamp(1.35rem, 2.5vw, 2.5rem);
-  }
-
-  .hero-support {
-    font-size: clamp(1rem, 1.4vw, 1.25rem);
-  }
-
-  .project-subheading {
-    @apply text-2xl font-semibold;
-  }
-
   .media-frame {
     @apply aspect-[16/9] overflow-hidden rounded-lg bg-white;
   }
-
-  .hero-heading {
-    font-size: var(--hero-font-size);
-    @apply font-bold uppercase leading-none tracking-wide;
-  }
-
-  .default-text {
-    font-size: clamp(1.125rem, 5vw, 1.75rem);
-  }
-
-}
-
-:root {
-  --hero-font-size: clamp(2.9rem, 6.25vw, 7rem);
 }
 

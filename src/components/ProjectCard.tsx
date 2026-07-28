@@ -9,10 +9,12 @@ const ProjectCard = ({
   project,
   className,
   priority = false,
+  wide = false,
 }: {
   project: Project;
   className?: string;
   priority?: boolean;
+  wide?: boolean;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -32,7 +34,11 @@ const ProjectCard = ({
           if (v) { v.pause(); v.currentTime = 0; }
         }}
       >
-        <figure className="media-frame relative m-0">
+        <figure
+          className={`media-frame relative m-0 ${
+            wide ? "md:aspect-[2/1] lg:aspect-[21/9]" : ""
+          }`}
+        >
           {project.featuredImage ? (
             project.featuredImageStyle === "logo" ? (
               <div className="absolute inset-0 bg-zinc-950 transition-[transform,filter] duration-500 lg:group-hover:blur-sm lg:group-hover:scale-105 lg:group-hover:brightness-[0.4]">
@@ -41,7 +47,11 @@ const ProjectCard = ({
                   alt={project.featuredImageAlt}
                   fill
                   priority={priority}
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes={
+                    wide
+                      ? "(max-width: 768px) 100vw, 94vw"
+                      : "(max-width: 768px) 100vw, 47vw"
+                  }
                   className="object-contain p-[14%] invert"
                 />
               </div>
@@ -51,7 +61,11 @@ const ProjectCard = ({
                 alt={project.featuredImageAlt}
                 fill
                 priority={priority}
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes={
+                  wide
+                    ? "(max-width: 768px) 100vw, 94vw"
+                    : "(max-width: 768px) 100vw, 47vw"
+                }
                 className="object-cover transition-[transform,filter] duration-500 lg:group-hover:blur-sm lg:group-hover:scale-105 lg:group-hover:brightness-[0.4]"
               />
             )

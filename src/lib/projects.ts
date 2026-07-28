@@ -145,12 +145,12 @@ export const projects: Project[] = [
     featuredImageAlt: "Orbit accessibility developer tool scan results",
     video: "/videos/access-lens-demo.mp4",
     overview:
-      "Accessibility lawsuits are rising, and existing tools like Lighthouse are complex and overwhelming. We wanted something developers could open, run a scan, and immediately understand what is wrong and why. Orbit is a free Chrome extension that surfaces every issue with element location, a plain-English explanation, and how to fix it. Part of the Gravity brand, an accessibility company. V2 is currently being built from scratch with a cleaner architecture and sharper scope. Prototype live on the Chrome Web Store.",
+      "Orbit is a Chrome extension for checking accessibility during development. It runs axe-core in the browser and shows each issue with its location, a plain-English explanation, and a suggested fix. I co-built the first version with a BCIT classmate, including the scan flow, color contrast checker, element picker, and manual checklist. A rebuilt version is in progress.",
     process: [
-      "V1 shipped as Access Lens, scanning pages with Axe-Core and surfacing issues with plain-English explanations, element location, and fixes.",
+      "Released the first version as Access Lens, scanning pages with axe-core and showing issues with plain-English explanations, element locations, and fixes.",
       "Added a color contrast checker and a manual checklist to cover what automated scanning cannot catch.",
-      "V2 is a full rebuild under the Orbit name. Cleaner codebase, React and TypeScript, scoped tightly around what developers actually need during a build.",
-      "The long-term vision is a tool that lets developers test for accessibility continuously during development, not as a final audit.",
+      "Started a full rebuild under the Orbit name using React and TypeScript, with a smaller scope around checks developers can run while they work.",
+      "Worked across the extension popup, content scripts, and background scripts, using message passing to connect the separate browser contexts.",
     ],
     processImages: [
       {

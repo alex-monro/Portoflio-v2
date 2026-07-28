@@ -12,24 +12,25 @@ const satoshi = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Alex Monro",
+  title: "Alex Monro | Software Developer",
   description:
-    "Personal portfolio of Alex Monro, front-end developer based in Vancouver. Projects in React, Next.js, WordPress, and AI-assisted development.",
+    "Portfolio of Alex Monro, a Vancouver-based software developer with front-end training and hands-on full-stack project experience.",
   metadataBase: new URL("https://alexmonro.com"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "Alex Monro",
+    title: "Alex Monro | Software Developer",
     description:
-      "Personal portfolio of Alex Monro, front-end developer based in Vancouver. Projects in React, Next.js, WordPress, and AI-assisted development.",
+      "Portfolio of Alex Monro, a Vancouver-based software developer with front-end training and hands-on full-stack project experience.",
     type: "website",
     url: "https://alexmonro.com",
-    images: [{ url: "/photos/alex.png", width: 1200, height: 630, alt: "Alex Monro, Front-End Developer" }],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Alex Monro",
+    card: "summary",
+    title: "Alex Monro | Software Developer",
     description:
-      "Personal portfolio of Alex Monro, front-end developer based in Vancouver. Projects in React, Next.js, WordPress, and AI-assisted development.",
-    images: ["/photos/alex.png"],
+      "Portfolio of Alex Monro, a Vancouver-based software developer with front-end training and hands-on full-stack project experience.",
   },
   robots: {
     index: true,
