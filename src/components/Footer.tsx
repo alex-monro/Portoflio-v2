@@ -1,47 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { LinkedInIcon, GitHubIcon } from "@/components/Icons";
 import { personalInfo } from "@/lib/projects";
 
 const Footer = () => {
-  const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    if (!copied) return;
-    const timeoutId = setTimeout(() => setCopied(false), 2000);
-    return () => clearTimeout(timeoutId);
-  }, [copied]);
-
-  const handleCopy = async () => {
-    if (copied) return;
-    await navigator.clipboard.writeText(personalInfo.email);
-    setCopied(true);
+  const toTop = () => {
+    if (window.location.hash) {
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <footer className="site-shell border-t border-zinc-300 py-10 md:py-12">
-      <div className="flex flex-col-reverse gap-8 md:flex-row md:items-center md:justify-between">
-        <p className="text-sm font-semibold uppercase">
+    <footer className="hairline">
+      <div className="site-shell flex flex-wrap-reverse items-center justify-between gap-8 py-11">
+        <p className="m-0 text-[14px] font-medium">
           © 2026 {personalInfo.name}
         </p>
 
         <div className="flex items-center gap-6">
-          <button
-            type="button"
-            onClick={handleCopy}
-            aria-label={copied ? "Email copied" : "Copy email address"}
-            className="rounded-full border border-zinc-950 px-5 py-2 text-sm font-semibold uppercase tracking-wide transition-colors hover:bg-zinc-950 hover:text-white"
-          >
-            {copied ? "Copied ✓" : "Copy email"}
-          </button>
-
           <a
             href={personalInfo.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
-            className="transition-opacity hover:opacity-50"
+            className="flex transition-opacity hover:opacity-50"
           >
             <LinkedInIcon />
           </a>
@@ -51,21 +34,16 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            className="transition-opacity hover:opacity-50"
+            className="flex transition-opacity hover:opacity-50"
           >
             <GitHubIcon className="h-6 w-6" />
           </a>
 
           <button
             type="button"
-            onClick={() => {
-              if (window.location.hash) {
-                window.history.replaceState(null, "", "/");
-              }
-              window.__appLenis?.scrollTo(0, { duration: 1.2 });
-            }}
+            onClick={toTop}
             aria-label="Back to top"
-            className="transition-opacity hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950"
+            className="flex cursor-pointer border-none bg-transparent p-0 text-[#09090b] transition-opacity hover:opacity-50"
           >
             <svg
               className="h-6 w-6"

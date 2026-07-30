@@ -3,10 +3,21 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import SmoothScroll from "@/components/SmoothScroll";
+import IntroLoader from "@/components/IntroLoader";
 
 const satoshi = localFont({
-  src: "../assets/fonts/Satoshi-Variable.woff2",
+  src: [
+    {
+      path: "../assets/fonts/Satoshi-Variable.woff2",
+      weight: "300 900",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/Satoshi-VariableItalic.woff2",
+      weight: "300 900",
+      style: "italic",
+    },
+  ],
   variable: "--font-satoshi",
   display: "swap",
 });
@@ -49,17 +60,16 @@ export default function RootLayout({
         <meta name="theme-color" content="#f2f2f0" />
       </head>
       <body>
-        <SmoothScroll>
-          <a
-            href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-zinc-950 focus:text-white focus:px-4 focus:py-2 focus:rounded-sm focus:text-sm focus:font-bold"
-          >
-            Skip to content
-          </a>
-          <Nav />
-          <main id="main-content" className="site-shell">{children}</main>
-          <Footer />
-        </SmoothScroll>
+        <IntroLoader />
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-[#09090b] focus:text-white focus:px-4 focus:py-2 focus:rounded-sm focus:text-sm focus:font-bold"
+        >
+          Skip to content
+        </a>
+        <Nav />
+        <main id="main-content" className="site-shell">{children}</main>
+        <Footer />
       </body>
     </html>
   );
