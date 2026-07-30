@@ -12,6 +12,10 @@ const ProjectCard = ({
   riseDelay?: number;
 }) => {
   const isLogo = project.featuredImageStyle === "logo";
+  const cardSrc = project.cardImage ?? project.featuredImage;
+  const cardAlt = project.cardImage
+    ? (project.cardImageAlt ?? project.featuredImageAlt)
+    : project.featuredImageAlt;
 
   return (
     <Link
@@ -25,8 +29,8 @@ const ProjectCard = ({
         }`}
       >
         <Image
-          src={project.featuredImage}
-          alt={project.featuredImageAlt}
+          src={cardSrc}
+          alt={cardAlt}
           fill
           priority={priority}
           sizes="(max-width: 960px) 100vw, 50vw"

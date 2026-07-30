@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import IntroLoader from "@/components/IntroLoader";
 
 const satoshi = localFont({
   src: [
@@ -60,7 +59,6 @@ export default function RootLayout({
         <meta name="theme-color" content="#f2f2f0" />
       </head>
       <body>
-        <IntroLoader />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-[#09090b] focus:text-white focus:px-4 focus:py-2 focus:rounded-sm focus:text-sm focus:font-bold"

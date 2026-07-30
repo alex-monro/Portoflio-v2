@@ -58,35 +58,6 @@
 }
 
 /* ---------------------------------------------------------------- */
-/* Intro loader (dot morph)                                         */
-/* ---------------------------------------------------------------- */
-
-@keyframes cu10 {
-  0% { -webkit-mask-size: 0 18px, 0 18px, 0 18px, auto; }
-  16.67% { -webkit-mask-size: 100% 18px, 0 18px, 0 18px, auto; }
-  33.33% { -webkit-mask-size: 100% 18px, 100% 18px, 0 18px, auto; }
-  50% { -webkit-mask-size: 100% 18px, 100% 18px, 100% 18px, auto; }
-  66.67% { -webkit-mask-size: 0 18px, 100% 18px, 100% 18px, auto; }
-  83.33% { -webkit-mask-size: 0 18px, 0 18px, 100% 18px, auto; }
-  100% { -webkit-mask-size: 0 18px, 0 18px, 0 18px, auto; }
-}
-
-.intro-loader-dot {
-  width: 70px;
-  height: 70px;
-  background: #09090b;
-  border-radius: 50px;
-  -webkit-mask: radial-gradient(circle 31px at 50% calc(100% + 13px), #000 95%, #0000) top 4px left 50%,
-    radial-gradient(circle 31px, #000 95%, #0000) center,
-    radial-gradient(circle 31px at 50% -13px, #000 95%, #0000) bottom 4px left 50%,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  -webkit-mask-repeat: no-repeat;
-  animation: cu10 1.5s infinite;
-}
-
-/* ---------------------------------------------------------------- */
 /* Typewriter heading caret                                         */
 /* ---------------------------------------------------------------- */
 
@@ -178,10 +149,6 @@
   transition: all 0.5s ease-in-out;
 }
 
-.menu-btn:hover {
-  box-shadow: 0 0 20px rgba(46, 46, 46, 0.23);
-}
-
 .menu-btn:active {
   transform: scale(0.95);
 }
@@ -197,18 +164,24 @@
   transition: all 0.5s;
 }
 
-.menu-btn:hover .menu-btn-icon {
-  width: 118px;
-}
-
 .menu-btn-label {
   transform: translateX(52px);
   transition: all 0.5s;
   opacity: 1;
 }
 
-.menu-btn:hover .menu-btn-label {
-  opacity: 0;
+@media (hover: hover) and (pointer: fine) {
+  .menu-btn:hover {
+    box-shadow: 0 0 20px rgba(46, 46, 46, 0.23);
+  }
+
+  .menu-btn:hover .menu-btn-icon {
+    width: 118px;
+  }
+
+  .menu-btn:hover .menu-btn-label {
+    opacity: 0;
+  }
 }
 
 /* ---------------------------------------------------------------- */
@@ -364,10 +337,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .rise {
-    animation: none;
-  }
-
-  .intro-loader-dot {
     animation: none;
   }
 

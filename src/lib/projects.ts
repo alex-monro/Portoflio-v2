@@ -15,6 +15,10 @@ import AccessLens5 from "@/assets/images/access-lens/gallery/5-pick-element.png"
 import AccessLens6 from "@/assets/images/access-lens/gallery/6-checklist.png";
 import TofinoMap from "@/assets/images/tofino-time/gallery/tofino-map.png";
 import TofinoAbout from "@/assets/images/tofino-time/gallery/tofino-about.png";
+import IsolateCard from "@/assets/images/isolate/featured-image/isolate-card.png";
+import RadarCard from "@/assets/images/radar/featured-image/radar-card.png";
+import OrbitCard from "@/assets/images/access-lens/featured-image/orbit-card.png";
+import TofinoCard from "@/assets/images/tofino-time/featured-image/tofino-card.png";
 
 export type CaseStep = {
   heading: string;
@@ -36,6 +40,9 @@ export type Project = {
   featuredImage: string;
   featuredImageAlt: string;
   featuredImageStyle?: "cover" | "logo";
+  /** Composed home-card art. The home grid prefers this over featuredImage. */
+  cardImage?: string;
+  cardImageAlt?: string;
   video?: string;
   role: string;
   builtWith: string;
@@ -72,7 +79,7 @@ export const personalInfo: PersonalInfo = {
   bio: [
     "I'm Alex, a developer based in Vancouver. I took the long way here: two years of computer science at UVic, then seven years producing music.",
     "In 2025 I went back to school for BCIT's Front-End Web Developer program. Since then I've been building web projects and digging deeper into the back end.",
-    "I care a lot about UX and accessibility. I like making things that work for everyone.",
+    "I love building things that are useful, and thinking about how to make the user experience as simple as possible. The seven years of producer habits stuck around too: I still lose whole nights to building, and I wouldn't have it any other way.",
   ],
 };
 
@@ -100,12 +107,17 @@ export const projects: Project[] = [
     slug: "radar",
     title: "Radar",
     meta: "Web app · Live",
-    tagline: "Scan a public page and get accessibility issues in plain English.",
+    tagline:
+      "Scan a public page and get accessibility issues in plain English.",
     featuredImage: Radar1.src,
     featuredImageAlt:
       "Radar landing page with a single URL field and Scan button under the headline: find accessibility issues, understand them, fix them",
+    cardImage: RadarCard.src,
+    cardImageAlt:
+      "Radar score gauge showing 90 in green beside a plain-English issue card, on a dark starfield",
     role: "Research, UX design, front end, and scan back end",
-    builtWith: "Next.js, TypeScript, Playwright, axe-core, OpenAI API, Hyperbrowser",
+    builtWith:
+      "Next.js, TypeScript, Playwright, axe-core, OpenAI API, Hyperbrowser",
     link: "https://radar.gogogravity.com/",
     github: "https://github.com/alex-monro/Radar",
     whyIBuiltIt:
@@ -152,6 +164,9 @@ export const projects: Project[] = [
     tagline: "Separate vocals, drums, bass, and melody from any track.",
     featuredImage: Isolate.src,
     featuredImageAlt: "isolate AI audio stem separator upload screen",
+    cardImage: IsolateCard.src,
+    cardImageAlt:
+      "Waveform with Vocals, Drums, Bass, and Melody stem selection pills on a floating card",
     video: "/videos/isolate-demo.mp4",
     role: "Product design and full-stack development",
     builtWith: "Next.js, TypeScript, Tailwind CSS, Zod, Replicate API",
@@ -200,11 +215,14 @@ export const projects: Project[] = [
   {
     slug: "accessibility-scanner",
     title: "Orbit",
-    meta: "Chrome extension · V2 in progress",
+    meta: "Chrome extension · Live",
     tagline: "In-browser accessibility checks for developers.",
     featuredImage: Orbit.src,
     featuredImageAlt:
       "Browser window with the extension panel open over a university site, ready to run an accessibility scan",
+    cardImage: OrbitCard.src,
+    cardImageAlt:
+      "Orbit extension panel with the Scan tab active and a Run Scan button",
     video: "/videos/access-lens-demo.mp4",
     role: "Co-development, extension architecture, and accessibility UX",
     builtWith: "React, TypeScript, Tailwind CSS, axe-core",
@@ -212,7 +230,7 @@ export const projects: Project[] = [
     whyIBuiltIt:
       "Accessibility checks usually happen too late, after the build. Orbit runs them in the browser while you work, and explains every issue in plain English with a suggested fix.",
     howIntro:
-      "I co-built the first version, released as Access Lens, with a BCIT classmate. A full rebuild under the Orbit name is in progress.",
+      "I co-built the first version, released as Access Lens, with a BCIT classmate. I later rebuilt it in React and TypeScript and released it as Orbit.",
     howSteps: [
       {
         heading: "The first version",
@@ -224,14 +242,14 @@ export const projects: Project[] = [
       },
       {
         heading: "The rebuild",
-        body: "Orbit is a rebuild in React and TypeScript with a tighter scope: checks developers can run while they work. The extension popup, content scripts, and background scripts run in separate contexts and connect through message passing.",
+        body: "I rebuilt Orbit in React and TypeScript with a tighter scope: checks developers can run while they work. The extension popup, content scripts, and background scripts run in separate contexts and connect through message passing.",
       },
     ],
     whatILearned: [
       "Automated tools like axe-core catch rule violations but not everything. A manual checklist and a contrast checker are needed to cover what automation misses.",
       "Plain-English output is a design problem, not just a dev problem. Writing explanations a non-expert can act on took as much thought as the scan logic itself.",
       "Chrome extension architecture is its own world. Background scripts, content scripts, and the popup all run in separate contexts and communicate through message passing.",
-      "Scoping the V2 early clarified what V1 needed to be. Knowing where the rebuild was heading made the boundaries obvious.",
+      "Scoping the rebuild early clarified what the first version needed to be. Knowing where Orbit was heading made the boundaries obvious.",
     ],
     gallery: [
       {
@@ -274,6 +292,9 @@ export const projects: Project[] = [
     featuredImage: TofinoMap.src,
     featuredImageAlt:
       "Custom Leaflet map with styled navy tiles and location pins for Tofino Time tours",
+    cardImage: TofinoCard.src,
+    cardImageAlt:
+      "Custom Leaflet map with navy tiles, location pins, and a surf lesson workshop popup card",
     video: "/videos/tofino-time-demo.mp4",
     role: "Team project, custom theme, WooCommerce, and Leaflet map",
     builtWith: "WordPress, WooCommerce, Leaflet",

@@ -4,7 +4,10 @@ import type { Project } from "@/lib/projects";
 const riseDelays = [0.12, 0.2, 0.28, 0.36];
 
 const Works = ({ projects }: { projects: Project[] }) => (
-  <section id="works" className="pt-[112px] pb-[88px]">
+  <section
+    id="works"
+    className="pt-[56px] pb-[88px] max-[720px]:pt-[40px]"
+  >
     <h1 className="sr-only">Projects</h1>
 
     <div
@@ -17,7 +20,7 @@ const Works = ({ projects }: { projects: Project[] }) => (
         <ProjectCard
           key={project.slug}
           project={project}
-          priority={i < 2}
+          priority
           riseDelay={riseDelays[i % riseDelays.length]}
         />
       ))}
