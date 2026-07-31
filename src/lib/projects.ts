@@ -7,12 +7,10 @@ import Radar2 from "@/assets/images/radar/gallery/2-scan-results.png";
 import Radar3 from "@/assets/images/radar/gallery/3-issue-highlights.png";
 import Flixi from "@/assets/images/flixi/featured-image/flixi.png";
 import Orbit from "@/assets/images/access-lens/featured-image/orbit-scan.png";
-import AccessLens1 from "@/assets/images/access-lens/gallery/1-new-scan.png";
-import AccessLens2 from "@/assets/images/access-lens/gallery/2-scan-results.png";
-import AccessLens3 from "@/assets/images/access-lens/gallery/3-scan-colors.png";
-import AccessLens4 from "@/assets/images/access-lens/gallery/4-extra-tools.png";
-import AccessLens5 from "@/assets/images/access-lens/gallery/5-pick-element.png";
-import AccessLens6 from "@/assets/images/access-lens/gallery/6-checklist.png";
+import OrbitReady from "@/assets/images/access-lens/gallery/orbit-ready-2026.png";
+import OrbitResults from "@/assets/images/access-lens/gallery/orbit-results-2026.png";
+import OrbitTools from "@/assets/images/access-lens/gallery/orbit-tools-2026.png";
+import OrbitColors from "@/assets/images/access-lens/gallery/orbit-colors-2026.png";
 import TofinoMap from "@/assets/images/tofino-time/gallery/tofino-map.png";
 import TofinoAbout from "@/assets/images/tofino-time/gallery/tofino-about.png";
 import IsolateCard from "@/assets/images/isolate/featured-image/isolate-card.png";
@@ -108,52 +106,51 @@ export const projects: Project[] = [
     title: "Radar",
     meta: "Web app · Live",
     tagline:
-      "Scan a public page and get accessibility issues in plain English.",
+      "Scan a public page, understand its accessibility issues, and get an AI-ready fix prompt.",
     featuredImage: Radar1.src,
     featuredImageAlt:
       "Radar landing page with a single URL field and Scan button under the headline: find accessibility issues, understand them, fix them",
     cardImage: RadarCard.src,
     cardImageAlt:
       "Radar score gauge showing 90 in green beside a plain-English issue card, on a dark starfield",
-    role: "Research, UX design, front end, and scan back end",
+    role: "Research, product design, architecture, and full-stack development",
     builtWith:
-      "Next.js, TypeScript, Playwright, axe-core, OpenAI API, Hyperbrowser",
+      "Next.js, TypeScript, Playwright, axe-core, OpenAI API, Hyperbrowser, Zod, Upstash Redis",
     link: "https://radar.gogogravity.com/",
     github: "https://github.com/alex-monro/Radar",
     whyIBuiltIt:
-      "Most accessibility tools assume you already know the terminology. Radar does not. Paste a public URL and get a score, a plain-English summary, visual highlights, and copy-ready fix prompts.",
+      "Accessibility scanners often assume the user already understands the terminology. I built Radar for developers, business owners, and people building websites with AI. It runs an axe-core scan, explains the findings in plain English, shows where they appear, and creates a prompt the user can take to a developer or paste into an AI coding tool.",
     howIntro:
-      "I spent a week researching existing accessibility tools, then designed the product around one action: paste a public URL and scan.",
+      "I planned Radar through the BMAD workflow, starting with research into existing accessibility tools and the people they leave behind. I designed the interface and built the scan process from the initial URL request through to the final results.",
     howSteps: [
       {
-        heading: "The scan",
-        body: "Playwright connects to a Hyperbrowser session, scrolls through lazy-loaded content, captures a full-page screenshot, and runs axe-core in the same browser session.",
+        heading: "Designing around the user",
+        body: "I designed the results in layers: a quick score and overview, plain-English issue cards, visual highlights, and technical details for people who need them. On mobile, the issue cards come first and the full-page screenshot is optional because shrinking a desktop page onto a phone made it useless.",
       },
       {
-        heading: "Scoring",
-        body: "Radar uses the PageSpeed Insights accessibility score when it is available, with a severity-weighted fallback I wrote that accounts for issue impact and repeated elements.",
+        heading: "Running the scan",
+        body: "Playwright connects to a remote Hyperbrowser session, loads the full page, captures a screenshot, and runs axe-core. PageSpeed Insights provides the accessibility score when it is available.",
       },
       {
-        heading: "The output",
-        body: "The OpenAI API turns raw axe output into plain-English issue cards, element highlights, and copy-ready fix prompts. Zod validates every URL, Upstash Redis handles rate limiting, and browser sessions clean up immediately if a user leaves mid-scan.",
+        heading: "Keeping Radar free",
+        body: "Radar runs on Hyperbrowser's free plan, which allows one browser session at a time. I added rate limiting to control usage, check links before they use any resources, and close unfinished sessions so the next visitor is not left waiting.",
       },
     ],
     whatILearned: [
-      "Remote browser sessions need explicit cleanup. If a user leaves mid-scan, the session has to stop immediately or it blocks the next scan.",
-      "Full-page screenshots drift when lazy-loaded content changes the page height during capture. Scrolling first and measuring after the page settles keeps highlights aligned.",
-      "A useful fallback score cannot count every passing rule equally. Severity and repeated failures need more weight without letting one repeated issue dominate the result.",
-      "Automated scans have limits. Radar states plainly that a clean scan is not the same as a complete accessibility audit.",
+      "Isolate was my first serious backend project, and Radar let me apply those lessons to a different problem. Instead of sending one audio file to one API, I was taking a public URL, controlling a remote browser, and bringing several services together in one scan.",
+      "I learned to think through the full lifecycle of a request: what enters the route, when it becomes trusted, when work begins, and what happens when something fails. Real scans exposed problems that TypeScript, lint, and a successful build could not, including bad URLs consuming rate limits before validation.",
+      "Radar also taught me that more information is not always more useful. I had to decide what a business owner needs first, what a developer may want next, and what could wait. I learned a lot, and I can see the decisions I would make earlier on my next full-stack project.",
     ],
     gallery: [
       {
         src: Radar2.src,
         alt: "Radar scan results page with a plain-English AI overview and a Radar Score gauge showing 50",
-        fit: "contain",
+        fit: "cover",
       },
       {
         src: Radar3.src,
         alt: "Radar issue view highlighting a flagged search field on a page screenshot next to plain-English issue cards",
-        fit: "contain",
+        fit: "cover",
       },
     ],
   },
@@ -168,33 +165,36 @@ export const projects: Project[] = [
     cardImageAlt:
       "Waveform with Vocals, Drums, Bass, and Melody stem selection pills on a floating card",
     video: "/videos/isolate-demo.mp4",
-    role: "Product design and full-stack development",
-    builtWith: "Next.js, TypeScript, Tailwind CSS, Zod, Replicate API",
+    role: "Independent product design and full-stack development",
+    builtWith:
+      "Next.js, TypeScript, Tailwind CSS, Zod, Replicate API, Demucs",
     link: "https://tryisolate.xyz/",
     github: "https://github.com/alex-monro/isolate.",
     whyIBuiltIt:
-      "Every stem splitter I found as a producer had a paywall or a sign-up wall. So I built the version that just works. No account, no upsell. Drag, drop, download.",
+      "Stem separation is useful, but many of the tools I tried made a simple task feel more complicated than it needed to be. I wanted to understand how the process worked and see how smooth I could make the experience. My goal was to build the easiest stem splitter to use: upload an audio file, preview it, choose the stems you want, and download them. No account, no upsell, and no unnecessary decisions.",
     howIntro:
       "The whole product came from one question: what is the simplest version of this that actually works? Every decision came back to that.",
     howSteps: [
       {
-        heading: "Validation",
-        body: "Validation happens at two layers on purpose. Client-side for instant feedback while you drag a file in, server-side with Zod as the real security boundary.",
+        heading: "Keeping the flow simple",
+        body: "The complete process is drag, preview, select, and download. Users choose vocals, drums, bass, or melody instead of processing files they do not need, and toast messages explain problems without interrupting the whole flow.",
       },
       {
-        heading: "Processing",
-        body: "The Replicate API runs Meta's Demucs model in the cloud, so users need no GPU, no install, and no setup. Upload, select stems, download.",
+        heading: "Separating the audio",
+        body: "I tested the Demucs model through Replicate because it produced good results and was inexpensive enough to keep the product free. It runs in the cloud, so users need no special hardware, installation, or setup.",
       },
       {
-        heading: "The details",
-        body: "Custom toast notifications for errors, an audio preview player before processing, and selective stem extraction so users only download what they need. I also added memory cleanup for object URLs after noticing they leak in long sessions.",
+        heading: "Handling real uploads",
+        body: "My first version only handled the successful path. After the flow broke when I uploaded an image, I added immediate file checks in the browser, Zod validation on the server, and cleanup for the temporary object URLs used by audio previews.",
       },
     ],
     whatILearned: [
-      "TypeScript checks types at build time but disappears at runtime. Zod fills that gap by validating real data from real users.",
-      "Client and server validation serve different purposes. Client is for UX, server is for security. You need both, and middleware is not a security boundary either. Auth and validation belong inside route handlers.",
-      "Environment variables behave differently at build time versus runtime. Moving checks inside request handlers prevents build failures while still catching misconfiguration.",
-      "Creating object URLs without revoking them leaks memory in long-running sessions. Cleanup matters.",
+      "Building the successful path is only the beginning. File uploads also need to handle the wrong format, missing files, failed processing, and someone changing their mind halfway through.",
+      "Client-side and server-side checks solve different problems. The browser helps someone correct a mistake immediately, while the server decides what the application will actually accept.",
+      "Audio previews taught me how the browser handles blobs and temporary object URLs. Creating one is easy, but it also needs to be cleaned up when the user replaces a file or leaves.",
+      "Simplicity takes deliberate work. Every additional choice, message, and screen had to justify being there. The clean final flow came from removing things, not adding them.",
+      "A smooth interface cannot completely hide a slow core process. A musician friend immediately understood the product and said he would use it, but the processing time was the first problem he noticed. The next step is testing faster models without sacrificing the quality of the separated audio.",
+      "Isolate was my first serious full-stack project. It gave me the foundation for Radar, especially around validation, external APIs, unsuccessful requests, and thinking beyond the first working version.",
     ],
     gallery: [
       {
@@ -216,71 +216,65 @@ export const projects: Project[] = [
     slug: "accessibility-scanner",
     title: "Orbit",
     meta: "Chrome extension · Live",
-    tagline: "In-browser accessibility checks for developers.",
+    tagline: "Fast, in-browser accessibility checks for developers.",
     featuredImage: Orbit.src,
     featuredImageAlt:
       "Browser window with the extension panel open over a university site, ready to run an accessibility scan",
     cardImage: OrbitCard.src,
     cardImageAlt:
       "Orbit extension panel with the Scan tab active and a Run Scan button",
-    video: "/videos/access-lens-demo.mp4",
-    role: "Co-development, extension architecture, and accessibility UX",
-    builtWith: "React, TypeScript, Tailwind CSS, axe-core",
+    role:
+      "Product and UX design, scan-results interface, extension architecture, and co-development",
+    builtWith:
+      "React, TypeScript, Tailwind CSS, axe-core, Chrome Extension APIs, Figma",
     link: "https://chromewebstore.google.com/detail/orbit/nflfajnljpdmndndfeeaagljhgjailco",
     whyIBuiltIt:
-      "Accessibility checks usually happen too late, after the build. Orbit runs them in the browser while you work, and explains every issue in plain English with a suggested fix.",
+      "A colleague had an idea for an accessibility tool, and I suggested turning it into a Chrome extension. We wanted something we would actually use while building or reviewing a website: open the side panel, scan the current page, click an issue to see the affected element, then move to the next page and scan again. Orbit gives developers the useful parts quickly without dropping them into a wall of Lighthouse output.",
     howIntro:
-      "I co-built the first version, released as Access Lens, with a BCIT classmate. I later rebuilt it in React and TypeScript and released it as Orbit.",
+      "We quickly built a working prototype called Access Lens. It proved the idea had potential, but the code became difficult to maintain as the product grew. Another colleague joined the project, and the three of us rebuilt it from the ground up as Orbit with a clearer structure and a codebase we could confidently maintain.",
     howSteps: [
       {
-        heading: "The first version",
-        body: "Access Lens scanned pages with axe-core and showed each issue with its location, a plain-English explanation, and a suggested fix.",
+        heading: "Designing the workflow",
+        body: "I helped design the interface in Figma and built the initial scan state, no-issues state, and scan-results interface. The goal was to make the process obvious: run a scan, read the issues in plain English, and click one to see the affected element highlighted on the website.",
       },
       {
-        heading: "Beyond automation",
-        body: "A color contrast checker and a manual checklist cover what automated scanning cannot catch.",
+        heading: "Building the extension",
+        body: "Orbit runs axe-core against the active page and sends the findings back to the side panel. I checked the current Chrome documentation and found that the side panel could communicate directly with the content script instead of routing every scan interaction through the background service worker.",
       },
       {
-        heading: "The rebuild",
-        body: "I rebuilt Orbit in React and TypeScript with a tighter scope: checks developers can run while they work. The extension popup, content scripts, and background scripts run in separate contexts and connect through message passing.",
+        heading: "Connecting Orbit to the page",
+        body: "I built the interaction between the issue cards and the active website. Clicking an issue highlights the affected element on the page. I also added cleanup so those highlights disappear when Orbit closes or the user starts another scan.",
       },
     ],
     whatILearned: [
-      "Automated tools like axe-core catch rule violations but not everything. A manual checklist and a contrast checker are needed to cover what automation misses.",
-      "Plain-English output is a design problem, not just a dev problem. Writing explanations a non-expert can act on took as much thought as the scan logic itself.",
-      "Chrome extension architecture is its own world. Background scripts, content scripts, and the popup all run in separate contexts and communicate through message passing.",
-      "Scoping the rebuild early clarified what the first version needed to be. Knowing where Orbit was heading made the boundaries obvious.",
+      "A working prototype can prove an idea without becoming the foundation for the final product. Starting again gave us the chance to understand the architecture, divide responsibilities clearly, and build a codebase we could maintain.",
+      "Chrome extensions have several separate environments. The side panel, content script, and background service worker each have different jobs. Understanding which parts actually needed to communicate made the architecture much simpler.",
+      "Current documentation matters. The first architecture used an older method that routed every scan interaction through the background service worker. After checking the current Chrome documentation, I simplified the flow so the side panel could communicate directly with the content script.",
+      "An extension needs to be tested inside the real browser surface. The interface looked different in the development server than it did inside Chrome's side panel, so I had to design and test it where people would actually use it.",
+      "If an extension changes the active webpage, it also needs to undo those changes. The highlight feature was not finished until closing Orbit reliably removed everything it added.",
+      "Automated accessibility tools have limits. Orbit can find common rule violations and point developers toward fixes, but it is not a complete audit and cannot guarantee compliance. Manual testing and human judgment still matter.",
+      "This was my first time rebuilding a working idea as part of a team. Starting over was frustrating, but the released version is something we can explain, maintain, and genuinely use.",
     ],
     gallery: [
       {
-        src: AccessLens1.src,
-        alt: "Orbit extension showing the initial scan ready state",
-        fit: "contain",
+        src: OrbitReady.src,
+        alt: "Orbit open beside a webpage and ready to run an accessibility scan",
+        fit: "cover",
       },
       {
-        src: AccessLens2.src,
-        alt: "Orbit scan results listing accessibility issues with plain-English explanations",
-        fit: "contain",
+        src: OrbitResults.src,
+        alt: "Orbit showing accessibility scan results beside the highlighted webpage",
+        fit: "cover",
       },
       {
-        src: AccessLens3.src,
-        alt: "Orbit color contrast checker tab",
-        fit: "contain",
+        src: OrbitTools.src,
+        alt: "Orbit showing its keyboard tab order and high contrast testing tools beside a webpage",
+        fit: "cover",
       },
       {
-        src: AccessLens4.src,
-        alt: "Orbit extra tools panel",
-        fit: "contain",
-      },
-      {
-        src: AccessLens5.src,
-        alt: "Orbit element picker highlighting a selected element on the page",
-        fit: "contain",
-      },
-      {
-        src: AccessLens6.src,
-        alt: "Orbit manual accessibility checklist",
-        fit: "contain",
+        src: OrbitColors.src,
+        alt: "Orbit color contrast checker showing WCAG pass and fail results beside a webpage",
+        fit: "cover",
       },
     ],
   },

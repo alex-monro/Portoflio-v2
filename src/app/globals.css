@@ -5,6 +5,10 @@
     box-sizing: border-box;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-[#f2f2f0] text-[#09090b] antialiased;
     font-family: var(--font-satoshi), system-ui, sans-serif;
@@ -99,13 +103,21 @@
 .email-pill {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 9px;
+  width: 144px;
+  min-width: 144px;
+  max-width: 144px;
+  flex: 0 0 144px;
   background: #09090b;
   color: #fff;
+  border: 0;
   border-radius: 100px;
   padding: 10px 20px;
   font-size: 15px;
   font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
   transition: all 0.5s ease;
 }
 
@@ -331,11 +343,41 @@
   transform: translateX(0);
 }
 
+@media (max-width: 720px) {
+  .next-cta {
+    padding: 9px 14px;
+  }
+
+  .next-cta-circle {
+    width: 100%;
+    height: 39px;
+  }
+
+  .next-cta-text {
+    font-size: 15px;
+    color: #f2f2f0;
+  }
+
+  .next-cta-overlay {
+    display: none;
+  }
+
+  .next-cta-arrow {
+    margin-left: 8px;
+    stroke: #f2f2f0;
+    transform: translateX(0);
+  }
+}
+
 /* ---------------------------------------------------------------- */
 /* Reduced motion                                                   */
 /* ---------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .rise {
     animation: none;
   }

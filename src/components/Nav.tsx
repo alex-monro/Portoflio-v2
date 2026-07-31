@@ -17,13 +17,32 @@ const EnvelopeIcon = () => (
 );
 
 const links = [
-  { label: "Projects", href: "/#works" },
+  { label: "Projects", href: "/#top" },
   { label: "About me", href: "/#about" },
+  { label: "Resume", href: "/alex-monro-resume.pdf", newTab: true },
 ];
 
 const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<
+    "idle" | "copied" | "error"
+  >("idle");
   const closeMenu = () => setMenuOpen(false);
+  const copyLabel =
+    copyStatus === "copied"
+      ? "Copied!"
+      : copyStatus === "error"
+        ? "Try again"
+        : "Copy email";
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(personalInfo.email);
+      setCopyStatus("copied");
+    } catch {
+      setCopyStatus("error");
+    }
+  };
 
   // Close the menu if the viewport crosses the mobile breakpoint.
   useEffect(() => {
@@ -47,6 +66,12 @@ const Nav = () => {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (copyStatus === "idle") return;
+    const resetId = window.setTimeout(() => setCopyStatus("idle"), 2000);
+    return () => window.clearTimeout(resetId);
+  }, [copyStatus]);
+
   return (
     <>
     <header className="sticky top-0 z-50 border-b border-[rgba(9,9,11,0.06)] bg-[rgba(242,242,240,0.92)] backdrop-blur-[8px]">
@@ -68,16 +93,29 @@ const Nav = () => {
           aria-label="Main navigation"
           className="flex items-center gap-7 text-[15px] font-medium max-[720px]:hidden"
         >
-          <Link href="/#works" className="transition-colors hover:text-[#52525b]">
+          <Link href="/#top" className="transition-colors hover:text-[#52525b]">
             Projects
           </Link>
           <Link href="/#about" className="transition-colors hover:text-[#52525b]">
             About
           </Link>
-          <a href={`mailto:${personalInfo.email}`} className="email-pill">
-            <span>Email me</span>
+          <Link
+            href="/alex-monro-resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-[#52525b]"
+          >
+            Resume
+          </Link>
+          <button
+            type="button"
+            onClick={copyEmail}
+            aria-label="Copy email address"
+            className="email-pill"
+          >
+            <span>{copyLabel}</span>
             <EnvelopeIcon />
-          </a>
+          </button>
         </nav>
 
         <button
@@ -102,47 +140,53 @@ const Nav = () => {
     {/* Mobile overlay menu — sibling of the header: backdrop-filter on the
         header would otherwise become the containing block for this fixed
         element and collapse it. */}
+      <button
+        type="button"
+        aria-label="Close menu"
+        disabled={!menuOpen}
+        onClick={closeMenu}
+        className={`fixed inset-x-0 top-[72px] bottom-0 z-30 hidden bg-black/10 max-[720px]:block ${
+          menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      />
+
       <div
         inert={!menuOpen || undefined}
         aria-hidden={!menuOpen}
-        className={`fixed inset-x-0 top-[72px] bottom-0 z-40 hidden flex-col gap-7 border-t border-[rgba(9,9,11,0.06)] bg-[#f2f2f0] px-8 pt-12 max-[720px]:flex ${
-          menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        className={`fixed inset-x-0 top-[72px] z-40 hidden flex-col gap-4 border-y border-[rgba(9,9,11,0.08)] bg-[#f2f2f0] px-8 py-8 shadow-[0_14px_30px_rgba(9,9,11,0.08)] max-[720px]:flex ${
+          menuOpen
+            ? "opacity-100"
+            : "pointer-events-none opacity-0"
         }`}
-        style={{ transition: "opacity 0.45s cubic-bezier(0.22,1,0.36,1)" }}
       >
-        {links.map(({ label, href }, i) => (
+        {links.map(({ label, href, newTab }) => (
           <Link
             key={href}
             href={href}
+            target={newTab ? "_blank" : undefined}
+            rel={newTab ? "noopener noreferrer" : undefined}
             onClick={closeMenu}
-            className="w-fit text-[34px] font-semibold tracking-[-0.02em]"
-            style={{
-              transition:
-                "transform 0.6s cubic-bezier(0.22,1,0.36,1), opacity 0.6s cubic-bezier(0.22,1,0.36,1)",
-              transitionDelay: menuOpen ? `${0.08 + i * 0.07}s` : "0s",
-              transform: menuOpen ? "translateY(0)" : "translateY(24px)",
-              opacity: menuOpen ? 1 : 0,
-            }}
+            className="w-fit py-1 text-[26px] font-semibold tracking-[-0.02em]"
           >
             {label}
           </Link>
         ))}
-        <a
-          href={`mailto:${personalInfo.email}`}
-          onClick={closeMenu}
-          className="email-pill mt-2 w-fit"
-          style={{
-            transition:
-              "transform 0.6s cubic-bezier(0.22,1,0.36,1), opacity 0.6s cubic-bezier(0.22,1,0.36,1)",
-            transitionDelay: menuOpen ? `${0.08 + links.length * 0.07}s` : "0s",
-            transform: menuOpen ? "translateY(0)" : "translateY(24px)",
-            opacity: menuOpen ? 1 : 0,
-          }}
+        <button
+          type="button"
+          onClick={copyEmail}
+          aria-label="Copy email address"
+          className="mt-1 w-fit cursor-pointer bg-transparent py-1 text-[26px] font-semibold tracking-[-0.02em]"
         >
-          <span>Email me</span>
-          <EnvelopeIcon />
-        </a>
+          <span>{copyLabel}</span>
+        </button>
       </div>
+      <p className="sr-only" role="status" aria-live="polite">
+        {copyStatus === "copied"
+          ? "Email address copied to clipboard."
+          : copyStatus === "error"
+            ? "Email address could not be copied."
+            : ""}
+      </p>
     </>
   );
 };

@@ -64,7 +64,7 @@ export default async function ProjectPage({
   return (
     <article>
       {/* Hero */}
-      <section className="rise pt-24">
+      <section className="rise pt-14 max-[720px]:pt-10">
         <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-4">
           <h1
             className={`m-0 text-[34px] font-semibold ${
@@ -79,7 +79,7 @@ export default async function ProjectPage({
             {project.meta}
           </span>
         </div>
-        <p className="mt-2 mb-0 max-w-[420px] text-[15.5px] leading-[1.5] text-pretty text-[#3f3f46] italic">
+        <p className="mt-2 mb-0 max-w-[420px] text-[15.5px] leading-[1.5] text-pretty text-[#27272a] italic">
           {project.tagline}
         </p>
       </section>
@@ -101,8 +101,8 @@ export default async function ProjectPage({
             />
           ) : (
             <Image
-              src={project.featuredImage}
-              alt={project.featuredImageAlt}
+              src={project.cardImage ?? project.featuredImage}
+              alt={project.cardImageAlt ?? project.featuredImageAlt}
               fill
               priority
               sizes="(max-width: 960px) 100vw, 64vw"
@@ -227,6 +227,7 @@ export default async function ProjectPage({
 
         <Link
           href={`/projects/${nextProject.slug}`}
+          scroll={false}
           aria-label={`Next project: ${nextProject.title}`}
           className="next-cta"
         >
