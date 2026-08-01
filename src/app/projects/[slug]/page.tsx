@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { featuredProjects, projects } from "@/lib/projects";
 import CaseSlider from "@/components/CaseSlider";
+import NextProjectLink from "@/components/NextProjectLink";
+import ProjectActionLink from "@/components/ProjectActionLink";
 import VideoPlayer from "@/components/VideoPlayer";
 
 export function generateStaticParams() {
@@ -64,34 +66,34 @@ export default async function ProjectPage({
   return (
     <article>
       {/* Hero */}
-      <section className="rise pt-14 max-[720px]:pt-10">
+      <section className="animate-rise pt-10 md:pt-14 motion-reduce:animate-none">
         <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-4">
           <h1
-            className={`m-0 text-[34px] font-semibold ${
+            className={`text-4xl font-semibold ${
               project.titleHover === "split"
-                ? "title-split"
-                : "tracking-[-0.02em]"
+                ? "cursor-default tracking-tight transition-[letter-spacing] duration-500 ease-out hover:tracking-[0.22em] motion-reduce:transition-none"
+                : "tracking-tight"
             }`}
           >
             {project.title}
           </h1>
-          <span className="text-[13px] font-medium text-[#3f3f46]">
+          <span className="text-xs font-medium text-muted">
             {project.meta}
           </span>
         </div>
-        <p className="mt-2 mb-0 max-w-[420px] text-[15.5px] leading-[1.5] text-pretty text-[#27272a] italic">
+        <p className="mt-2 max-w-md text-base leading-normal text-pretty text-zinc-800 italic">
           {project.tagline}
         </p>
       </section>
 
       {/* Media + aside */}
       <section
-        className="rise flex flex-wrap items-start gap-x-12 gap-y-8 pt-7"
+        className="animate-rise grid items-start gap-8 pt-7 motion-reduce:animate-none lg:grid-cols-3 lg:gap-x-12 xl:grid-cols-5"
         style={{ animationDelay: "0.1s" }}
       >
         <figure
-          className={`relative m-0 aspect-video max-w-[820px] min-w-[min(460px,100%)] flex-[1_1_460px] overflow-hidden rounded-[10px] ${
-            !project.video && isLogo ? "bg-[#09090b]" : "bg-white"
+          className={`relative aspect-video overflow-hidden rounded-lg lg:col-span-2 xl:col-span-3 ${
+            !project.video && isLogo ? "bg-foreground" : "bg-white"
           }`}
         >
           {project.video ? (
@@ -105,7 +107,7 @@ export default async function ProjectPage({
               alt={project.cardImageAlt ?? project.featuredImageAlt}
               fill
               priority
-              sizes="(max-width: 960px) 100vw, 64vw"
+              sizes="(max-width: 64rem) 100vw, 60vw"
               className={
                 isLogo ? "object-contain p-[14%] invert" : "object-cover"
               }
@@ -113,49 +115,35 @@ export default async function ProjectPage({
           )}
         </figure>
 
-        <aside className="flex min-w-[min(230px,100%)] flex-[1_1_230px] flex-col gap-5 pt-1">
+        <aside className="flex flex-col gap-5 pt-1 lg:col-span-1 xl:col-span-2">
           <div>
-            <p className="m-0 text-[14px] font-semibold">My role</p>
-            <p className="mt-1 mb-0 text-[15.5px] leading-[1.5] text-[#3f3f46]">
+            <p className="text-sm font-semibold">My role</p>
+            <p className="mt-1 text-base leading-normal text-muted">
               {project.role}
             </p>
           </div>
 
           <div>
-            <p className="m-0 text-[14px] font-semibold">Built with</p>
-            <p className="mt-1 mb-0 text-[15.5px] leading-[1.5] text-[#3f3f46]">
+            <p className="text-sm font-semibold">Built with</p>
+            <p className="mt-1 text-base leading-normal text-muted">
               {project.builtWith}
             </p>
           </div>
 
-          <div className="flex gap-6 text-[14px] font-medium">
+          <div className="flex flex-wrap gap-3">
             {project.link && (
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border-b border-[#09090b] pb-[2px] transition-colors hover:text-[#52525b]"
-              >
-                Live site ↗
-              </a>
+              <ProjectActionLink href={project.link} type="live" />
             )}
             {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border-b border-[#09090b] pb-[2px] transition-colors hover:text-[#52525b]"
-              >
-                GitHub ↗
-              </a>
+              <ProjectActionLink href={project.github} type="github" />
             )}
           </div>
 
           <div className="pt-2">
-            <h2 className="mt-0 mb-2 text-[20px] font-semibold tracking-[-0.01em]">
+            <h2 className="mb-2 text-xl font-semibold">
               Why I built it
             </h2>
-            <p className="m-0 text-[17px] leading-[1.6] text-pretty">
+            <p className="text-lg leading-relaxed text-pretty">
               {project.whyIBuiltIt}
             </p>
           </div>
@@ -163,28 +151,32 @@ export default async function ProjectPage({
       </section>
 
       {/* How I built it */}
-      <section className="hairline mt-18 pt-16">
+      <section className="mt-18 border-t border-zinc-300 pt-16">
         <div
-          className={`flex flex-wrap gap-x-14 gap-y-10 ${
-            hasGallery ? "items-center" : ""
+          className={`grid gap-x-14 gap-y-10 ${
+            hasGallery ? "items-center lg:grid-cols-5" : ""
           }`}
         >
-          <div className="flex min-w-[min(340px,100%)] flex-[1_1_340px] flex-col gap-7">
+          <div
+            className={`flex flex-col gap-7 ${
+              hasGallery ? "lg:col-span-2" : "max-w-prose"
+            }`}
+          >
             <div>
-              <h2 className="mt-0 mb-4 text-[34px] font-semibold tracking-[-0.02em]">
+              <h2 className="mb-4 text-4xl font-semibold tracking-tight">
                 How I built it
               </h2>
-              <p className="m-0 text-[18px] leading-[1.65] text-pretty">
+              <p className="text-lg leading-relaxed text-pretty">
                 {project.howIntro}
               </p>
             </div>
 
             {project.howSteps.map((step) => (
               <div key={step.heading}>
-                <h3 className="mt-0 mb-2 text-[20px] font-semibold tracking-[-0.01em]">
+                <h3 className="mb-2 text-xl font-semibold">
                   {step.heading}
                 </h3>
-                <p className="m-0 text-[17px] leading-[1.65] text-pretty">
+                <p className="text-lg leading-relaxed text-pretty">
                   {step.body}
                 </p>
               </div>
@@ -192,7 +184,7 @@ export default async function ProjectPage({
           </div>
 
           {hasGallery && (
-            <div className="min-w-[min(440px,100%)] flex-[1_1_440px] translate-y-[21px]">
+            <div className="lg:col-span-3 lg:translate-y-5">
               <CaseSlider images={project.gallery!} />
             </div>
           )}
@@ -200,13 +192,13 @@ export default async function ProjectPage({
       </section>
 
       {/* What I learned */}
-      <section className="hairline mt-18 pt-16">
-        <h2 className="mt-0 mb-6 text-[34px] font-semibold tracking-[-0.02em]">
+      <section className="mt-18 border-t border-zinc-300 pt-16">
+        <h2 className="mb-6 text-4xl font-semibold tracking-tight">
           What I learned
         </h2>
-        <div className="flex max-w-[640px] flex-col gap-[18px]">
+        <div className="flex max-w-prose flex-col gap-5">
           {project.whatILearned.map((item) => (
-            <p key={item} className="m-0 text-[17px] leading-[1.65] text-pretty">
+            <p key={item} className="text-lg leading-relaxed text-pretty">
               {item}
             </p>
           ))}
@@ -214,39 +206,24 @@ export default async function ProjectPage({
       </section>
 
       {/* Bottom nav */}
-      <section className="hairline mt-20 flex flex-wrap items-end justify-between gap-8 pt-10 pb-18">
+      <section className="mt-20 flex flex-wrap items-end justify-between gap-8 border-t border-zinc-300 pt-10 pb-18">
         <Link
           href="/"
-          className="back-link inline-flex items-center gap-2 pb-[6px] text-[14px] font-medium"
+          className="group inline-flex items-center gap-2 pb-1.5 text-sm font-medium"
         >
-          <span className="back-arrow" aria-hidden="true">
+          <span
+            className="inline-block transition-transform duration-300 ease-out group-hover:-translate-x-1 motion-reduce:transition-none"
+            aria-hidden="true"
+          >
             ←
           </span>
           <span>All projects</span>
         </Link>
 
-        <Link
+        <NextProjectLink
           href={`/projects/${nextProject.slug}`}
-          scroll={false}
-          aria-label={`Next project: ${nextProject.title}`}
-          className="next-cta"
-        >
-          <span className="next-cta-circle" aria-hidden="true" />
-          <span className="next-cta-text">Next project</span>
-          <span className="next-cta-overlay" aria-hidden="true">
-            Next project
-          </span>
-          <svg
-            className="next-cta-arrow"
-            width="15"
-            height="10"
-            viewBox="0 0 13 10"
-            aria-hidden="true"
-          >
-            <path d="M1,5 L11,5" />
-            <polyline points="8 1 12 5 8 9" />
-          </svg>
-        </Link>
+          projectTitle={nextProject.title}
+        />
       </section>
     </article>
   );

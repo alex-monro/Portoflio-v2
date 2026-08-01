@@ -64,10 +64,43 @@ const TypewriterHeading = ({
   }, [text]);
 
   return (
-    <h2 ref={ref} aria-label={text} className={className}>
-      <span aria-hidden="true">{typed || " "}</span>
-      {caretVisible && <span aria-hidden="true" className="type-caret" />}
-    </h2>
+    <>
+      <h2 ref={ref} aria-label={text} className={className}>
+        <span aria-hidden="true">{typed || "\u00A0"}</span>
+        {caretVisible && <span aria-hidden="true" className="type-caret" />}
+      </h2>
+
+      <style jsx>{`
+        @keyframes caret-blink {
+          0%,
+          49% {
+            opacity: 1;
+          }
+
+          50%,
+          100% {
+            opacity: 0;
+          }
+        }
+
+        .type-caret {
+          display: inline-block;
+          width: 0.1875rem;
+          height: 0.85em;
+          margin-left: 0.4375rem;
+          background: var(--color-foreground);
+          vertical-align: baseline;
+          transform: translateY(0.1em);
+          animation: caret-blink 1s step-end infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .type-caret {
+            animation: none;
+          }
+        }
+      `}</style>
+    </>
   );
 };
 

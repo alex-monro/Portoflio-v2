@@ -115,7 +115,7 @@ export const projects: Project[] = [
       "Radar score gauge showing 90 in green beside a plain-English issue card, on a dark starfield",
     role: "Research, product design, architecture, and full-stack development",
     builtWith:
-      "Next.js, TypeScript, Playwright, axe-core, OpenAI API, Hyperbrowser, Zod, Upstash Redis",
+      "Next.js, TypeScript, Playwright, axe-core, Google PageSpeed Insights API, OpenAI API, Hyperbrowser, Zod, Upstash Redis",
     link: "https://radar.gogogravity.com/",
     github: "https://github.com/alex-monro/Radar",
     whyIBuiltIt:

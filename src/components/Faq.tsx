@@ -14,12 +14,12 @@ const Faq = () => {
         const open = openFaq === i;
 
         return (
-          <div key={faq.q} className="border-b border-[#d4d4d8]">
+          <div key={faq.q} className="border-b border-zinc-300">
             <button
               type="button"
               onClick={() => setOpenFaq(open ? -1 : i)}
               aria-expanded={open}
-              className="flex w-full cursor-pointer items-center justify-between gap-4 border-none bg-transparent px-0 py-4 text-left font-[inherit] text-[16.5px] font-semibold text-[#09090b]"
+              className="flex w-full cursor-pointer items-center justify-between gap-4 border-none bg-transparent px-0 py-4 text-left font-[inherit] text-[16.5px] font-semibold text-foreground"
             >
               <span>{faq.q}</span>
               <span
@@ -44,7 +44,7 @@ const Faq = () => {
                   : "max-height 0.8s cubic-bezier(0.65,0,0.35,1), opacity 0.3s ease",
               }}
             >
-              <p className="m-0 pr-8 pb-4 text-[16px] leading-[1.6] text-pretty text-[#3f3f46]">
+              <p className="m-0 pr-8 pb-4 text-[16px] leading-[1.6] text-pretty text-muted">
                 {faq.a}
               </p>
             </div>

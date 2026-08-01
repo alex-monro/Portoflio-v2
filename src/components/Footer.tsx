@@ -12,7 +12,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="hairline">
+    <footer className="border-t border-zinc-300">
       <div className="site-shell flex flex-wrap-reverse items-center justify-between gap-8 py-11">
         <p className="m-0 text-[14px] font-medium">
           © 2026 {personalInfo.name}
@@ -43,7 +43,7 @@ const Footer = () => {
             type="button"
             onClick={toTop}
             aria-label="Back to top"
-            className="flex cursor-pointer border-none bg-transparent p-0 text-[#09090b] transition-opacity hover:opacity-50"
+            className="flex cursor-pointer border-none bg-transparent p-0 text-foreground transition-opacity hover:opacity-50"
           >
             <svg
               className="h-6 w-6"

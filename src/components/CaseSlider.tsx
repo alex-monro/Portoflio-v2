@@ -39,7 +39,7 @@ const CaseSlider = ({ images }: { images: GalleryImage[] }) => {
 
   return (
     <div>
-      <figure className="m-0 overflow-hidden rounded-[10px] bg-white">
+      <figure className="overflow-hidden rounded-lg bg-white">
         <div
           className={`flex aspect-video select-none ${
             count > 1
@@ -71,7 +71,7 @@ const CaseSlider = ({ images }: { images: GalleryImage[] }) => {
           {images.map((img, i) => (
             <div
               key={img.src}
-              className="relative h-full w-full flex-[0_0_100%]"
+              className="relative h-full w-full shrink-0 basis-full"
               aria-hidden={i !== slide}
             >
               <Image
@@ -79,7 +79,7 @@ const CaseSlider = ({ images }: { images: GalleryImage[] }) => {
                 alt={img.alt}
                 fill
                 draggable={false}
-                sizes="(max-width: 960px) 100vw, 45vw"
+                sizes="(max-width: 64rem) 100vw, 45vw"
                 className={
                   img.fit === "contain" ? "object-contain" : "object-cover"
                 }
@@ -90,18 +90,18 @@ const CaseSlider = ({ images }: { images: GalleryImage[] }) => {
       </figure>
 
       {count > 1 && (
-        <div className="mt-3 flex items-center justify-end gap-[14px]">
+        <div className="mt-3 flex items-center justify-end gap-3.5">
           <button
             type="button"
             onClick={prev}
             aria-label="Previous screen"
-            className="slider-arrow slider-arrow-prev"
+            className="cursor-pointer bg-transparent p-1.5 text-lg leading-none transition-transform duration-300 hover:-translate-x-1 active:scale-90 motion-reduce:transition-none"
           >
             ←
           </button>
           <span
             aria-live="polite"
-            className="text-[13px] font-medium text-[#3f3f46] tabular-nums"
+            className="text-xs font-medium text-muted tabular-nums"
           >
             {slide + 1} / {count}
           </span>
@@ -109,7 +109,7 @@ const CaseSlider = ({ images }: { images: GalleryImage[] }) => {
             type="button"
             onClick={next}
             aria-label="Next screen"
-            className="slider-arrow slider-arrow-next"
+            className="cursor-pointer bg-transparent p-1.5 text-lg leading-none transition-transform duration-300 hover:translate-x-1 active:scale-90 motion-reduce:transition-none"
           >
             →
           </button>

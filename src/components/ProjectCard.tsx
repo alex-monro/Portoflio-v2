@@ -16,16 +16,18 @@ const ProjectCard = ({
   const cardAlt = project.cardImage
     ? (project.cardImageAlt ?? project.featuredImageAlt)
     : project.featuredImageAlt;
+  const imageMotion =
+    "transition-transform duration-500 ease-out group-hover:scale-[1.025] group-focus-visible:scale-[1.025] motion-reduce:transition-none";
 
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="card-link rise block"
+      className="group animate-rise block motion-reduce:animate-none"
       style={{ animationDelay: `${riseDelay}s` }}
     >
       <figure
-        className={`relative m-0 aspect-video overflow-hidden rounded-[10px] ${
-          isLogo ? "bg-[#09090b]" : "bg-white"
+        className={`relative aspect-video overflow-hidden rounded-lg ${
+          isLogo ? "bg-foreground" : "bg-white"
         }`}
       >
         <Image
@@ -34,24 +36,20 @@ const ProjectCard = ({
           fill
           priority={priority}
           sizes="(max-width: 960px) 100vw, 50vw"
-          className={
-            isLogo
-              ? "card-img object-contain p-[14%] invert"
-              : "card-img object-cover"
-          }
+          className={`${imageMotion} ${
+            isLogo ? "object-contain p-[14%] invert" : "object-cover"
+          }`}
         />
       </figure>
 
       <div className="mt-4 flex items-baseline justify-between gap-6">
-        <h2 className="m-0 text-[20px] font-semibold tracking-[-0.01em]">
-          {project.title}
-        </h2>
-        <span className="shrink-0 text-[13px] font-medium text-[#52525b]">
+        <h2 className="text-xl font-semibold">{project.title}</h2>
+        <span className="shrink-0 text-xs font-medium text-zinc-600">
           {project.meta}
         </span>
       </div>
 
-      <p className="mt-[6px] mb-0 max-w-[420px] text-[15.5px] leading-[1.5] text-pretty text-[#3f3f46] italic">
+      <p className="mt-1.5 max-w-md text-base leading-normal text-pretty text-muted italic">
         {project.tagline}
       </p>
     </Link>
