@@ -17,7 +17,8 @@ import IsolateCard from "@/assets/images/isolate/featured-image/isolate-card.png
 import RadarCard from "@/assets/images/radar/featured-image/radar-card.png";
 import OrbitCard from "@/assets/images/access-lens/featured-image/orbit-card.png";
 import TofinoCard from "@/assets/images/tofino-time/featured-image/tofino-card.png";
-import ApolloReorder from "@/assets/images/apollo/featured-image/apollo-reorder.png";
+import ApolloLanding from "@/assets/images/apollo/featured-image/apollo-landing.png";
+import ApolloReorder from "@/assets/images/apollo/gallery/apollo-reorder.png";
 
 export type CaseStep = {
   heading: string;
@@ -161,9 +162,9 @@ export const projects: Project[] = [
     meta: "Web app · Demo",
     tagline:
       "Paste a messy reorder list and get back a priced, stock-checked order.",
-    featuredImage: ApolloReorder.src,
+    featuredImage: ApolloLanding.src,
     featuredImageAlt:
-      "The Apollo reorder page: a paste box above a cart of five priced line items showing stock, lead time and warehouse per row, with an activity log alongside",
+      "The Apollo landing page, headed \"Apollo turns a wholesale buyer's pasted list into a priced order\", with View live demo and View on GitHub buttons above a framed screenshot of the app",
     role: "Co-development, full stack",
     builtWith:
       "Next.js, TypeScript, Tailwind CSS, Zod, Claude API (Haiku 4.5), JSON files as a stand-in database",
@@ -190,6 +191,13 @@ export const projects: Project[] = [
       "The biggest thing I took away is how much structure a model needs before its output is safe to build on. Left loose, it answers a little differently every time. Pinned down with a strict schema, required fields at every level, and a description on each one, it answers the same way every time. That difference is the difference between a demo and something you can write real code against.",
       "I also learned where a model does not belong. It is tempting to hand it more of the job, but anything with one correct answer, pricing, stock rules, who is allowed to see which field, is better as plain code I can read and test. Apollo ended up with the model doing one narrow thing, and that restraint is what makes the rest of it predictable.",
       "Working in parallel tracks was new to me. My part had to hand structured data to code I did not write, which meant agreeing on the shape early and then not moving it. The schema turned out to be the contract between us as much as it was the instruction to Claude.",
+    ],
+    gallery: [
+      {
+        src: ApolloReorder.src,
+        alt: "The Apollo reorder page: a paste box above a cart of five priced line items showing stock, lead time and warehouse per row, with an activity log alongside",
+        fit: "cover",
+      },
     ],
   },
   {
