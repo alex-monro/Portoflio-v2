@@ -159,7 +159,7 @@ export const projects: Project[] = [
   {
     slug: "apollo",
     title: "Apollo",
-    meta: "Web app · Demo",
+    meta: "Web app · Live demo",
     tagline:
       "Paste a messy reorder list and get back a priced, stock-checked order.",
     featuredImage: ApolloLanding.src,
@@ -168,6 +168,7 @@ export const projects: Project[] = [
     role: "Co-development, full stack",
     builtWith:
       "Next.js, TypeScript, Tailwind CSS, Zod, Claude API (Haiku 4.5), JSON files as a stand-in database",
+    link: "https://apollo-demo.gogogravity.com/",
     github: "https://github.com/mtq01/apollo",
     whyIBuiltIt:
       "Apollo came out of a conversation with the owner of a B2B ecommerce agency, who kept running into the same front-end problems: stock numbers that are already hours old by the time a buyer sees them, pricing and availability that change depending on the account, and buyers who never browse a catalog because they are reordering what they bought last time. I took it on because it looked like a fun way to challenge myself on something I had not built before, which was integrating real data with a model and keeping the output structured enough to actually build on.",
