@@ -17,6 +17,7 @@ import IsolateCard from "@/assets/images/isolate/featured-image/isolate-card.png
 import RadarCard from "@/assets/images/radar/featured-image/radar-card.png";
 import OrbitCard from "@/assets/images/access-lens/featured-image/orbit-card.png";
 import TofinoCard from "@/assets/images/tofino-time/featured-image/tofino-card.png";
+import ApolloReorder from "@/assets/images/apollo/featured-image/apollo-reorder.png";
 
 export type CaseStep = {
   heading: string;
@@ -113,7 +114,7 @@ export const projects: Project[] = [
     cardImage: RadarCard.src,
     cardImageAlt:
       "Radar score gauge showing 90 in green beside a plain-English issue card, on a dark starfield",
-    role: "Research, product design, architecture, and full-stack development",
+    role: "Research, design, and full stack development",
     builtWith:
       "Next.js, TypeScript, Playwright, axe-core, Google PageSpeed Insights API, OpenAI API, Hyperbrowser, Zod, Upstash Redis",
     link: "https://radar.gogogravity.com/",
@@ -155,6 +156,43 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "apollo",
+    title: "Apollo",
+    meta: "Web app · Demo",
+    tagline:
+      "Paste a messy reorder list and get back a priced, stock-checked order.",
+    featuredImage: ApolloReorder.src,
+    featuredImageAlt:
+      "The Apollo reorder page: a paste box above a cart of five priced line items showing stock, lead time and warehouse per row, with an activity log alongside",
+    role: "Co-development, full stack",
+    builtWith:
+      "Next.js, TypeScript, Tailwind CSS, Zod, Claude API (Haiku 4.5), JSON files as a stand-in database",
+    github: "https://github.com/mtq01/apollo",
+    whyIBuiltIt:
+      "Apollo came out of a conversation with the owner of a B2B ecommerce agency, who kept running into the same front-end problems: stock numbers that are already hours old by the time a buyer sees them, pricing and availability that change depending on the account, and buyers who never browse a catalog because they are reordering what they bought last time. I took it on because it looked like a fun way to challenge myself on something I had not built before, which was integrating real data with a model and keeping the output structured enough to actually build on.",
+    howIntro:
+      "Three of us built Apollo over four weeks, split into parallel tracks. I built about a third of it, working across the stack. My track was the layer where the model meets the data: the tool Claude calls to turn a pasted message into line items, and the validation that runs on whatever comes back.",
+    howSteps: [
+      {
+        heading: "Hammering structure into the model",
+        body: "I wrote the reorder tool Claude calls, a JSON schema with a description on every field. Early versions kept coming back with fields quietly missing and I could not work out why. The schema has to be specific in a way I was not being: strict set on the tool, an explicit required list at every level of nesting, and additionalProperties set to false so nothing extra creeps in. Once those were in place the shape came back identical every time, and the code downstream stopped having to guess.",
+      },
+      {
+        heading: "Deciding what the model does not do",
+        body: "Claude reads the paste and works out what is being asked for. That is the whole job. Looking up a code, applying an account's discount, deciding which fields a role is allowed to see, and choosing the sentence a buyer reads when a stock check times out are all ordinary code, because each has exactly one correct answer for a given input. Keeping that line clear is most of what makes the result trustworthy.",
+      },
+      {
+        heading: "Checking the answer before using it",
+        body: "The schema tells Claude what to send. Zod checks what actually arrived before anything downstream touches it. Anything the buyer never stated comes back as null rather than missing, so a quantity nobody wrote is a value the table can render instead of a hole that throws three layers later.",
+      },
+    ],
+    whatILearned: [
+      "The biggest thing I took away is how much structure a model needs before its output is safe to build on. Left loose, it answers a little differently every time. Pinned down with a strict schema, required fields at every level, and a description on each one, it answers the same way every time. That difference is the difference between a demo and something you can write real code against.",
+      "I also learned where a model does not belong. It is tempting to hand it more of the job, but anything with one correct answer, pricing, stock rules, who is allowed to see which field, is better as plain code I can read and test. Apollo ended up with the model doing one narrow thing, and that restraint is what makes the rest of it predictable.",
+      "Working in parallel tracks was new to me. My part had to hand structured data to code I did not write, which meant agreeing on the shape early and then not moving it. The schema turned out to be the contract between us as much as it was the instruction to Claude.",
+    ],
+  },
+  {
     slug: "isolate",
     title: "isolate.",
     meta: "Web app · Live",
@@ -165,7 +203,7 @@ export const projects: Project[] = [
     cardImageAlt:
       "Waveform with Vocals, Drums, Bass, and Melody stem selection pills on a floating card",
     video: "/videos/isolate-demo.mp4",
-    role: "Independent product design and full-stack development",
+    role: "Research, design, and full stack development",
     builtWith:
       "Next.js, TypeScript, Tailwind CSS, Zod, Replicate API, Demucs",
     link: "https://tryisolate.xyz/",
