@@ -167,13 +167,13 @@ export const projects: Project[] = [
       "The Apollo landing page, headed \"Apollo turns a wholesale buyer's pasted list into a priced order\", with View live demo and View on GitHub buttons above a framed screenshot of the app",
     role: "Co-development, full stack",
     builtWith:
-      "Next.js, TypeScript, Tailwind CSS, Zod, Claude API (Haiku 4.5), JSON files as a stand-in database",
-    link: "https://apollo-demo.gogogravity.com/",
+      "Next.js, TypeScript, Tailwind CSS, Zod, Claude API, mock data",
+    link: "https://apollo.gogogravity.com",
     github: "https://github.com/mtq01/apollo",
     whyIBuiltIt:
       "Apollo came out of a conversation with the owner of a B2B ecommerce agency, who kept running into the same front-end problems: stock numbers that are already hours old by the time a buyer sees them, pricing and availability that change depending on the account, and buyers who never browse a catalog because they are reordering what they bought last time. I took it on because it looked like a fun way to challenge myself on something I had not built before, which was integrating real data with a model and keeping the output structured enough to actually build on.",
     howIntro:
-      "Three of us built Apollo over four weeks, split into parallel tracks. I built about a third of it, working across the stack. My track was the layer where the model meets the data: the tool Claude calls to turn a pasted message into line items, and the validation that runs on whatever comes back.",
+      "Three of us built Apollo over four weeks, split into parallel tracks, about a week on each track and a final week of bug fixes and enhancements. I built about a third of it, working across the stack. My track was the layer where the model meets the data: the tool Claude calls to turn a pasted message into line items, and the validation that runs on whatever comes back. I also built the landing page on my own, written as a case study rather than a sales page.",
     howSteps: [
       {
         heading: "Hammering structure into the model",
