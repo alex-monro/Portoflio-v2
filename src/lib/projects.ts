@@ -173,7 +173,7 @@ export const projects: Project[] = [
     whyIBuiltIt:
       "Apollo came out of a conversation with the owner of a B2B ecommerce agency, who kept running into the same front-end problems: stock numbers that are already hours old by the time a buyer sees them, pricing and availability that change depending on the account, and buyers who never browse a catalog because they are reordering what they bought last time. I took it on because it looked like a fun way to challenge myself on something I had not built before, which was integrating real data with a model and keeping the output structured enough to actually build on.",
     howIntro:
-      "Three of us built Apollo over four weeks, split into parallel tracks, about a week on each track and a final week of bug fixes and enhancements. I built about a third of it, working across the stack. My track was the layer where the model meets the data: the tool Claude calls to turn a pasted message into line items, and the validation that runs on whatever comes back. I also built the landing page.",
+      "Three of us built Apollo over four weeks. We rotated between three tracks each week for the first three weeks, so each of us worked across the stack. The fourth week was dedicated to bug fixes and agile enhancements. My work included the tool Claude calls to turn a pasted message into line items, and the validation that runs on whatever comes back. I also built the landing page.",
     howSteps: [
       {
         heading: "Hammering structure into the model",
