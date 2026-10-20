@@ -7,6 +7,22 @@ import NextProjectLink from "@/components/NextProjectLink";
 import ProjectActionLink from "@/components/ProjectActionLink";
 import VideoPlayer from "@/components/VideoPlayer";
 
+/** Renders [text](/path) links inside a plain paragraph string. Internal paths use Link; anything else is a normal anchor. */
+function renderParagraph(text: string) {
+  const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g);
+  return parts.map((part, i) => {
+    const match = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (!match) return part;
+    const [, label, href] = match;
+    const className = "underline underline-offset-4 decoration-zinc-400 hover:decoration-zinc-900";
+    return href.startsWith("/") ? (
+      <Link key={i} href={href} className={className}>{label}</Link>
+    ) : (
+      <a key={i} href={href} className={className} target="_blank" rel="noreferrer">{label}</a>
+    );
+  });
+}
+
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
 }
@@ -191,19 +207,20 @@ export default async function ProjectPage({
         </div>
       </section>
 
-      {/* What I learned */}
-      <section className="mt-18 border-t border-zinc-300 pt-16">
-        <h2 className="mb-6 text-4xl font-semibold tracking-tight">
-          What I learned
-        </h2>
-        <div className="flex max-w-prose flex-col gap-5">
-          {project.whatILearned.map((item) => (
-            <p key={item} className="text-lg leading-relaxed text-pretty">
-              {item}
-            </p>
-          ))}
-        </div>
-      </section>
+      {project.closingSection && (
+        <section className="mt-18 border-t border-zinc-300 pt-16">
+          <h2 className="mb-6 text-4xl font-semibold tracking-tight">
+            {project.closingSection.heading}
+          </h2>
+          <div className="flex max-w-prose flex-col gap-5">
+            {project.closingSection.paragraphs.map((item) => (
+              <p key={item} className="text-lg leading-relaxed text-pretty">
+                {renderParagraph(item)}
+              </p>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Bottom nav */}
       <section className="mt-20 flex flex-wrap items-end justify-between gap-8 border-t border-zinc-300 pt-10 pb-18">

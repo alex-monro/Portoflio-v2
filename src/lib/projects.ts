@@ -51,7 +51,10 @@ export type Project = {
   whyIBuiltIt: string;
   howIntro: string;
   howSteps: CaseStep[];
-  whatILearned: string[];
+  closingSection?: {
+    heading: string;
+    paragraphs: string[];
+  };
   gallery?: GalleryImage[];
   /** Per-project title hover joke. "split": letter-spacing spreads apart. */
   titleHover?: "split";
@@ -77,9 +80,8 @@ export const personalInfo: PersonalInfo = {
   linkedin: "https://www.linkedin.com/in/alexwmonro/",
   github: "https://github.com/alex-monro",
   bio: [
-    "I'm Alex, a developer based in Vancouver. I took the long way here: two years of computer science at UVic, then seven years producing music.",
-    "In 2025 I went back to school for BCIT's Front-End Web Developer program. Since then I've been building web projects and digging deeper into the back end.",
-    "I love building things that are useful, and thinking about how to make the user experience as simple as possible. The seven years of producer habits stuck around too: I still lose whole nights to building, and I wouldn't have it any other way.",
+    "I'm Alex, a software developer based in Vancouver building web applications, accessibility tools, and practical AI features. My focus is always on making complex systems intuitive and useful for the people relying on them.",
+    "My path here was a bit non-traditional. I studied computer science at UVic, then ended up producing records for a while, where I was lucky enough to work on a few platinum albums and a Grammy-nominated project. After that I fell back into development and fell in love with it. I love exploring what I can do in the AI era. Give me something clunky and annoying and I'll be up all night simplifying it.",
   ],
 };
 
@@ -138,11 +140,14 @@ export const projects: Project[] = [
         body: "Radar runs on Hyperbrowser's free plan, which allows one browser session at a time. I added rate limiting to control usage, check links before they use any resources, and close unfinished sessions so the next visitor is not left waiting.",
       },
     ],
-    whatILearned: [
-      "Isolate was my first serious backend project, and Radar let me apply those lessons to a different problem. Instead of sending one audio file to one API, I was taking a public URL, controlling a remote browser, and bringing several services together in one scan.",
-      "I learned to think through the full lifecycle of a request: what enters the route, when it becomes trusted, when work begins, and what happens when something fails. Real scans exposed problems that TypeScript, lint, and a successful build could not, including bad URLs consuming rate limits before validation.",
-      "Radar also taught me that more information is not always more useful. I had to decide what a business owner needs first, what a developer may want next, and what could wait. I learned a lot, and I can see the decisions I would make earlier on my next full-stack project.",
-    ],
+    closingSection: {
+      heading: "What I learned",
+      paragraphs: [
+        "The lessons I took from [isolate](/projects/isolate) carried straight into Radar. Instead of sending one audio file to one API, I was taking a public URL, controlling a remote browser, and bringing several services together in one scan.",
+        "I learned to think through the full lifecycle of a request: what enters the route, when it becomes trusted, when work begins, and what happens when something fails. Real scans exposed problems that TypeScript, lint, and a successful build could not, including bad URLs consuming rate limits before validation.",
+        "Radar also taught me that more information is not always more useful. I had to decide what a business owner needs first, what a developer may want next, and what could wait. Those are decisions I would make earlier on the next project.",
+      ],
+    },
     gallery: [
       {
         src: Radar2.src,
@@ -171,13 +176,13 @@ export const projects: Project[] = [
     link: "https://apollo.gogogravity.com",
     github: "https://github.com/mtq01/apollo",
     whyIBuiltIt:
-      "Apollo came out of a conversation with the owner of a B2B ecommerce agency, who kept running into the same front-end problems: stock numbers that are already hours old by the time a buyer sees them, pricing and availability that change depending on the account, and buyers who never browse a catalog because they are reordering what they bought last time. I took it on because it looked like a fun way to challenge myself on something I had not built before, which was integrating real data with a model and keeping the output structured enough to actually build on.",
+      "Apollo came out of a conversation with the owner of a B2B ecommerce agency, who kept running into the same front-end problems: stock numbers that are already hours old by the time a buyer sees them, pricing and availability that change depending on the account, and buyers who never browse a catalog because they are reordering what they bought last time. We built Apollo to explore a faster reorder flow: paste a list, review matched products, and check account-specific pricing and stock. The live demo uses mock accounts, products, and orders.",
     howIntro:
       "Three of us built Apollo over four weeks. We rotated between three tracks each week for the first three weeks, so each of us worked across the stack. The fourth week was dedicated to bug fixes and agile enhancements. My work included the tool Claude calls to turn a pasted message into line items, and the validation that runs on whatever comes back. I also built the landing page.",
     howSteps: [
       {
-        heading: "Hammering structure into the model",
-        body: "I wrote the reorder tool Claude calls, a JSON schema with a description on every field. Early versions kept coming back with fields quietly missing and I could not work out why. The schema has to be specific in a way I was not being: strict set on the tool, an explicit required list at every level of nesting, and additionalProperties set to false so nothing extra creeps in. Once those were in place the shape came back identical every time, and the code downstream stopped having to guess.",
+        heading: "Structuring the model output",
+        body: "I defined the tool's output with a strict JSON schema, including a description on every field, required fields at every nesting level, and additionalProperties set to false. That gives the application a defined structure to work with rather than leaving downstream code to guess which fields will arrive.",
       },
       {
         heading: "Deciding what the model does not do",
@@ -185,14 +190,17 @@ export const projects: Project[] = [
       },
       {
         heading: "Checking the answer before using it",
-        body: "The schema tells Claude what to send. Zod checks what actually arrived before anything downstream touches it. Anything the buyer never stated comes back as null rather than missing, so a quantity nobody wrote is a value the table can render instead of a hole that throws three layers later.",
+        body: "The schema tells Claude what to send. Zod checks what actually arrived before anything downstream touches it. Anything the buyer never stated comes back as null rather than missing, so a quantity nobody wrote is a value the table can render instead of a hole that throws three layers later. Unmatched items stay visible for human review.",
       },
     ],
-    whatILearned: [
-      "The biggest thing I took away is how much structure a model needs before its output is safe to build on. Left loose, it answers a little differently every time. Pinned down with a strict schema, required fields at every level, and a description on each one, it answers the same way every time. That difference is the difference between a demo and something you can write real code against.",
-      "I also learned where a model does not belong. It is tempting to hand it more of the job, but anything with one correct answer, pricing, stock rules, who is allowed to see which field, is better as plain code I can read and test. Apollo ended up with the model doing one narrow thing, and that restraint is what makes the rest of it predictable.",
-      "Working in parallel tracks was new to me. My part had to hand structured data to code I did not write, which meant agreeing on the shape early and then not moving it. The schema turned out to be the contract between us as much as it was the instruction to Claude.",
-    ],
+    closingSection: {
+      heading: "What I learned",
+      paragraphs: [
+        "The biggest thing I took away is how much structure a model needs before its output is useful to the rest of an application. Early responses came back with fields missing. A strict schema and required fields gave the output a defined shape, and that is the difference between a demo and something you can write real code against. Zod checks the response structure, and unmatched items stay visible for human review.",
+        "I also learned where a model does not belong. It is tempting to hand it more of the job, but anything with one correct answer, pricing, stock rules, who is allowed to see which field, is better as plain code I can read and test. Apollo ended up with the model doing one narrow thing, and that restraint is what makes the rest of it predictable.",
+        "My part had to hand structured data to code I did not write, which meant agreeing on the shape early and keeping it consistent. The schema turned out to be the contract between us as much as it was the instruction to Claude.",
+      ],
+    },
     gallery: [
       {
         src: ApolloReorder.src,
@@ -232,17 +240,19 @@ export const projects: Project[] = [
       },
       {
         heading: "Handling real uploads",
-        body: "My first version only handled the successful path. After the flow broke when I uploaded an image, I added immediate file checks in the browser, Zod validation on the server, and cleanup for the temporary object URLs used by audio previews.",
+        body: "Testing with an image upload exposed a gap in file validation. I added immediate checks in the browser, Zod validation on the server, and cleanup for the temporary object URLs used by audio previews.",
       },
     ],
-    whatILearned: [
-      "Building the successful path is only the beginning. File uploads also need to handle the wrong format, missing files, failed processing, and someone changing their mind halfway through.",
-      "Client-side and server-side checks solve different problems. The browser helps someone correct a mistake immediately, while the server decides what the application will actually accept.",
-      "Audio previews taught me how the browser handles blobs and temporary object URLs. Creating one is easy, but it also needs to be cleaned up when the user replaces a file or leaves.",
-      "Simplicity takes deliberate work. Every additional choice, message, and screen had to justify being there. The clean final flow came from removing things, not adding them.",
-      "A smooth interface cannot completely hide a slow core process. A musician friend immediately understood the product and said he would use it, but the processing time was the first problem he noticed. The next step is testing faster models without sacrificing the quality of the separated audio.",
-      "Isolate was my first serious full-stack project. It gave me the foundation for Radar, especially around validation, external APIs, unsuccessful requests, and thinking beyond the first working version.",
-    ],
+    closingSection: {
+      heading: "What I learned",
+      paragraphs: [
+        "Building the successful path is only the beginning. File uploads also need to handle the wrong format, missing files, failed processing, and someone changing their mind halfway through.",
+        "Client-side and server-side checks solve different problems. The browser helps someone correct a mistake immediately, while the server decides what the application will actually accept.",
+        "Audio previews taught me how the browser handles blobs and temporary object URLs. Creating one is easy, but it also needs to be cleaned up when the user replaces a file or leaves.",
+        "Simplicity takes deliberate work. Every additional choice, message, and screen had to justify being there. The clean final flow came from removing things, not adding them.",
+        "A smooth interface cannot completely hide a slow core process. A musician friend immediately understood the product and said he would use it, but the processing time was the first problem he noticed. The next step is testing faster models without sacrificing the quality of the separated audio.",
+      ],
+    },
     gallery: [
       {
         src: Isolate1.src,
@@ -293,15 +303,18 @@ export const projects: Project[] = [
         body: "I built the interaction between the issue cards and the active website. Clicking an issue highlights the affected element on the page. I also added cleanup so those highlights disappear when Orbit closes or the user starts another scan.",
       },
     ],
-    whatILearned: [
-      "A working prototype can prove an idea without becoming the foundation for the final product. Starting again gave us the chance to understand the architecture, divide responsibilities clearly, and build a codebase we could maintain.",
-      "Chrome extensions have several separate environments. The side panel, content script, and background service worker each have different jobs. Understanding which parts actually needed to communicate made the architecture much simpler.",
-      "Current documentation matters. The first architecture used an older method that routed every scan interaction through the background service worker. After checking the current Chrome documentation, I simplified the flow so the side panel could communicate directly with the content script.",
-      "An extension needs to be tested inside the real browser surface. The interface looked different in the development server than it did inside Chrome's side panel, so I had to design and test it where people would actually use it.",
-      "If an extension changes the active webpage, it also needs to undo those changes. The highlight feature was not finished until closing Orbit reliably removed everything it added.",
-      "Automated accessibility tools have limits. Orbit can find common rule violations and point developers toward fixes, but it is not a complete audit and cannot guarantee compliance. Manual testing and human judgment still matter.",
-      "This was my first time rebuilding a working idea as part of a team. Starting over was frustrating, but the released version is something we can explain, maintain, and genuinely use.",
-    ],
+    closingSection: {
+      heading: "What I learned",
+      paragraphs: [
+        "A working prototype can prove an idea without becoming the foundation for the final product. Starting again gave us the chance to understand the architecture, divide responsibilities clearly, and build a codebase we could maintain.",
+        "Chrome extensions have several separate environments. The side panel, content script, and background service worker each have different jobs. Understanding which parts actually needed to communicate made the architecture much simpler.",
+        "Current documentation matters. The first architecture used an older method that routed every scan interaction through the background service worker. After checking the current Chrome documentation, I simplified the flow so the side panel could communicate directly with the content script.",
+        "An extension needs to be tested inside the real browser surface. The interface looked different in the development server than it did inside Chrome's side panel, so I had to design and test it where people would actually use it.",
+        "If an extension changes the active webpage, it also needs to undo those changes. The highlight feature was not finished until closing Orbit reliably removed everything it added.",
+        "Automated accessibility tools have limits. Orbit can find common rule violations and point developers toward fixes, but it is not a complete audit and cannot guarantee compliance. Manual testing and human judgment still matter.",
+        "Starting over was frustrating, but the released version is something we can explain, maintain, and genuinely use.",
+      ],
+    },
     gallery: [
       {
         src: OrbitReady.src,
@@ -347,7 +360,7 @@ export const projects: Project[] = [
     howSteps: [
       {
         heading: "The theme",
-        body: "A custom WordPress theme built from scratch, which meant learning how the template hierarchy actually works rather than configuring a premade one.",
+        body: "We built a custom WordPress theme from scratch, using the template hierarchy to structure the site's pages.",
       },
       {
         heading: "Commerce",
@@ -358,12 +371,14 @@ export const projects: Project[] = [
         body: "A custom Leaflet map with styled navy tiles and hand-designed pins, put together with open-source tools. The most fun part of the build.",
       },
     ],
-    whatILearned: [
-      "Running a real agile workflow in a group meant the process held the project together as much as the code did. A memo of understanding at the start prevented scope drift later.",
-      "Building a custom WordPress theme from scratch forces you to understand how the template hierarchy actually works, not just how to configure a premade one.",
-      "WooCommerce handles commerce well, but the real work is information architecture. Pricing tiers, custom post types, and taxonomies need to be right before any storefront logic makes sense.",
-      "A Leaflet map is as much a design problem as a technical one. Tile styling, pin design, and zoom behavior all decide whether it feels like part of the site or bolted on.",
-    ],
+    closingSection: {
+      heading: "What I learned",
+      paragraphs: [
+        "Running a real agile workflow in a group meant the process held the project together as much as the code did. A memo of understanding at the start prevented scope drift later.",
+        "WooCommerce handles commerce well, but the real work is information architecture. Pricing tiers, custom post types, and taxonomies need to be right before any storefront logic makes sense.",
+        "A Leaflet map is as much a design problem as a technical one. Tile styling, pin design, and zoom behavior all decide whether it feels like part of the site or bolted on.",
+      ],
+    },
     gallery: [
       {
         src: TofinoMap.src,
@@ -406,12 +421,15 @@ export const projects: Project[] = [
         body: "API integration across multiple TMDB endpoints, data verified end to end, and deployed to live.",
       },
     ],
-    whatILearned: [
-      "Reusable components only stay reusable if you design them against the data shape early. Card components built for one endpoint broke when a different endpoint returned different fields.",
-      "REST APIs rarely return exactly what you need. Working across multiple TMDB endpoints meant normalizing inconsistent data before it touched the UI.",
-      "React Router changes how you think about state. Deciding what lives in the URL versus component state is a real architectural choice, not just a navigation detail.",
-      "Prototyping in XD before writing code meant the team had shared agreement on interactions before anyone touched a component.",
-    ],
+    closingSection: {
+      heading: "What I learned",
+      paragraphs: [
+        "Reusable components only stay reusable if you design them against the data shape early. Card components built for one endpoint broke when a different endpoint returned different fields.",
+        "REST APIs rarely return exactly what you need. Working across multiple TMDB endpoints meant normalizing inconsistent data before it touched the UI.",
+        "React Router changes how you think about state. Deciding what lives in the URL versus component state is a real architectural choice, not just a navigation detail.",
+        "Prototyping in XD before writing code meant the team had shared agreement on interactions before anyone touched a component.",
+      ],
+    },
     featured: false,
   },
 ];

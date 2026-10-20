@@ -9,7 +9,7 @@ const Faq = () => {
   const [openFaq, setOpenFaq] = useState(-1);
 
   return (
-    <div>
+    <div className="" data-testid="faq">
       {faqs.map((faq, i) => {
         const open = openFaq === i;
 
