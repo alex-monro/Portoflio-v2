@@ -81,7 +81,7 @@ export const personalInfo: PersonalInfo = {
   github: "https://github.com/alex-monro",
   bio: [
     "I'm Alex, a software developer based in Vancouver building web applications, accessibility tools, and practical AI features. My focus is always on making complex systems intuitive and useful for the people relying on them.",
-    "My path here was a bit non-traditional. I studied computer science at UVic, then ended up producing records for a while, where I was lucky enough to work on a few platinum albums and a Grammy-nominated project. After that I fell back into development and fell in love with it. I love exploring what I can do in the AI era. Give me something clunky and annoying and I'll be up all night simplifying it.",
+    "My path here was a bit non-traditional. I studied computer science at UVic, then ended up producing records for a while, where I was lucky enough to work on a few platinum albums and a Grammy-nominated project. After that I fell back into development and fell in love with it. I love exploring what I can do in the AI era, and I like getting into the details of how something works and figuring out how it could work better.",
   ],
 };
 
