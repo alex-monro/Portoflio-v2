@@ -25,7 +25,7 @@ const satoshi = localFont({
 export const metadata: Metadata = {
   title: "Alex Monro | Software Developer",
   description:
-    "Portfolio of Alex Monro, a Vancouver-based software developer with front-end training and hands-on full-stack project experience.",
+    "Alex Monro is a Vancouver-based software developer building web applications, accessibility tools, and practical AI features.",
   metadataBase: new URL("https://alexmonro.com"),
   alternates: {
     canonical: "/",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Alex Monro | Software Developer",
     description:
-      "Portfolio of Alex Monro, a Vancouver-based software developer with front-end training and hands-on full-stack project experience.",
+      "Alex Monro is a Vancouver-based software developer building web applications, accessibility tools, and practical AI features.",
     type: "website",
     url: "https://alexmonro.com",
   },
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary",
     title: "Alex Monro | Software Developer",
     description:
-      "Portfolio of Alex Monro, a Vancouver-based software developer",
+      "Alex Monro is a Vancouver-based software developer building web applications, accessibility tools, and practical AI features.",
   },
   robots: {
     index: true,
